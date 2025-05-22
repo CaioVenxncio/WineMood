@@ -1,131 +1,131 @@
-# WineMood - Classificador de Sentimentos para Avaliações de Vinhos
+# WineMood - Wine Review Sentiment Classifier
 
-WineMood é um sistema inteligente que analisa avaliações textuais de vinhos e classifica automaticamente o sentimento expresso como positivo, neutro ou negativo. Utilizando técnicas de Processamento de Linguagem Natural (NLP) combinadas com Deep Learning, o projeto transforma a linguagem humana em insights úteis para consumidores e empresas.
+**WineMood** is an intelligent system that analyzes textual wine reviews and automatically classifies the expressed sentiment as **positive**, **neutral**, or **negative**. Using Natural Language Processing (NLP) techniques combined with Deep Learning, the project transforms human language into useful insights for consumers and businesses.
 
-## 📋 Visão Geral
+## 📋 Overview
 
-Este classificador pode ser integrado em plataformas de e-commerce de vinhos, como a Vinheria Agnello, oferecendo aos clientes uma análise automática de sentimentos das avaliações antes de fazer uma compra.
+This classifier can be integrated into wine e-commerce platforms, such as Vinheria Agnello, providing customers with automatic sentiment analysis of reviews before purchasing.
 
-### 🎯 Objetivos
+### 🎯 Objectives
 
-- Aplicar técnicas de NLP e Deep Learning a dados do mundo real
-- Construir um modelo capaz de entender e classificar emoções em texto
-- Desenvolver uma interface web amigável para testes em tempo real
-- Apresentar uma prova de conceito prática e aplicável para empresas
+- Apply NLP and Deep Learning techniques to real-world data
+- Build a model capable of understanding and classifying emotions in text
+- Develop a user-friendly web interface for real-time testing
+- Present a practical and applicable proof of concept for businesses
 
-## 🧰 Tecnologias e Ferramentas
+## 🧰 Technologies and Tools
 
-| Categoria | Tecnologia |
-|-----------|------------|
-| Linguagem de Programação | Python |
-| Framework de Deep Learning | TensorFlow + Keras |
-| Manipulação de Dados | Pandas, NumPy |
-| NLP & Pré-processamento | NLTK, Regex, Tokenizer |
-| Interface Web | Streamlit |
-| Dataset | Wine Reviews (Kaggle) |
-| Plataforma de Treinamento | Google Colab (com GPU gratuita) |
-| Visualização | Matplotlib / Streamlit |
-| Controle de Versão | GitHub |
+| Category                 | Technology            |
+|--------------------------|-----------------------|
+| Programming Language     | Python                |
+| Deep Learning Framework  | TensorFlow + Keras    |
+| Data Manipulation        | Pandas, NumPy         |
+| NLP & Preprocessing      | NLTK, Regex, Tokenizer|
+| Web Interface            | Streamlit             |
+| Dataset                  | Wine Reviews (Kaggle) |
+| Training Platform        | Google Colab (Free GPU)|
+| Visualization            | Matplotlib / Streamlit|
+| Version Control          | GitHub                |
 
 ## 📦 Dataset
 
-- **Nome**: Wine Reviews Dataset
-- **Fonte**: Kaggle (https://www.kaggle.com/datasets/zynicide/wine-reviews)
-- **Registros**: ~130.000 avaliações de vinhos
-- **Colunas utilizadas**:
-  - `description`: texto da avaliação do vinho
-  - `points`: pontuação do vinho (de 80 a 100)
-- **Rótulo derivado**: Sentimento (positivo, neutro, negativo) baseado na pontuação
+- **Name**: Wine Reviews Dataset
+- **Source**: Kaggle (https://www.kaggle.com/datasets/zynicide/wine-reviews)
+- **Records**: ~130,000 wine reviews
+- **Used Columns**:
+  - `description`: text of the wine review
+  - `points`: wine score (from 80 to 100)
+- **Derived Label**: Sentiment (positive, neutral, negative) based on score
 
-## 🔧 Etapas de Desenvolvimento
+## 🔧 Development Steps
 
-### 1. Coleta e Exploração de Dados
-- Carregamento do dataset usando pandas
-- Verificação de valores nulos, distribuição de classes e estatísticas descritivas
+### 1. Data Collection and Exploration
+- Load dataset using pandas
+- Check for null values, class distribution, and descriptive statistics
 
-### 2. Criação de Rótulos
-- Conversão de pontuações numéricas em categorias de sentimento:
-  - ≥ 90: Positivo
-  - 80–89: Neutro
-  - < 80: Negativo
+### 2. Label Creation
+- Convert numerical scores into sentiment categories:
+  - ≥ 90: Positive
+  - 80–89: Neutral
+  - < 80: Negative
 
-### 3. Pré-processamento de Texto
-- Limpeza de texto (minúsculas, remoção de pontuação e stopwords)
-- Tokenização e padronização de sequências para comprimento fixo
+### 3. Text Preprocessing
+- Clean text (lowercase, punctuation and stopwords removal)
+- Tokenize and standardize sequences to fixed length
 
-### 4. Treinamento do Modelo de Deep Learning
-- **Arquitetura do modelo**:
-  - Embedding para vetorização de texto
-  - LSTM para compreensão de sequência
-  - Dense com softmax para classificação
-- Divisão treino/teste (80/20)
-- Métricas: acurácia, perda
+### 4. Deep Learning Model Training
+- **Model architecture**:
+  - Embedding for text vectorization
+  - LSTM for sequence understanding
+  - Dense with softmax for classification
+- Train/test split (80/20)
+- Metrics: accuracy, loss
 
-### 5. Avaliação
-- Avaliação do modelo no conjunto de teste usando `.evaluate()`
-- Impressão da acurácia e análise de predições incorretas
+### 5. Evaluation
+- Evaluate model on test set using `.evaluate()`
+- Print accuracy and analyze incorrect predictions
 
-### 6. Interface Web (Streamlit)
-- Interface web onde os usuários podem inserir avaliações de texto
-- O modelo prevê e exibe o sentimento detectado
-- Funcionalidades extras:
-  - Gráfico de barras com percentuais de sentimentos
-  - Processamento de múltiplas avaliações simultaneamente
-  - Aba "Sobre o projeto" com explicações detalhadas
+### 6. Web Interface (Streamlit)
+- Web interface where users input text reviews
+- The model predicts and displays detected sentiment
+- Extra features:
+  - Bar chart showing sentiment percentages
+  - Process multiple reviews at once
+  - “About the Project” tab with explanations
 
-## 🖼 Exemplo de Uso
+## 🖼 Example Usage
 
-**Entrada do Usuário**:
+**User Input**:
 "Great complexity with floral aromas and a long finish."
 
-**Saída Prevista**:
-Sentimento: Positivo
+**Predicted Output**:
+Sentiment: Positive
 
-## 🌍 Aplicações no Mundo Real
+## 🌍 Real-World Applications
 
-- Recomendação automática de vinhos com base no sentimento do cliente
-- Auxílio a vendedores e produtores de vinho para entender a percepção do público
-- Destaque de vinhos bem avaliados em plataformas de e-commerce
+- Automatically recommend wines based on customer sentiment
+- Help wine sellers and producers understand public perception
+- Highlight top-rated wines on e-commerce platforms
 
-## 📈 Resultados Esperados
+## 📈 Expected Results
 
-- Acurácia acima de 80% com dados de treinamento balanceados
-- Interface web leve e responsiva
-- Código modular e reutilizável para tarefas similares de análise de sentimentos
+- Accuracy above 80% with balanced training data
+- Lightweight, responsive web interface
+- Modular, reusable code for similar sentiment analysis tasks
 
-## 🚀 Destaques do Projeto
+## 🚀 Project Highlights
 
-- Projeto totalmente funcional com interface em tempo real
-- Utiliza dados do mundo real com aplicações práticas
-- Combina NLP, LSTM e implantação Web
-- Pronto para integração em plataformas comerciais
+- Fully functional project with real-time interface
+- Uses real-world data with practical applications
+- Combines NLP, LSTM, and Web Deployment
+- Ready for commercial platform integration
 
-## 📝 Instruções de Uso
+## 📝 Usage Instructions
 
-### Execução Local
+### Local Execution
 
-1. Clone o repositório
-2. Instale as dependências: `pip install -r requirements.txt`
-3. Execute o aplicativo Streamlit: `streamlit run app.py`
+1. Clone the repository
+2. Install dependencies: `pip install -r requirements.txt`
+3. Run the Streamlit app: `streamlit run app.py`
 
 ### Google Colab
 
-1. Abra o notebook `colab_notebook.ipynb` no Google Colab
-2. Execute todas as células para treinar o modelo e gerar os arquivos necessários
-3. Baixe os arquivos gerados (model.h5, tokenizer.pickle) para uso local
+1. Open the notebook `colab_notebook.ipynb` in Google Colab
+2. Run all cells to train the model and generate necessary files
+3. Download generated files (model.h5, tokenizer.pickle) for local use
 
-### Deploy Online
+### Online Deployment
 
-O aplicativo pode ser implantado no Streamlit Cloud para acesso público:
+The app can be deployed on Streamlit Cloud for public access:
 
-1. Crie uma conta no Streamlit Cloud
-2. Conecte seu repositório GitHub contendo os arquivos do projeto
-3. Configure o deploy com o arquivo principal como app.py
+1. Create a Streamlit Cloud account
+2. Connect your GitHub repository with the project files
+3. Set the main file as app.py for deployment
 
-## 👥 Contribuições
+## 👥 Contributions
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests com melhorias.
+Contributions are welcome! Feel free to open issues or submit pull requests with improvements.
 
-## 📄 Licença
+## 📄 License
 
-Este projeto está licenciado sob a licença MIT - veja o arquivo LICENSE para detalhes.
+This project is licensed under the MIT License - see the LICENSE file for details.
