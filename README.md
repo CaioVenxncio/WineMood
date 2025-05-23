@@ -1,5 +1,8 @@
 # WineMood - Wine Review Sentiment Classifier
 
+![WineMood Dashboard](./screenshots/wine_dashboard.png)
+
+
 **WineMood** is an intelligent system that analyzes textual wine reviews and automatically classifies the expressed sentiment as **positive**, **neutral**, or **negative**. Using Natural Language Processing (NLP) techniques combined with Deep Learning, the project transforms human language into useful insights for consumers and businesses.
 
 ## 📋 Overview
