@@ -1,5 +1,9 @@
 # WineMood — Natural Language Processing for Wine Review Analysis
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Streamlit-FF4B4B?logo=streamlit&logoColor=white)](https://winemood-v6bjravhvvepnf5kkurbaf.streamlit.app/) [![Release](https://img.shields.io/badge/Release-v1.0.0-blue)](https://github.com/CaioVenxncio/WineMood/releases/tag/v1.0.0)
+
+**[Try WineMood Live →](https://winemood-v6bjravhvvepnf5kkurbaf.streamlit.app/)** · **[Download model release →](https://github.com/CaioVenxncio/WineMood/releases/tag/v1.0.0)**
+
 WineMood is a reproducible NLP research project investigating how the language
 used in professional wine reviews relates to the numerical ratings assigned by
 critics.
@@ -76,7 +80,9 @@ The full analysis is in
 
 ## Interactive application
 
-A Streamlit application presents the selected model and the research findings.
+**[Launch the live Streamlit application →](https://winemood-v6bjravhvvepnf5kkurbaf.streamlit.app/)**
+
+The publicly deployed Streamlit application presents the selected model and the research findings.
 
 ![Predict page: estimated critic score, category and aggregate accuracy](docs/assets/screenshots/predict.png)
 
@@ -97,8 +103,9 @@ A Streamlit application presents the selected model and the research findings.
 
 ![Explore page: exact per-feature contributions to one estimate](docs/assets/screenshots/explore.png)
 
-Screenshots are from the application running locally; the example review was
-written for the demo. The application has not yet been deployed publicly.
+Screenshots illustrate the Predict, Research and Explore interfaces. The example
+review was written for the demo, not taken from the training dataset. The live
+application is available on [Streamlit Community Cloud](https://winemood-v6bjravhvvepnf5kkurbaf.streamlit.app/).
 
 ## Methodology
 
@@ -148,7 +155,11 @@ pip install -e ".[dev]"
 pytest                                   # runs on synthetic data; no download needed
 ```
 
-**Model artifact.** Trained models are not committed. Choose one option:
+**Model artifact.** Trained models are not committed. The selected E04 model
+is available as a checksummed [v1.0.0 GitHub Release asset](https://github.com/CaioVenxncio/WineMood/releases/download/v1.0.0/winemood-e04-tfidf-ridge-v1.0.0.zip)
+([release notes](https://github.com/CaioVenxncio/WineMood/releases/tag/v1.0.0)); its SHA-256 is
+`3b68051435d8f2c899bf883d63b1cec1ed552941e94b494ae16eba6a3dd2b564`.
+Choose one option:
 
 ```bash
 # Option A: rebuild the selected model from the dataset (about 6 minutes on a laptop CPU)
@@ -156,8 +167,9 @@ winemood data download                   # Kaggle dataset, checksum-verified; no
 winemood data split                      # deduplicated, grouped splits
 winemood exp run E04_tfidf_word          # trains and validates the selected model
 
-# Option B: install a packaged model archive (CC BY-NC-SA 4.0), once one is provided
-winemood model install path/to/E04_tfidf_word.zip
+# Option B: install the official v1.0.0 model archive (CC BY-NC-SA 4.0)
+# Download it from the GitHub Release linked below, then run:
+winemood model install path/to/winemood-e04-tfidf-ridge-v1.0.0.zip
 ```
 
 **Run the application.**
