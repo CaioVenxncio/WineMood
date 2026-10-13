@@ -53,8 +53,8 @@ quantitative result must be produced afresh under a corrected methodology.
 | A-04 | Critical | **The last notebook cells overwrite the model with an inconsistent one trained against the test set.** Cell `171d5195` builds a new model with `Embedding(input_dim=5000)` while the tokenizer uses `num_words=10000`, trains it with `validation_data=(X_test, y_test)`, and cell `19efd130` saves it over `model.h5`. | Notebook cells `171d5195`, `19efd130`. | (a) Token IDs 5000–9999 are out of range for the embedding. On CPU, TensorFlow raises an error. On some GPU kernels, out-of-range lookups are known to return zeros silently *(verify)*. (b) If it runs, the shipped `model.h5` is not the model evaluated in cell-26. (c) Using the test set for validation turns it into a selection set. | Delete these cells' behaviour from any future pipeline: one training entry point, one artifact, and the test set touched once. | 3 |
 | A-05 | Critical | **No result is recorded anywhere.** All 37 code cells have `execution_count: null` and empty outputs. The README's "Accuracy above 80%" appears under "Expected Results" and is not backed by any run. The notebook conclusion asserts "O modelo alcançou uma boa acurácia" ("the model achieved good accuracy") without a number. | `colab_notebook.ipynb` (no outputs). README §"Expected Results". Notebook cell-41. | Any performance claim about WineMood is currently unverifiable. | Remove unsupported claims (done in the README). Phase 3 must produce metrics from a logged, reproducible run. | 1 (docs), 3 |
 | A-07 | High | **The tokenizer is fitted on the full corpus before the split.** | Notebook cell-18 (`fit_on_texts(df_filtered['processed_text'])`) precedes cell-20 (`train_test_split`). | Test-set vocabulary and frequency ranks leak into the feature space. The leak is mild for a frequency-capped vocabulary, but it is a methodological error. | Split first, then fit any tokenizer or vectorizer on the training split only. `split_dataset` now runs before any fitting by design. | 3 |
-| A-08 | High | **No deduplication before splitting.** The dataset is known to contain repeated descriptions *(exact count: verify in Phase 2)*. | Notebook cells 12–20 contain no `drop_duplicates`. | Identical texts can sit in both train and test, which inflates test scores. | Deduplicate on normalised text before splitting, and assert disjointness. Implemented in `winemood.data.split` (`deduplicate`, `assert_no_text_overlap`). | 2 |
-| A-10 | High | **There is no baseline, and accuracy is the only headline metric.** The resulting two-class problem is imbalanced *(proportions: verify in Phase 2)*. | Notebook cells 22–28. | Without a majority-class or linear baseline, no accuracy figure is interpretable. A model predicting only "Neutral" may score highly. | Report a majority baseline, TF-IDF + logistic regression, macro-F1, balanced accuracy and per-class metrics. | 3 |
+| A-08 | High | **No deduplication before splitting.** The dataset is known to contain repeated descriptions *(measured in Phase 2: 10,016 exact duplicate descriptions, 7.7 % of rows)*. | Notebook cells 12–20 contain no `drop_duplicates`. | Identical texts can sit in both train and test, which inflates test scores. | Deduplicate on normalised text before splitting, and assert disjointness. Implemented in `winemood.data.split` (`deduplicate`, `assert_no_text_overlap`). | 2 |
+| A-10 | High | **There is no baseline, and accuracy is the only headline metric.** The resulting two-class problem is imbalanced *(measured in Phase 2: 62.0 % vs 38.0 % after deduplication)*. | Notebook cells 22–28. | Without a majority-class or linear baseline, no accuracy figure is interpretable. A model predicting only "Neutral" may score highly. | Report a majority baseline, TF-IDF + logistic regression, macro-F1, balanced accuracy and per-class metrics. | 3 |
 | A-11 | High | **Stopword removal deletes negations.** NLTK's English list contains `no`, `not`, `nor`, plus contraction fragments. | Notebook cell-16. `app.py:107`. | "not balanced" and "balanced" become identical inputs, which removes polarity cues that any sentiment-like task depends on. | Treat negation handling as an explicit, tested experimental factor. `PreprocessingConfig.keep_negations` exists but defaults to the legacy behaviour, so model inputs are not changed silently. | 3 |
 | A-12 | High | **No random seeds are set** for NumPy, Python or TensorFlow. Only `train_test_split` uses `random_state=42`. The error-analysis sample uses unseeded `np.random.choice`. | Notebook cells 3, 20, 22–24, 30. | Runs are not reproducible. | Seed everything through `winemood.seeding.set_global_seed`. | 1 (tooling), 3 |
 | A-13 | Medium | **Inconsistent model-selection criteria.** `EarlyStopping` monitors `val_loss` and `ModelCheckpoint` monitors `val_accuracy`. | Notebook cell-23. | The restored "best" weights and the saved checkpoint can come from different epochs. | Use one selection criterion, chosen before training and recorded in the config. | 3 |
@@ -90,7 +90,7 @@ quantitative result must be produced afresh under a corrected methodology.
 |---|---|---|---|---|---|---|
 | A-27 | High | **The README makes unsupported or inaccurate claims:** "Accuracy above 80%", "Fully functional project", "Ready for commercial platform integration", "classifies emotions". | README §§"Expected Results", "Project Highlights", "Objectives". | Misleading to readers and reviewers. | Rewrite the README to describe only what is implemented (done). | 1 |
 | A-28 | Medium | **The license is claimed but absent.** The README refers to an MIT `LICENSE` file that does not exist. | README §"License". | Legal ambiguity for reuse. | Add `LICENSE` (done, MIT, as the README stated). | 1 |
-| A-29 | Medium | **Dataset provenance and terms are undocumented.** The Kaggle dataset was scraped from WineEnthusiast. Its license and terms of use, and the redistribution status of the reviews, are not recorded. | README §"Dataset". | Possible restrictions on redistributing data or derived artifacts. | Record source, version, licence and access date in `data/README.md`. Confirm the licence on the Kaggle page before any redistribution *(verify)*. | 2 |
+| A-29 | Medium | **Dataset provenance and terms are undocumented.** The Kaggle dataset was scraped from WineEnthusiast. Its license and terms of use, and the redistribution status of the reviews, are not recorded. | README §"Dataset". | Possible restrictions on redistributing data or derived artifacts. | Record source, version, licence and access date in `data/README.md`. Confirm the licence on the Kaggle page before any redistribution *(Phase 2: licence confirmed as CC BY-NC-SA 4.0 from Kaggle metadata)*. | 2 |
 | A-30 | Low | **Language inconsistency.** The UI and notebook are in Portuguese and the README is in English. | `app.py`, notebook. | Inconsistent presentation. | UI converted to English (done). The notebook is left unchanged as a historical record. | 1 |
 
 ## 3. Confounds and threats specific to this dataset
@@ -102,7 +102,7 @@ These are not defects in the code. Phase 2 must address them in the research des
   the author rather than evaluative language. Mitigations: grouped splits by
   `taster_name` and per-taster analysis.
 - **Length and score correlation.** Higher-scored wines tend to receive longer
-  descriptions *(verify)*. A length-only baseline is required to rule out a
+  descriptions *(confirmed in Phase 2: Spearman rho = 0.51 on the training split)*. A length-only baseline is required to rule out a
   trivial shortcut.
 - **Metadata leakage in text.** Descriptions sometimes mention price, variety
   or region, which correlate with score. This is legitimate signal for the
@@ -133,4 +133,30 @@ Findings with tooling in place, awaiting application in later phases: A-01
 (`class_support` warning), A-07/A-08/A-14 (`split_dataset`), A-11
 (`keep_negations` flag), A-12 (`set_global_seed`).
 
-Open for Phase 2/3: A-01, A-02, A-03, A-04, A-10, A-13, A-15, A-23, A-29.
+**Phase 2 (2026-10-12)**
+
+- **Resolved:**
+  - A-01: confirmed by Wine Enthusiast's policy and by the data (0 reviews
+    below 80). The scheme is retired as a research target.
+  - A-02: reformulated as score regression and score-category
+    classification; see `docs/problem-formulation.md`.
+  - A-08: exact deduplication, near-duplicate and same-wine grouping, and an
+    isolation assertion, run on the real data.
+  - A-29: licence and provenance recorded.
+- **Methodology fixed, implementation in Phase 3:** A-03 (error analysis by
+  `review_id`), A-04 and A-13 (single training entry point and selection
+  criterion), A-10 (baselines and metrics), A-15 (qualitative probes). See
+  `docs/experimental-protocol.md`.
+- **Open:** A-23 (LSTM design, Phase 3).
+
+## 6. Phase 2 verification log
+
+| Check | Result |
+|---|---|
+| Kaggle metadata (public API) | Licence CC BY-NC-SA 4.0, dataset version 4, last updated 2017-11-27, three files. |
+| Unauthenticated download | Works: the endpoint redirects to a signed storage URL. 17,180,972-byte zip, 52,908,706-byte CSV, SHA-256 `52af2643…67ac9` (pinned). |
+| `points` below 80 (A-01) | 0 of 129,971. Range 80–100, all integers. |
+| Exact duplicate descriptions (A-08) | 10,016 (10,017 after case and whitespace normalisation). 23 duplicate groups carry conflicting scores. |
+| Near-duplicates | 26 verified pairs (Jaccard ≥ 0.8) after exact deduplication. Detector recall on planted near-duplicates of real reviews: 0.99 at one word replaced, 0.93 at three. No false merges. |
+| Split isolation on real data | 0 review IDs, 0 normalised texts, 0 titles and 0 groups shared across train, validation and test. This was checked by the package and again by independent pandas code. |
+| Split reproducibility | `winemood data split --check` in a fresh process reproduced the committed fingerprints. |

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import os
 import tomllib
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Any
 
@@ -36,11 +36,37 @@ class DataConfig:
     raw_csv: Path = Path("data/raw/winemag-data-130k-v2.csv")
     text_column: str = "description"
     target_column: str = "points"
+    id_column: str = "review_id"
+    url: str = ""
+    sha256: str = ""
+    processed_dir: Path = Path("data/processed")
+    reports_dir: Path = Path("reports")
+    # Committed record of split fingerprints (counts + hashes, no review text).
+    fingerprints: Path = Path("data/split_fingerprints.json")
 
 
 @dataclass(frozen=True)
 class LabelConfig:
+    # Label scheme served by the legacy model in the UI (historical compatibility).
     scheme: str = "points_band_v0"
+
+
+@dataclass(frozen=True)
+class TargetConfig:
+    primary: str = "points_regression_v1"
+    secondary: tuple[str, ...] = ("we_category_v1", "points_binary_90_v1")
+    # Pre-declared rule for we_category_merged_v1: merge adjacent top bands until
+    # every class holds at least this fraction of the TRAINING split.
+    min_class_fraction: float = 0.01
+
+
+@dataclass(frozen=True)
+class NearDupConfig:
+    enabled: bool = True
+    shingle_size: int = 3
+    num_perm: int = 128
+    bands: int = 16
+    threshold: float = 0.8
 
 
 @dataclass(frozen=True)
@@ -48,6 +74,12 @@ class SplitConfig:
     test_size: float = 0.2
     validation_size: float = 0.1
     deduplicate: bool = True
+    name: str = "grouped_v1"
+    n_folds: int = 10
+    test_folds: int = 2
+    validation_folds: int = 1
+    stratify_on: str = "we_category_v1"
+    group_by_title: bool = True
 
 
 @dataclass(frozen=True)
@@ -84,6 +116,8 @@ class Config:
     seed: int = 42
     data: DataConfig = field(default_factory=DataConfig)
     labels: LabelConfig = field(default_factory=LabelConfig)
+    targets: TargetConfig = field(default_factory=TargetConfig)
+    neardup: NearDupConfig = field(default_factory=NearDupConfig)
     split: SplitConfig = field(default_factory=SplitConfig)
     preprocessing: PreprocessingConfig = field(default_factory=PreprocessingConfig)
     artifacts: ArtifactConfig = field(default_factory=ArtifactConfig)
@@ -112,24 +146,36 @@ def load_config(path: str | Path | None = None, root: Path = REPO_ROOT) -> Confi
     except tomllib.TOMLDecodeError as exc:
         raise ConfigError(f"Invalid TOML in {config_path}: {exc}") from exc
 
-    data = dict(raw.get("data", {}))
-    if "raw_csv" in data:
-        data["raw_csv"] = _resolve(data["raw_csv"], root)
-    artifacts = dict(raw.get("artifacts", {}))
-    if "dir" in artifacts:
-        artifacts["dir"] = _resolve(artifacts["dir"], root)
+    data = _build(DataConfig, dict(raw.get("data", {})), "data")
+    data = replace(
+        data,
+        raw_csv=_resolve(data.raw_csv, root),
+        processed_dir=_resolve(data.processed_dir, root),
+        reports_dir=_resolve(data.reports_dir, root),
+        fingerprints=_resolve(data.fingerprints, root),
+    )
+    artifacts = _build(ArtifactConfig, dict(raw.get("artifacts", {})), "artifacts")
+    artifacts = replace(artifacts, dir=_resolve(artifacts.dir, root))
 
     split = _build(SplitConfig, dict(raw.get("split", {})), "split")
     if not 0 < split.test_size < 1 or not 0 <= split.validation_size < 1:
         raise ConfigError("split.test_size must be in (0, 1) and validation_size in [0, 1)")
+    if split.test_folds + split.validation_folds >= split.n_folds:
+        raise ConfigError("split.test_folds + split.validation_folds must be < split.n_folds")
+
+    targets = dict(raw.get("targets", {}))
+    if "secondary" in targets:
+        targets["secondary"] = tuple(targets["secondary"])
 
     return Config(
         seed=int(raw.get("project", {}).get("seed", 42)),
-        data=_build(DataConfig, data, "data"),
+        data=data,
         labels=_build(LabelConfig, dict(raw.get("labels", {})), "labels"),
+        targets=_build(TargetConfig, targets, "targets"),
+        neardup=_build(NearDupConfig, dict(raw.get("neardup", {})), "neardup"),
         split=split,
         preprocessing=_build(
             PreprocessingConfig, dict(raw.get("preprocessing", {})), "preprocessing"
         ),
-        artifacts=_build(ArtifactConfig, artifacts, "artifacts"),
+        artifacts=artifacts,
     )

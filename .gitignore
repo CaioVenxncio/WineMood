@@ -20,6 +20,8 @@ htmlcov/
 # Data and model artifacts are never committed (see data/README.md, artifacts/README.md)
 data/raw/
 data/processed/
+# Generated validation/EDA outputs (regenerate with `winemood data ...`)
+reports/
 artifacts/*
 !artifacts/README.md
 *.h5

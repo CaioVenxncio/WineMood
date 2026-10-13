@@ -6,7 +6,7 @@ criterion is designed to be checked objectively.
 
 ---
 
-## Phase 1: Repository audit and engineering foundations ✅ (implemented, awaiting review)
+## Phase 1: Repository audit and engineering foundations ✅ (committed locally on branch `modernization`)
 
 **Deliverables**
 
@@ -40,9 +40,15 @@ criterion is designed to be checked objectively.
 
 ---
 
-## Phase 2: Dataset validation and scientific methodology
+## Phase 2: Dataset validation and scientific methodology ✅ (implemented, awaiting review)
 
-**Deliverables**
+**Outcome:**
+- Primary target is score regression; secondary targets are Wine Enthusiast
+  category and binary ≥ 90 classification. See `docs/problem-formulation.md`.
+- Data facts are in `docs/data-report.md`.
+- The Phase 3 protocol is pre-registered in `docs/experimental-protocol.md`.
+
+**Deliverables (as planned)**
 
 - A reproducible dataset acquisition script, with a recorded SHA-256 checksum
   and licence/terms documented in `data/README.md`.
@@ -71,12 +77,20 @@ criterion is designed to be checked objectively.
 
 **Acceptance criteria**
 
-- `validate_reviews` runs on the real CSV, and its report is committed.
-- Split manifests are reproducible: two runs give identical row IDs, as
-  checked by a test.
-- Train, validation and test texts are disjoint, as asserted on real data.
-- Every chosen label class has non-zero support in every split.
-- Pre-registration document is merged before Phase 3 work begins.
+- [x] `validate_reviews` runs on the real CSV. Its results are committed in
+      the generated `docs/data-report.md`; the full JSON is regenerated into
+      the git-ignored `reports/`.
+- [x] Split manifests are reproducible. A test covers synthetic data, and
+      `winemood data split --check` reproduced the committed fingerprints on
+      the real data.
+- [x] Train, validation and test share no texts, titles or groups. This is
+      asserted on real data by the package and independently re-checked.
+- [x] Every label class has non-zero support in every split. The weakest
+      case is Classic in `taster_holdout_v1` validation, with 1 review.
+      `we_category_merged_v1` removes that weakness for modelling.
+- [x] The pre-registration (`docs/experimental-protocol.md`) was written
+      before any Phase 3 work.
+- [ ] Phase 2 is merged after review (pending the project owner).
 
 ---
 

@@ -20,9 +20,13 @@ dependencies = [
     "pandas>=2.2,<4",
     "numpy>=1.26,<3",
     "scikit-learn>=1.5,<2",
+    "scipy>=1.11,<2",
     "nltk>=3.9,<4",
     "matplotlib>=3.8,<4",
 ]
+
+[project.scripts]
+winemood = "winemood.cli:main"
 
 [project.optional-dependencies]
 dev = ["pytest>=8,<10", "ruff>=0.14,<0.18"]

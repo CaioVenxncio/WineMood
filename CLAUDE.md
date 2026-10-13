@@ -4,11 +4,12 @@ Guidance for AI coding assistants working in this repository.
 
 ## Project
 
-WineMood is an NLP research project. It predicts critic score bands from
-wine tasting notes, and it is **not** sentiment analysis (see
-`docs/research-proposal.md` §2). It is developed in approval-gated phases
-(`docs/roadmap.md`). Do not start work belonging to a later phase without
-explicit approval.
+WineMood is an NLP research project that predicts a wine critic's score
+(80–100) from the text of the tasting note. The primary task is regression;
+the secondary tasks are Wine Enthusiast category and ≥ 90 classification.
+It is **not** sentiment analysis (see `docs/problem-formulation.md`). The
+project is developed in approval-gated phases (`docs/roadmap.md`). Do not
+start work belonging to a later phase without explicit approval.
 
 ## Commands
 
@@ -16,6 +17,13 @@ explicit approval.
 pip install -e ".[dev]"     # install (Python 3.11-3.13)
 pytest                      # tests: synthetic fixtures, no dataset/network needed
 ruff check . && ruff format --check .
+
+winemood data download      # fetch + verify the pinned SHA-256 (no credentials)
+winemood data validate      # -> reports/validation.json
+winemood data split         # manifests (git-ignored) + data/split_fingerprints.json
+winemood data split --check # must print OK before any modelling
+winemood data eda --publish # regenerates docs/data-report.md and docs/figures/
+
 streamlit run app.py
 ```
 
@@ -24,39 +32,48 @@ On Windows, set `TF_CPP_MIN_LOG_LEVEL=2` to silence TensorFlow logging.
 ## Layout
 
 - `src/winemood/`: the package. `app.py` is only a shim.
-- `configs/default.toml`: the single source for paths, seed, label scheme,
-  split and preprocessing parameters.
+- `src/winemood/data/protocol.py`: the research split protocol. Use it, not
+  the Phase 1 `split.split_dataset`, for any experiment.
+- `configs/default.toml`: the single source for paths, checksum, seed,
+  targets, near-duplicate and split parameters.
+- `docs/data-report.md`: **auto-generated, never edit by hand**.
+- `docs/experimental-protocol.md`: pre-registered Phase 3 protocol. Record any
+  deviation in its §10.
 - `notebooks/legacy/`: the original notebook. **Do not edit it**, because the
   audit cites its cells.
-- `docs/`: audit, research proposal, architecture, roadmap.
 
 ## Non-negotiable rules
 
 1. **Never fabricate results.** No metric, table or claim goes into the docs or
    UI unless a stored, reproducible run produced it. Never state that tests
    passed without running them.
-2. **Labels are explicit and versioned.** Add new `LabelScheme`s in
-   `winemood/data/labels.py` under new names. Never change an existing
-   scheme's rule.
-3. **Split before fit.** Use `winemood.data.split.split_dataset`. Any
-   tokenizer, vectoriser or scaler is fitted on the training split only.
-   The test set is not used for model selection.
+2. **Labels are explicit and versioned.** Add new schemes in
+   `winemood/data/labels.py` under new names, and never change an existing
+   scheme's rule. Never call score-derived labels "sentiment".
+   `points_band_v0` is legacy-only (`research_use=False`).
+3. **Split before fit.** Use the `grouped_v1` manifests. Fit any tokenizer,
+   vectoriser, scaler or merge rule on train only. Validation is for model
+   selection; the test set is used once per final model and is never read
+   during EDA or tuning.
 4. **One preprocessing implementation.** Training and inference both use
    `winemood.preprocessing.TextPreprocessor` with the same config.
 5. **Seed everything** with `winemood.seeding.set_global_seed`.
 6. **Fail gracefully.** Missing data or artifacts raise typed errors
-   (`DatasetNotFoundError`, `ArtifactError` subclasses) and the UI explains
-   them. Never return `None` to signal failure.
+   (`DatasetNotFoundError`, `AcquisitionError`, `ArtifactError` subclasses).
+   Never return `None` to signal failure.
 7. **Tests use synthetic data.** Do not add tests that download the dataset.
 8. **No new technology without justification** recorded in
    `docs/architecture.md`. Avoid services, databases and heavy frameworks.
-9. Do not commit data (`data/raw/`) or artifacts (`*.h5`, `*.pickle`). Do not
-   push to GitHub unless asked.
+9. **Data licence is CC BY-NC-SA 4.0.** Do not commit data (`data/raw/`),
+   manifests (`data/processed/`) or artifacts (`*.h5`, `*.pickle`). Report
+   tasters only as anonymised aggregates. Do not push to GitHub unless asked.
 
 ## Conventions
 
 - Type annotations on public functions. Frozen dataclasses for config and results.
 - Logging through `winemood.logging_utils.get_logger`, with structured fields
-  passed via `extra={...}`.
+  passed via `extra={...}`. Do not use reserved `LogRecord` keys such as `name`.
+- Keep source files ASCII. Write non-ASCII characters in regexes as escapes
+  in raw strings, because pandas 3 may route string regexes to PyArrow/RE2.
 - Ruff (line length 100) is the formatter and linter.
 - All documentation is in English.

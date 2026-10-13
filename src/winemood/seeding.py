@@ -1,4 +1,4 @@
-"""Deterministic seeding for Python, NumPy and (if importable) TensorFlow."""
+"""Deterministic seeding for Python, NumPy and (optionally) TensorFlow."""
 
 from __future__ import annotations
 
@@ -8,17 +8,21 @@ import random
 import numpy as np
 
 
-def set_global_seed(seed: int, *, deterministic_tf: bool = True) -> None:
+def set_global_seed(
+    seed: int, *, include_tensorflow: bool = True, deterministic_tf: bool = True
+) -> None:
     """Seed every RNG used by the project.
 
-    TensorFlow is imported lazily so that data-only code paths stay fast.
-    Note that full GPU determinism additionally depends on the hardware and
-    cuDNN kernels; ``deterministic_tf`` requests deterministic ops where TF
-    supports them.
+    TensorFlow is imported lazily and only when ``include_tensorflow`` is true,
+    so data-only commands stay fast. Full GPU determinism additionally depends on
+    the hardware and cuDNN kernels; ``deterministic_tf`` requests deterministic
+    ops where TF supports them.
     """
     os.environ["PYTHONHASHSEED"] = str(seed)
     random.seed(seed)
     np.random.seed(seed)
+    if not include_tensorflow:
+        return
     try:
         import tensorflow as tf
     except ImportError:
