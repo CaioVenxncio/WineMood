@@ -4,6 +4,14 @@ These are the exact steps to reproduce every Phase 3 number from a clean
 clone. All numbers in [`results-tables.md`](results-tables.md) are regenerated
 from stored predictions by `winemood exp report`.
 
+> **Commit history note (audit A-32).** The Phase 3 commits `15bc2a6` and
+> `4f6d77a` do not contain `src/winemood/experiments/`, because of an
+> over-broad `.gitignore` rule. The package was committed in `a5f2313`, and
+> history was intentionally not rewritten. **Reproduce Phase 3 from `a5f2313`
+> or later.** The committed package is the code that executed the frozen
+> selection and the test evaluation (see `docs/audit.md`, A-32). All result
+> records are unchanged.
+
 ## 1. Environment
 
 | Item | Version used for the reported results |

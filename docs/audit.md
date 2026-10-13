@@ -181,6 +181,41 @@ Findings with tooling in place, awaiting application in later phases: A-01
   `docs/a31-remediation.md` §5.
 - **H5 reporting correction recorded.** See protocol §10, 2026-10-13.
 
+**Pre-publication review (2026-10-13), A-32: Phase 3 source omitted from git**
+
+| ID | Severity | Finding | Evidence | Impact | Resolution |
+|---|---|---|---|---|---|
+| A-32 | High (reproducibility) | The `.gitignore` rule `experiments/`, meant for the git-ignored artifact directory, also matched the source package `src/winemood/experiments/` (`spec.py`, `data.py`, `tracking.py`, `runner.py`). The rule `models/` (added in Phase 4) matched `src/winemood/models/artifact.py`. The Phase 3 commits `15bc2a6` and `4f6d77a` therefore do not contain the experiment framework, and a clean checkout of either cannot import `winemood.experiments`. | `git log --diff-filter=A` shows the five files first added in `a5f2313`. `git check-ignore` attributed them to the unanchored rules. | Phase 3 could not be reproduced from its own commits. **No experimental result is affected:** the omission concerns version control, not the computations. | Rules are root-anchored (`/experiments/`, `/models/`, `/dist/`, `/reports/`, `/data/raw/`, `/data/processed/`, `/artifacts/*`, `/build/`), and the package is committed in `a5f2313`. History was **not** rewritten (project owner's decision); this record documents it instead. |
+
+**Verification performed for A-32.** All checks passed.
+
+- *Committed code = executed code.* The package files were last modified on
+  2026-10-12 between 21:51 and 22:05 local time (UTC−3), i.e. before 01:06
+  UTC. That is before the frozen selection (01:57:30 UTC) and the single test
+  pass (01:58:37–02:03:28 UTC), and none of the files was modified afterwards.
+  The bytes committed in `a5f2313` are therefore the code that ran `select`
+  and `final`. (This rests on file-system timestamps, which git cannot attest
+  independently.) Validation runs that started before the last edit to
+  `runner.py` were affected only by formatting changes and by the encoder
+  revision pin, which concerns E12 alone; E12 ran after that edit.
+- *Clean clone of `a5f2313`:* every experiment module imports from the clone;
+  `winemood exp list` loads 23 experiments and the 17-entry test scope; the
+  light test suite gives 191 passed, 2 skipped (neural tests).
+- *No other source excluded:* no `.py` or `.toml` file under `src/`,
+  `tests/` or `configs/` is untracked, and no tracked file matches an ignore
+  rule. Every remaining ignored path is intentional: data, manifests,
+  experiment artifacts, packaged/installed models, generated reports, caches,
+  virtual environments.
+- *Frozen records intact:*
+  - `results/selection.json`, `results/test/`, `results/validation/`,
+    `results/test_access_log.jsonl`, `data/split_fingerprints.json` and
+    `configs/` are byte-identical between `4f6d77a` and `a5f2313`;
+  - `report.json` differs only by the added `test_prediction_aggregates`;
+  - the 17 frozen config hashes agree across selection, validation and test;
+  - all 19 test accesses are logged after the freeze, with no repeats;
+  - the dataset SHA-256 and split fingerprints re-verify;
+  - the installed model's files are identical to the Phase 3 build.
+
 ## 6. Phase 2 verification log
 
 | Check | Result |
