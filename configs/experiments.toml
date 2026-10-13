@@ -1,0 +1,244 @@
+# WineMood Phase 3 experiment matrix (docs/experimental-protocol.md §4-§10).
+#
+# Grid keys are dotted paths into `config`. `base` = start from that experiment's
+# VALIDATION-selected configuration, then apply `config`/`grid` (controlled variants).
+# Only experiments listed in [test_scope] are ever evaluated on the test set.
+
+[defaults]
+split = "grouped_v1"
+
+[tasks.T1]
+target = "points_regression_v1"
+kind = "regression"
+selection_metric = "mae"
+higher_is_better = false
+
+[tasks.T2]
+target = "we_category_merged_v1"
+kind = "classification"
+selection_metric = "macro_f1"
+higher_is_better = true
+
+[tasks.T3]
+target = "points_binary_90_v1"
+kind = "classification"
+selection_metric = "macro_f1"
+higher_is_better = true
+
+# ---------------------------------------------------------------- T1 baselines
+[[experiment]]
+id = "E01_dummy_mean"
+task = "T1"
+description = "B0: constant prediction = training mean"
+config = { features = { kind = "none" }, head = { kind = "constant" } }
+
+[[experiment]]
+id = "E02_length"
+task = "T1"
+description = "B1: OLS on word and character counts only"
+config = { features = { kind = "length" }, head = { kind = "ols" } }
+
+[[experiment]]
+id = "E03_metadata"
+task = "T1"
+description = "B2 (reference, not text): taster, country, variety, log price"
+config = { features = { kind = "metadata" }, head = { kind = "ridge", alpha = 1.0 } }
+grid = { "head.alpha" = [0.1, 0.3, 1.0, 3.0, 10.0, 30.0, 100.0] }
+
+[[experiment]]
+id = "E04_tfidf_word"
+task = "T1"
+description = "B3: word TF-IDF + Ridge (selected config = B3*)"
+hypothesis = "H1"
+config = { features = { kind = "tfidf", word = { ngram_range = [1, 2], min_df = 2 } }, head = { kind = "ridge", alpha = 1.0 } }
+
+[experiment.grid]
+"features.preprocessing" = ["norm_min_v1", "norm_legacy_v0"]
+"features.word.ngram_range" = [[1, 1], [1, 2]]
+"features.word.min_df" = [2, 5, 10]
+"head.alpha" = [0.3, 1.0, 3.0, 10.0, 30.0, 100.0, 300.0]
+
+# ------------------------------------------------- B3 ablations (validation only)
+[[experiment]]
+id = "E05_tfidf_char"
+task = "T1"
+base = "E04_tfidf_word"
+description = "Ablation C: character n-grams (char_wb 3-5) instead of words"
+config = { features = { word = false, char = { ngram_range = [3, 5], min_df = 5, max_features = 300000 } } }
+grid = { "head.alpha" = [0.3, 1.0, 3.0, 10.0, 30.0, 100.0, 300.0] }
+
+[[experiment]]
+id = "E06_tfidf_word_char"
+task = "T1"
+base = "E04_tfidf_word"
+description = "Ablation C: word + character n-grams"
+config = { features = { char = { ngram_range = [3, 5], min_df = 5, max_features = 300000 } } }
+grid = { "head.alpha" = [0.3, 1.0, 3.0, 10.0, 30.0, 100.0, 300.0] }
+
+[[experiment]]
+id = "E07_tfidf_plus_length"
+task = "T1"
+base = "E04_tfidf_word"
+description = "Protocol ablation: B3* plus standardised length features"
+config = { features = { add_length = true } }
+
+[[experiment]]
+id = "E08_tfidf_mask_years"
+task = "T1"
+base = "E04_tfidf_word"
+description = "H4: B3* with 19xx/20xx years masked (__year__)"
+hypothesis = "H4"
+config = { features = { mask_numbers = "years" } }
+
+[[experiment]]
+id = "E09_tfidf_mask_all"
+task = "T1"
+base = "E04_tfidf_word"
+description = "Diagnostic: B3* with every digit run masked (__num__)"
+config = { features = { mask_numbers = "all" } }
+
+[[experiment]]
+id = "E13_tfidf_keep_negations"
+task = "T1"
+base = "E04_tfidf_word"
+description = "Ablation D: B3* with the legacy pipeline minus negation removal"
+config = { features = { preprocessing = "keep_negations" } }
+
+# ------------------------------------------------------------------ neural (T1)
+[[experiment]]
+id = "E10_lstm"
+task = "T1"
+family = "lstm"
+description = "N1: Embedding + BiLSTM regressor (legacy normalisation, corrected protocol)"
+hypothesis = "H2"
+seeds = [42, 43, 44, 45, 46]
+config = { preprocessing = "norm_legacy_v0", mask_numbers = "none", lstm = { bidirectional = true, learning_rate = 0.001, batch_size = 128, max_epochs = 12, patience = 2, vocab_size = 20000 } }
+
+[experiment.grid]
+"lstm.embed_dim" = [64, 128]
+"lstm.units" = [32, 64]
+"lstm.dropout" = [0.2, 0.4]
+
+[[experiment]]
+id = "E11_lstm_keep_negations"
+task = "T1"
+family = "lstm"
+base = "E10_lstm"
+description = "H5: N1* with negation words kept"
+hypothesis = "H5"
+seeds = [42, 43, 44, 45, 46]
+config = { preprocessing = "keep_negations" }
+
+[[experiment]]
+id = "E12_encoder"
+task = "T1"
+family = "encoder"
+description = "N2: frozen all-MiniLM-L6-v2 mean-pooled embeddings + Ridge"
+hypothesis = "H2"
+config = { features = { kind = "encoder", word = false, encoder_model = "sentence-transformers/all-MiniLM-L6-v2" }, head = { kind = "ridge", alpha = 1.0 } }
+grid = { "head.alpha" = [0.01, 0.1, 0.3, 1.0, 3.0, 10.0, 30.0] }
+
+# --------------------------------------------------------------- T2 / T3
+[[experiment]]
+id = "E20_t2_majority"
+task = "T2"
+description = "Dummy (most frequent class)"
+config = { features = { kind = "none" }, head = { kind = "majority" } }
+
+[[experiment]]
+id = "E20b_t2_stratified"
+task = "T2"
+description = "Dummy (stratified random); validation only"
+config = { features = { kind = "none" }, head = { kind = "stratified" } }
+
+[[experiment]]
+id = "E21_t2_logistic"
+task = "T2"
+base = "E04_tfidf_word"
+description = "TF-IDF (B3* vectoriser) + multinomial logistic regression"
+config = { head = { kind = "logistic", C = 1.0 } }
+grid = { "head.C" = [0.3, 1.0, 3.0, 10.0, 30.0], "head.class_weight" = ["none", "balanced"] }
+
+[[experiment]]
+id = "E22_t2_ordinal"
+task = "T2"
+base = "E04_tfidf_word"
+description = "TF-IDF (B3* vectoriser) + Frank & Hall ordinal logistic regression"
+config = { head = { kind = "ordinal", C = 1.0 } }
+grid = { "head.C" = [1.0, 3.0, 10.0, 30.0] }
+
+[[experiment]]
+id = "E30_t3_majority"
+task = "T3"
+description = "Dummy (most frequent class)"
+config = { features = { kind = "none" }, head = { kind = "majority" } }
+
+[[experiment]]
+id = "E31_t3_logistic"
+task = "T3"
+base = "E04_tfidf_word"
+description = "TF-IDF (B3* vectoriser) + logistic regression"
+config = { head = { kind = "logistic", C = 1.0 } }
+grid = { "head.C" = [0.3, 1.0, 3.0, 10.0, 30.0], "head.class_weight" = ["none", "balanced"] }
+
+# ----------------------------------------------------- H3: reviewer generalisation
+[[experiment]]
+id = "E40_holdout_tfidf"
+task = "T1"
+split = "taster_holdout_v1"
+description = "H3: B3 re-tuned on the taster-holdout split (same grid as E04)"
+hypothesis = "H3"
+config = { features = { kind = "tfidf", word = { ngram_range = [1, 2], min_df = 2 } }, head = { kind = "ridge", alpha = 1.0 } }
+
+[experiment.grid]
+"features.preprocessing" = ["norm_min_v1", "norm_legacy_v0"]
+"features.word.ngram_range" = [[1, 1], [1, 2]]
+"features.word.min_df" = [2, 5, 10]
+"head.alpha" = [0.3, 1.0, 3.0, 10.0, 30.0, 100.0, 300.0]
+
+[[experiment]]
+id = "E42_random_tfidf"
+task = "T1"
+split = "taster_random_v1"
+description = "H3 comparison: B3 re-tuned on the size-matched random split (same grid as E04)"
+hypothesis = "H3"
+config = { features = { kind = "tfidf", word = { ngram_range = [1, 2], min_df = 2 } }, head = { kind = "ridge", alpha = 1.0 } }
+
+[experiment.grid]
+"features.preprocessing" = ["norm_min_v1", "norm_legacy_v0"]
+"features.word.ngram_range" = [[1, 1], [1, 2]]
+"features.word.min_df" = [2, 5, 10]
+"head.alpha" = [0.3, 1.0, 3.0, 10.0, 30.0, 100.0, 300.0]
+
+[[experiment]]
+id = "E41_holdout_lstm"
+task = "T1"
+family = "lstm"
+split = "taster_holdout_v1"
+base = "E10_lstm"
+description = "H3: N1* architecture retrained (early stopping on this split's validation)"
+hypothesis = "H3"
+seeds = [42, 43, 44]
+config = {}
+
+[[experiment]]
+id = "E43_random_lstm"
+task = "T1"
+family = "lstm"
+split = "taster_random_v1"
+base = "E10_lstm"
+description = "H3 comparison: N1* architecture retrained on the size-matched random split"
+hypothesis = "H3"
+seeds = [42, 43, 44]
+config = {}
+
+# ------------------------------------------------------------- test-set scope
+# Fixed before any test access (protocol §10, 2026-10-12). Nothing else touches test.
+[test_scope]
+experiments = [
+  "E01_dummy_mean", "E02_length", "E03_metadata", "E04_tfidf_word", "E08_tfidf_mask_years",
+  "E10_lstm", "E11_lstm_keep_negations", "E12_encoder",
+  "E20_t2_majority", "E21_t2_logistic", "E22_t2_ordinal",
+  "E30_t3_majority", "E31_t3_logistic",
+  "E40_holdout_tfidf", "E42_random_tfidf", "E41_holdout_lstm", "E43_random_lstm",
+]

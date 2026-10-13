@@ -89,6 +89,15 @@ class PreprocessingConfig:
     remove_stopwords: bool = True
     keep_negations: bool = False
     max_sequence_length: int = 100
+    mask_numbers: str = "none"  # "none" | "years" | "all" (Phase 3, H4)
+
+
+@dataclass(frozen=True)
+class ExperimentsConfig:
+    spec: Path = Path("configs/experiments.toml")
+    dir: Path = Path("experiments")  # git-ignored: models, predictions, histories
+    results_dir: Path = Path("results")  # committed: small metrics/selection/test log
+    bootstrap_resamples: int = 2000
 
 
 @dataclass(frozen=True)
@@ -121,6 +130,7 @@ class Config:
     split: SplitConfig = field(default_factory=SplitConfig)
     preprocessing: PreprocessingConfig = field(default_factory=PreprocessingConfig)
     artifacts: ArtifactConfig = field(default_factory=ArtifactConfig)
+    experiments: ExperimentsConfig = field(default_factory=ExperimentsConfig)
 
 
 def _resolve(path: str | Path, root: Path) -> Path:
@@ -163,6 +173,14 @@ def load_config(path: str | Path | None = None, root: Path = REPO_ROOT) -> Confi
     if split.test_folds + split.validation_folds >= split.n_folds:
         raise ConfigError("split.test_folds + split.validation_folds must be < split.n_folds")
 
+    experiments = _build(ExperimentsConfig, dict(raw.get("experiments", {})), "experiments")
+    experiments = replace(
+        experiments,
+        spec=_resolve(experiments.spec, root),
+        dir=_resolve(experiments.dir, root),
+        results_dir=_resolve(experiments.results_dir, root),
+    )
+
     targets = dict(raw.get("targets", {}))
     if "secondary" in targets:
         targets["secondary"] = tuple(targets["secondary"])
@@ -178,4 +196,5 @@ def load_config(path: str | Path | None = None, root: Path = REPO_ROOT) -> Confi
             PreprocessingConfig, dict(raw.get("preprocessing", {})), "preprocessing"
         ),
         artifacts=artifacts,
+        experiments=experiments,
     )

@@ -186,6 +186,38 @@ def taster_holdout_assignment(
     return assignment
 
 
+def size_matched_random_assignment(
+    groups: np.ndarray, reference: np.ndarray, *, seed: int = 42
+) -> np.ndarray:
+    """Randomly reassign exactly the rows assigned in ``reference`` (whole groups),
+    matching each partition's size to within one group.
+
+    This is the comparison split for H3: same rows, same sizes, but test rows are
+    drawn at random instead of by taster. Rows excluded in ``reference`` stay
+    excluded.
+    """
+    eligible = reference != "excluded"
+    targets = {p: int((reference == p).sum()) for p in ("test", "validation")}
+    unique_groups = np.unique(groups[eligible])
+    order = np.random.default_rng(seed).permutation(unique_groups)
+    sizes = pd.Series(groups[eligible]).value_counts()
+    part_of: dict[int, str] = {}
+    filled = {"test": 0, "validation": 0}
+    for g in order:
+        if filled["test"] < targets["test"]:
+            target = "test"
+        elif filled["validation"] < targets["validation"]:
+            target = "validation"
+        else:
+            target = "train"
+        part_of[int(g)] = target
+        if target in filled:
+            filled[target] += int(sizes[g])
+    out = np.full(len(groups), "excluded", dtype=object)
+    out[eligible] = [part_of[int(g)] for g in groups[eligible]]
+    return out
+
+
 # --- Fingerprints and invariants -------------------------------------------------
 
 
@@ -279,9 +311,18 @@ def make_manifest(
 
 
 def write_manifest_ids(
-    out_dir: Path, df: pd.DataFrame, assignment: np.ndarray, id_column: str
+    out_dir: Path,
+    df: pd.DataFrame,
+    assignment: np.ndarray,
+    id_column: str,
+    groups: np.ndarray | None = None,
 ) -> None:
-    """Write one sorted review-id file per split (git-ignored location)."""
+    """Write one sorted review-id file per split (git-ignored location).
+
+    With ``groups``, also write ``groups.csv`` mapping each assigned review id to
+    a stable group id (the smallest review id in its group), which the cluster
+    bootstrap uses as its resampling unit.
+    """
     out_dir.mkdir(parents=True, exist_ok=True)
     ids = df[id_column].to_numpy()
     for p in (*SPLITS, "excluded"):
@@ -291,6 +332,10 @@ def write_manifest_ids(
         (out_dir / f"{p}.txt").write_text(
             "\n".join(str(int(i)) for i in selected) + "\n", encoding="utf-8"
         )
+    if groups is not None:
+        stable = pd.Series(ids).groupby(groups).transform("min").to_numpy()
+        table = pd.DataFrame({"review_id": ids, "group": stable}).sort_values("review_id")
+        table.to_csv(out_dir / "groups.csv", index=False)
 
 
 def load_split_ids(split_dir: Path, split: str) -> np.ndarray:
@@ -298,6 +343,15 @@ def load_split_ids(split_dir: Path, split: str) -> np.ndarray:
     if not path.is_file():
         raise FileNotFoundError(f"Split manifest not found: {path}. Run 'winemood data split'.")
     return np.loadtxt(path, dtype=np.int64, ndmin=1)
+
+
+def load_groups(split_dir: Path) -> pd.Series:
+    """Stable group id per review id (written by ``write_manifest_ids``)."""
+    path = split_dir / "groups.csv"
+    if not path.is_file():
+        raise FileNotFoundError(f"Group file not found: {path}. Re-run 'winemood data split'.")
+    table = pd.read_csv(path)
+    return pd.Series(table["group"].to_numpy(), index=table["review_id"].to_numpy(), name="group")
 
 
 # --- Orchestration -----------------------------------------------------------------
@@ -377,6 +431,9 @@ def run_split_protocol(
         )
     elif strategy == "taster_holdout":
         assignment = taster_holdout_assignment(frame[taster_column], groups, seed=seed)
+    elif strategy == "taster_random":
+        reference = taster_holdout_assignment(frame[taster_column], groups, seed=seed)
+        assignment = size_matched_random_assignment(groups, reference, seed=seed)
     else:
         raise ValueError(f"Unknown split strategy '{strategy}'")
 

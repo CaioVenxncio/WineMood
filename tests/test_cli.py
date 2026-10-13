@@ -55,7 +55,13 @@ def test_pipeline_end_to_end(tmp_path, corpus_csv):
 
     assert main(["--config", cfg, "data", "split"]) == 0
     fingerprints = json.loads((tmp_path / "fingerprints.json").read_text(encoding="utf-8"))
-    assert set(fingerprints) == {"grouped_v1", "taster_holdout_v1"}
+    assert set(fingerprints) == {"grouped_v1", "taster_holdout_v1", "taster_random_v1"}
+    # H3 comparison split: same rows assigned, partition sizes matched to the holdout.
+    holdout, random_ = fingerprints["taster_holdout_v1"], fingerprints["taster_random_v1"]
+    assert holdout["counts"]["excluded"] == random_["counts"]["excluded"]
+    for part in ("train", "validation", "test"):
+        assert abs(holdout["counts"][part] - random_["counts"][part]) <= 9  # largest group size
+    assert holdout["id_sha256"]["test"] != random_["id_sha256"]["test"]
     assert (tmp_path / "processed" / "splits" / "grouped_v1" / "test.txt").is_file()
     assert main(["--config", cfg, "data", "split", "--check"]) == 0
 

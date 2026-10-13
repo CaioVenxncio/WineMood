@@ -1,0 +1,244 @@
+{
+  "experiment": "E22_t2_ordinal",
+  "description": "TF-IDF (B3* vectoriser) + Frank & Hall ordinal logistic regression",
+  "hypothesis": null,
+  "task": "T2",
+  "target": "we_category_merged_v1",
+  "family": "linear",
+  "split": "grouped_v1",
+  "base": "E04_tfidf_word",
+  "selected_config": {
+    "features": {
+      "kind": "tfidf",
+      "word": {
+        "ngram_range": [
+          1,
+          2
+        ],
+        "min_df": 5
+      },
+      "preprocessing": "norm_min_v1"
+    },
+    "head": {
+      "kind": "ordinal",
+      "C": 10.0
+    }
+  },
+  "config_hash": "13f172e36e9b",
+  "n_configs": 4,
+  "grid": [
+    {
+      "config_hash": "04ff72749ee3",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ordinal",
+          "C": 1.0
+        }
+      },
+      "macro_f1": 0.5023492900638032,
+      "n_features": 81413,
+      "feature_seconds": 11.33,
+      "fit_seconds": 3.46
+    },
+    {
+      "config_hash": "8f575dc9956c",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ordinal",
+          "C": 3.0
+        }
+      },
+      "macro_f1": 0.561044133793916,
+      "n_features": 81413,
+      "feature_seconds": 11.33,
+      "fit_seconds": 4.92
+    },
+    {
+      "config_hash": "13f172e36e9b",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ordinal",
+          "C": 10.0
+        }
+      },
+      "macro_f1": 0.572338484354385,
+      "n_features": 81413,
+      "feature_seconds": 11.33,
+      "fit_seconds": 4.22
+    },
+    {
+      "config_hash": "7c9a6680c7a4",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ordinal",
+          "C": 30.0
+        }
+      },
+      "macro_f1": 0.5701387443261512,
+      "n_features": 81413,
+      "feature_seconds": 11.33,
+      "fit_seconds": 6.0
+    }
+  ],
+  "validation_metrics": {
+    "n": 11996,
+    "macro_f1": 0.572338484354385,
+    "weighted_f1": 0.6488139686594172,
+    "balanced_accuracy": 0.534639649873869,
+    "accuracy": 0.6538012670890296,
+    "per_class": {
+      "acceptable": {
+        "precision": 0.6956521739130435,
+        "recall": 0.3310344827586207,
+        "f1": 0.4485981308411215,
+        "support": 290
+      },
+      "good": {
+        "precision": 0.6955462769659012,
+        "recall": 0.6712558764271324,
+        "f1": 0.6831852358168148,
+        "support": 2978
+      },
+      "very_good": {
+        "precision": 0.6008211678832117,
+        "recall": 0.6316546762589929,
+        "f1": 0.6158522328735094,
+        "support": 4170
+      },
+      "excellent": {
+        "precision": 0.6798702802872365,
+        "recall": 0.7419110212335692,
+        "f1": 0.7095370482291793,
+        "support": 3956
+      },
+      "superb_or_classic": {
+        "precision": 0.6325088339222615,
+        "recall": 0.2973421926910299,
+        "f1": 0.40451977401129946,
+        "support": 602
+      }
+    },
+    "confusion_matrix": [
+      [
+        96,
+        181,
+        13,
+        0,
+        0
+      ],
+      [
+        42,
+        1999,
+        855,
+        82,
+        0
+      ],
+      [
+        0,
+        646,
+        2634,
+        887,
+        3
+      ],
+      [
+        0,
+        47,
+        873,
+        2935,
+        101
+      ],
+      [
+        0,
+        1,
+        9,
+        413,
+        179
+      ]
+    ],
+    "qwk": 0.7555796196602149,
+    "mae_class_index": 0.3592030676892297
+  },
+  "seeds": [
+    42
+  ],
+  "meta": {
+    "run_id": "E22_t2_ordinal-20261013T011107Z-92aeb1",
+    "experiment": "E22_t2_ordinal",
+    "started": "2026-10-13T01:11:07+00:00",
+    "git": {
+      "commit": "732ad5485020a65c7d574d4e2c4fd17d2b6ed417",
+      "dirty": true
+    },
+    "packages": {
+      "numpy": "2.5.4",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "tensorflow": "2.20.0",
+      "keras": "3.15.1",
+      "torch": "2.14.1+cpu",
+      "transformers": "5.19.0"
+    },
+    "hardware": {
+      "platform": "Windows-10-10.0.19045-SP0",
+      "python": "3.13.14",
+      "processor": "Intel64 Family 6 Model 158 Stepping 10, GenuineIntel",
+      "cpu_count": 6
+    },
+    "split": "grouped_v1",
+    "task": "T2",
+    "family": "linear",
+    "dataset_sha256": "52af2643c8ac29f010f0cc629dfbdda1c74aa0f332d11762af9ef3de4e567ac9",
+    "split_id_sha256": {
+      "train": "6a6a98f390a9d98ee0d50309cf18e320738aaf09ebb21229f00014ef21237332",
+      "validation": "4e01e2d247949916af8f5c9a9752d93b9db350fa3d7e11cb87deebccc486a46b"
+    },
+    "finished": "2026-10-13T01:11:38+00:00",
+    "seconds": 30.1,
+    "status": "ok"
+  }
+}

@@ -164,5 +164,93 @@
       "n_rows_in_near_dup_clusters": 52,
       "n_rows_sharing_title": 2099
     }
+  },
+  "taster_random_v1": {
+    "name": "taster_random_v1",
+    "dataset_sha256": "52af2643c8ac29f010f0cc629dfbdda1c74aa0f332d11762af9ef3de4e567ac9",
+    "config": {
+      "strategy": "taster_random",
+      "seed": 42,
+      "split": {
+        "test_size": 0.2,
+        "validation_size": 0.1,
+        "name": "grouped_v1",
+        "n_folds": 10,
+        "test_folds": 2,
+        "validation_folds": 1,
+        "stratify_on": "we_category_v1",
+        "group_by_title": true
+      },
+      "neardup": {
+        "enabled": true,
+        "shingle_size": 3,
+        "num_perm": 128,
+        "bands": 16,
+        "threshold": 0.8
+      }
+    },
+    "config_hash": "c845a359606765f9",
+    "counts": {
+      "train": 57631,
+      "validation": 17795,
+      "test": 19554,
+      "excluded": 24974
+    },
+    "id_sha256": {
+      "train": "cb3af363d9ccbf0f0ce6c30b74586c7e087010c48c46bb933240bf87eb4b70ca",
+      "validation": "30e58b66204941fd397cee86ef74d6bd1fcf9f9db72361c2047467a9dc3674bf",
+      "test": "8b78959fe4bbd4b31a7ca627ac0f5fca86b1e1df13a25a7cc3b6c10d5c866fd6",
+      "excluded": "b214bf286473d1c7a2a56efe948265f6c2b654743b9e8fd87fc8d0b8fb5ac9ca"
+    },
+    "stratum_proportions": {
+      "train": {
+        "acceptable": 0.018098,
+        "good": 0.228748,
+        "very_good": 0.356596,
+        "excellent": 0.345994,
+        "superb": 0.049626,
+        "classic": 0.000937
+      },
+      "validation": {
+        "acceptable": 0.019556,
+        "good": 0.230121,
+        "very_good": 0.357235,
+        "excellent": 0.343411,
+        "superb": 0.048441,
+        "classic": 0.001236
+      },
+      "test": {
+        "acceptable": 0.018053,
+        "good": 0.229109,
+        "very_good": 0.349903,
+        "excellent": 0.353074,
+        "superb": 0.048839,
+        "classic": 0.001023
+      },
+      "excluded": {
+        "acceptable": 0.046208,
+        "good": 0.321014,
+        "very_good": 0.318411,
+        "excellent": 0.264595,
+        "superb": 0.04845,
+        "classic": 0.001321
+      }
+    },
+    "dedup": {
+      "n_before": 129971,
+      "n_after": 119954,
+      "n_duplicate_groups": 10011,
+      "n_groups_with_conflicting_scores": 23,
+      "n_removed": 10017
+    },
+    "groups": {
+      "n_rows": 119954,
+      "n_groups": 118773,
+      "n_multi_row_groups": 963,
+      "largest_group": 9,
+      "n_near_dup_pairs": 26,
+      "n_rows_in_near_dup_clusters": 52,
+      "n_rows_sharing_title": 2099
+    }
   }
 }

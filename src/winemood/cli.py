@@ -27,7 +27,12 @@ from winemood.seeding import set_global_seed
 
 logger = get_logger(__name__)
 
-SPLIT_STRATEGIES = {"grouped_v1": "grouped", "taster_holdout_v1": "taster_holdout"}
+SPLIT_STRATEGIES = {
+    "grouped_v1": "grouped",
+    "taster_holdout_v1": "taster_holdout",
+    # H3 comparison split (Phase 3): same rows and sizes as taster_holdout_v1.
+    "taster_random_v1": "taster_random",
+}
 
 
 def _write_json(path: Path, payload: Any) -> None:
@@ -113,7 +118,11 @@ def cmd_split(cfg: Config, args: argparse.Namespace) -> int:
         if not args.check:
             split_dir = cfg.data.processed_dir / "splits" / name
             write_manifest_ids(
-                split_dir, result.data, result.data["split"].to_numpy(), cfg.data.id_column
+                split_dir,
+                result.data,
+                result.data["split"].to_numpy(),
+                cfg.data.id_column,
+                groups=result.data["group"].to_numpy(),
             )
             if name == "grouped_v1":
                 _write_pairs(cfg, result)
@@ -215,6 +224,74 @@ def cmd_eda(cfg: Config, args: argparse.Namespace) -> int:
     return 0
 
 
+def _runner(cfg: Config):
+    from winemood.experiments.runner import Runner
+    from winemood.experiments.spec import load_plan
+
+    return Runner(cfg, load_plan(cfg.experiments.spec))
+
+
+def cmd_exp_list(cfg: Config, args: argparse.Namespace) -> int:
+    runner = _runner(cfg)
+    scope = set(runner.plan.test_scope)
+    for spec in runner.plan.experiments.values():
+        done = "done" if runner.validation_path(spec.id).is_file() else "    "
+        print(
+            f"{done}  {spec.id:28s} {spec.task}  {spec.family:7s} {spec.split:18s} "
+            f"{'TEST' if spec.id in scope else 'val '}  {spec.description}"
+        )
+    return 0
+
+
+def cmd_exp_run(cfg: Config, args: argparse.Namespace) -> int:
+    runner = _runner(cfg)
+    set_global_seed(cfg.seed, include_tensorflow=False)
+    ids = list(runner.plan.experiments) if args.all else args.ids
+    if args.family:
+        ids = [i for i in ids if runner.plan.get(i).family in args.family]
+    for exp_id in ids:
+        if args.skip_done and runner.validation_path(exp_id).is_file():
+            print(f"skip {exp_id} (already run)")
+            continue
+        result = runner.run(exp_id, pilot=args.pilot)
+        if args.pilot:
+            epochs = result["pilot_epoch_seconds"]
+            print(
+                f"PILOT {exp_id}: 1 epoch = {epochs[0]:.0f} s (seq_len {result['seq_len']}); "
+                f"{result['n_configs']} configs + {result['n_seeds'] - 1} extra seeds"
+            )
+        else:
+            task = runner.plan.tasks[result["task"]]
+            value = result["validation_metrics"][task.selection_metric]
+            print(f"{exp_id}: validation {task.selection_metric} = {value:.4f}")
+    return 0
+
+
+def cmd_exp_select(cfg: Config, args: argparse.Namespace) -> int:
+    selection = _runner(cfg).select(allow_missing=args.allow_missing)
+    print(f"final model: {selection['final_model']}")
+    for c in selection["comparisons_on_validation"]:
+        print(f"  {c}")
+    print(
+        f"frozen {sum(e['status'] == 'frozen' for e in selection['test_scope'])} test-scope entries"
+    )
+    return 0
+
+
+def cmd_exp_final(cfg: Config, args: argparse.Namespace) -> int:
+    outputs = _runner(cfg).final(allow_repeat=args.allow_repeat)
+    print(f"evaluated {len(outputs)} entries on test; see results/test/ and the access log")
+    return 0
+
+
+def cmd_exp_report(cfg: Config, args: argparse.Namespace) -> int:
+    from winemood.evaluation.report import build_report
+
+    out = build_report(_runner(cfg), docs_dir=Path(args.docs_dir))
+    print(f"report written: {out}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="winemood", description=__doc__)
     parser.add_argument("--config", default=None, help="path to a TOML config")
@@ -237,6 +314,26 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--publish", action="store_true", help="copy report and figures to docs/")
     p.add_argument("--docs-dir", default=str(REPO_ROOT / "docs"))
     p.set_defaults(func=cmd_eda)
+
+    exp = top.add_parser("exp", help="experiments: run, select, final test evaluation, report")
+    esub = exp.add_subparsers(dest="command", required=True)
+    esub.add_parser("list", help="list experiments and status").set_defaults(func=cmd_exp_list)
+    p = esub.add_parser("run", help="train + validate experiments (never touches test)")
+    p.add_argument("ids", nargs="*")
+    p.add_argument("--all", action="store_true")
+    p.add_argument("--family", action="append", choices=["linear", "lstm", "encoder"])
+    p.add_argument("--skip-done", action="store_true")
+    p.add_argument("--pilot", action="store_true", help="LSTM: time one epoch, save nothing")
+    p.set_defaults(func=cmd_exp_run)
+    p = esub.add_parser("select", help="freeze the test-scope configurations")
+    p.add_argument("--allow-missing", action="store_true", help="record unrun entries as 'not run'")
+    p.set_defaults(func=cmd_exp_select)
+    p = esub.add_parser("final", help="single logged evaluation of the frozen scope on test")
+    p.add_argument("--allow-repeat", action="store_true")
+    p.set_defaults(func=cmd_exp_final)
+    p = esub.add_parser("report", help="statistics, error analysis, figures and docs")
+    p.add_argument("--docs-dir", default=str(REPO_ROOT / "docs"))
+    p.set_defaults(func=cmd_exp_report)
     return parser
 
 
@@ -246,7 +343,7 @@ def main(argv: list[str] | None = None) -> int:
     cfg = load_config(args.config)
     try:
         return int(args.func(cfg, args))
-    except (AcquisitionError, FileNotFoundError) as exc:
+    except (AcquisitionError, FileNotFoundError, PermissionError) as exc:
         logger.error(str(exc))
         return 2
 

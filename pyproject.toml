@@ -30,6 +30,10 @@ winemood = "winemood.cli:main"
 
 [project.optional-dependencies]
 dev = ["pytest>=8,<10", "ruff>=0.14,<0.18"]
+# Frozen-encoder experiment (N2). Install the CPU build of torch first:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+# Verified together: torch 2.14.1+cpu, transformers 5.19.0 (Python 3.13).
+transformer = ["torch>=2.5,<3", "transformers>=4.45,<6"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

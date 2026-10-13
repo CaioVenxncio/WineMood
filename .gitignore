@@ -22,6 +22,8 @@ data/raw/
 data/processed/
 # Generated validation/EDA outputs (regenerate with `winemood data ...`)
 reports/
+# Experiment artifacts: models, predictions, caches (results/ is committed instead)
+experiments/
 artifacts/*
 !artifacts/README.md
 *.h5

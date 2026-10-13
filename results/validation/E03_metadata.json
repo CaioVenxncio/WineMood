@@ -1,0 +1,186 @@
+{
+  "experiment": "E03_metadata",
+  "description": "B2 (reference, not text): taster, country, variety, log price",
+  "hypothesis": null,
+  "task": "T1",
+  "target": "points_regression_v1",
+  "family": "linear",
+  "split": "grouped_v1",
+  "base": null,
+  "selected_config": {
+    "features": {
+      "kind": "metadata"
+    },
+    "head": {
+      "kind": "ridge",
+      "alpha": 0.1
+    }
+  },
+  "config_hash": "11e784728477",
+  "n_configs": 7,
+  "grid": [
+    {
+      "config_hash": "11e784728477",
+      "config": {
+        "features": {
+          "kind": "metadata"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 0.1
+        }
+      },
+      "mae": 1.830514925139089,
+      "n_features": 94,
+      "feature_seconds": 0.19,
+      "fit_seconds": 0.1
+    },
+    {
+      "config_hash": "03f17dee91d7",
+      "config": {
+        "features": {
+          "kind": "metadata"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 0.3
+        }
+      },
+      "mae": 1.8305189046643926,
+      "n_features": 94,
+      "feature_seconds": 0.19,
+      "fit_seconds": 0.07
+    },
+    {
+      "config_hash": "1d48ad88b7d9",
+      "config": {
+        "features": {
+          "kind": "metadata"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 1.0
+        }
+      },
+      "mae": 1.830533631253305,
+      "n_features": 94,
+      "feature_seconds": 0.19,
+      "fit_seconds": 0.07
+    },
+    {
+      "config_hash": "d9c033787c8c",
+      "config": {
+        "features": {
+          "kind": "metadata"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 3.0
+        }
+      },
+      "mae": 1.8305766131574879,
+      "n_features": 94,
+      "feature_seconds": 0.19,
+      "fit_seconds": 0.07
+    },
+    {
+      "config_hash": "04676bc7a8d0",
+      "config": {
+        "features": {
+          "kind": "metadata"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 10.0
+        }
+      },
+      "mae": 1.8307078978855553,
+      "n_features": 94,
+      "feature_seconds": 0.19,
+      "fit_seconds": 0.07
+    },
+    {
+      "config_hash": "7c61d0cb7257",
+      "config": {
+        "features": {
+          "kind": "metadata"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 30.0
+        }
+      },
+      "mae": 1.831109552251582,
+      "n_features": 94,
+      "feature_seconds": 0.19,
+      "fit_seconds": 0.07
+    },
+    {
+      "config_hash": "a18313992a50",
+      "config": {
+        "features": {
+          "kind": "metadata"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 100.0
+        }
+      },
+      "mae": 1.832662049508268,
+      "n_features": 94,
+      "feature_seconds": 0.19,
+      "fit_seconds": 0.07
+    }
+  ],
+  "validation_metrics": {
+    "n": 11996,
+    "mae": 1.830514925139089,
+    "rmse": 2.3104499669532474,
+    "median_ae": 1.542148286820435,
+    "r2": 0.444726531863904,
+    "bias": -0.005390983933149093,
+    "within_1": 0.34336445481827277,
+    "within_2": 0.6237912637545848,
+    "pred_std": 2.0223076024984743,
+    "true_std": 3.1005811822302305
+  },
+  "seeds": [
+    42
+  ],
+  "meta": {
+    "run_id": "E03_metadata-20261013T005548Z-5fe802",
+    "experiment": "E03_metadata",
+    "started": "2026-10-13T00:55:48+00:00",
+    "git": {
+      "commit": "6b178be5495bb219cdd54556ed4ed24dfc7e53a6",
+      "dirty": true
+    },
+    "packages": {
+      "numpy": "2.5.4",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "tensorflow": "2.20.0",
+      "keras": "3.15.1",
+      "torch": null,
+      "transformers": null
+    },
+    "hardware": {
+      "platform": "Windows-10-10.0.19045-SP0",
+      "python": "3.13.14",
+      "processor": "Intel64 Family 6 Model 158 Stepping 10, GenuineIntel",
+      "cpu_count": 6
+    },
+    "split": "grouped_v1",
+    "task": "T1",
+    "family": "linear",
+    "dataset_sha256": "52af2643c8ac29f010f0cc629dfbdda1c74aa0f332d11762af9ef3de4e567ac9",
+    "split_id_sha256": {
+      "train": "6a6a98f390a9d98ee0d50309cf18e320738aaf09ebb21229f00014ef21237332",
+      "validation": "4e01e2d247949916af8f5c9a9752d93b9db350fa3d7e11cb87deebccc486a46b"
+    },
+    "finished": "2026-10-13T00:55:52+00:00",
+    "seconds": 0.8,
+    "status": "ok"
+  }
+}

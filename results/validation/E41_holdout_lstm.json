@@ -1,0 +1,151 @@
+{
+  "experiment": "E41_holdout_lstm",
+  "description": "H3: N1* architecture retrained (early stopping on this split's validation)",
+  "hypothesis": "H3",
+  "task": "T1",
+  "target": "points_regression_v1",
+  "family": "lstm",
+  "split": "taster_holdout_v1",
+  "base": "E10_lstm",
+  "selected_config": {
+    "preprocessing": "norm_legacy_v0",
+    "mask_numbers": "none",
+    "lstm": {
+      "bidirectional": true,
+      "learning_rate": 0.001,
+      "batch_size": 128,
+      "max_epochs": 12,
+      "patience": 2,
+      "vocab_size": 20000,
+      "dropout": 0.4,
+      "embed_dim": 128,
+      "units": 32
+    }
+  },
+  "config_hash": "3b4451552826",
+  "n_configs": 1,
+  "grid": [
+    {
+      "config_hash": "3b4451552826",
+      "config": {
+        "preprocessing": "norm_legacy_v0",
+        "mask_numbers": "none",
+        "lstm": {
+          "bidirectional": true,
+          "learning_rate": 0.001,
+          "batch_size": 128,
+          "max_epochs": 12,
+          "patience": 2,
+          "vocab_size": 20000,
+          "dropout": 0.4,
+          "embed_dim": 128,
+          "units": 32
+        }
+      },
+      "mae": 1.49928737639309,
+      "best_epoch": 1,
+      "seq_len": 37,
+      "seconds": 53.7,
+      "epoch_seconds": [
+        21.1,
+        15.1,
+        15.9
+      ]
+    }
+  ],
+  "seed_runs": [
+    {
+      "seed": 42,
+      "mae": 1.49928737639309,
+      "rmse": 1.898391185841202,
+      "best_epoch": 1,
+      "seconds": 53.7
+    },
+    {
+      "seed": 43,
+      "mae": 1.4962753497405346,
+      "rmse": 1.906134159746427,
+      "best_epoch": 1,
+      "seconds": 53.4
+    },
+    {
+      "seed": 44,
+      "mae": 1.5073235224793218,
+      "rmse": 1.9008172061257225,
+      "best_epoch": 1,
+      "seconds": 48.6
+    }
+  ],
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "validation_metrics": {
+    "n": 17795,
+    "n_seeds": 3,
+    "mae": 1.5009620828709822,
+    "mae_seed_std": 0.005711305591267247,
+    "rmse": 1.9017808505711171,
+    "rmse_seed_std": 0.003960412754638585,
+    "median_ae": 1.249310811360677,
+    "median_ae_seed_std": 0.010159951385296243,
+    "r2": 0.6203043927613724,
+    "r2_seed_std": 0.0015819749037854131,
+    "bias": 0.15992370559736688,
+    "bias_seed_std": 0.19299908392444085,
+    "within_1": 0.41283131965908026,
+    "within_1_seed_std": 0.005956817775520239,
+    "within_2": 0.7151072398613842,
+    "within_2_seed_std": 0.003018561330483625,
+    "pred_std": 2.2357124324529765,
+    "pred_std_seed_std": 0.034007625925005655,
+    "true_std": 3.0863367596440656,
+    "true_std_seed_std": 0.0,
+    "ensemble_mae": 1.4786859386387283,
+    "ensemble_rmse": 1.873057508085552,
+    "ensemble_median_ae": 1.2311477661132812,
+    "ensemble_r2": 0.6316882278147878,
+    "ensemble_bias": 0.15992370559736688,
+    "ensemble_within_1": 0.41787018825512784,
+    "ensemble_within_2": 0.7233492554088227,
+    "ensemble_pred_std": 2.217110076741001,
+    "ensemble_true_std": 3.0863367596440656
+  },
+  "meta": {
+    "run_id": "E41_holdout_lstm-20261013T015111Z-137c7c",
+    "experiment": "E41_holdout_lstm",
+    "started": "2026-10-13T01:51:11+00:00",
+    "git": {
+      "commit": "732ad5485020a65c7d574d4e2c4fd17d2b6ed417",
+      "dirty": true
+    },
+    "packages": {
+      "numpy": "2.5.4",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "tensorflow": "2.20.0",
+      "keras": "3.15.1",
+      "torch": "2.14.1+cpu",
+      "transformers": "5.19.0"
+    },
+    "hardware": {
+      "platform": "Windows-10-10.0.19045-SP0",
+      "python": "3.13.14",
+      "processor": "Intel64 Family 6 Model 158 Stepping 10, GenuineIntel",
+      "cpu_count": 6
+    },
+    "split": "taster_holdout_v1",
+    "task": "T1",
+    "family": "lstm",
+    "dataset_sha256": "52af2643c8ac29f010f0cc629dfbdda1c74aa0f332d11762af9ef3de4e567ac9",
+    "split_id_sha256": {
+      "train": "dee39d9dd6b049886086f31655b44922de4c3e3c7a1df14940294e73a4c43c92",
+      "validation": "0fb686cbc4efb236581b18ee7c2f8db19ad5a7c8364475e00ccc5bbf061b7125"
+    },
+    "finished": "2026-10-13T01:53:55+00:00",
+    "seconds": 163.2,
+    "status": "ok"
+  }
+}

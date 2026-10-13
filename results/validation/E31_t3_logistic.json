@@ -1,0 +1,353 @@
+{
+  "experiment": "E31_t3_logistic",
+  "description": "TF-IDF (B3* vectoriser) + logistic regression",
+  "hypothesis": null,
+  "task": "T3",
+  "target": "points_binary_90_v1",
+  "family": "linear",
+  "split": "grouped_v1",
+  "base": "E04_tfidf_word",
+  "selected_config": {
+    "features": {
+      "kind": "tfidf",
+      "word": {
+        "ngram_range": [
+          1,
+          2
+        ],
+        "min_df": 5
+      },
+      "preprocessing": "norm_min_v1"
+    },
+    "head": {
+      "kind": "logistic",
+      "C": 3.0,
+      "class_weight": "none"
+    }
+  },
+  "config_hash": "f5af5458c3cc",
+  "n_configs": 10,
+  "grid": [
+    {
+      "config_hash": "7fc6299536bb",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "logistic",
+          "C": 0.3,
+          "class_weight": "none"
+        }
+      },
+      "macro_f1": 0.8166421983164385,
+      "n_features": 81413,
+      "feature_seconds": 12.04,
+      "fit_seconds": 0.52
+    },
+    {
+      "config_hash": "7b862c2982b9",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "logistic",
+          "C": 0.3,
+          "class_weight": "balanced"
+        }
+      },
+      "macro_f1": 0.8219676272498723,
+      "n_features": 81413,
+      "feature_seconds": 12.04,
+      "fit_seconds": 0.65
+    },
+    {
+      "config_hash": "5cd4992396ba",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "logistic",
+          "C": 1.0,
+          "class_weight": "none"
+        }
+      },
+      "macro_f1": 0.8337036619645518,
+      "n_features": 81413,
+      "feature_seconds": 12.04,
+      "fit_seconds": 0.93
+    },
+    {
+      "config_hash": "483f2ed52c78",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "logistic",
+          "C": 1.0,
+          "class_weight": "balanced"
+        }
+      },
+      "macro_f1": 0.8329314097924398,
+      "n_features": 81413,
+      "feature_seconds": 12.04,
+      "fit_seconds": 0.52
+    },
+    {
+      "config_hash": "f5af5458c3cc",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "logistic",
+          "C": 3.0,
+          "class_weight": "none"
+        }
+      },
+      "macro_f1": 0.8391851612851524,
+      "n_features": 81413,
+      "feature_seconds": 12.04,
+      "fit_seconds": 1.26
+    },
+    {
+      "config_hash": "55f1413abaa3",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "logistic",
+          "C": 3.0,
+          "class_weight": "balanced"
+        }
+      },
+      "macro_f1": 0.8368164183656874,
+      "n_features": 81413,
+      "feature_seconds": 12.04,
+      "fit_seconds": 0.52
+    },
+    {
+      "config_hash": "4f950a0656b3",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "logistic",
+          "C": 10.0,
+          "class_weight": "none"
+        }
+      },
+      "macro_f1": 0.8340518679458699,
+      "n_features": 81413,
+      "feature_seconds": 12.04,
+      "fit_seconds": 0.96
+    },
+    {
+      "config_hash": "01f3467feda7",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "logistic",
+          "C": 10.0,
+          "class_weight": "balanced"
+        }
+      },
+      "macro_f1": 0.8332208330546949,
+      "n_features": 81413,
+      "feature_seconds": 12.04,
+      "fit_seconds": 0.54
+    },
+    {
+      "config_hash": "10e110de30f1",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "logistic",
+          "C": 30.0,
+          "class_weight": "none"
+        }
+      },
+      "macro_f1": 0.8301456719286209,
+      "n_features": 81413,
+      "feature_seconds": 12.04,
+      "fit_seconds": 1.88
+    },
+    {
+      "config_hash": "6c434e52b461",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "logistic",
+          "C": 30.0,
+          "class_weight": "balanced"
+        }
+      },
+      "macro_f1": 0.8311955141479517,
+      "n_features": 81413,
+      "feature_seconds": 12.04,
+      "fit_seconds": 0.81
+    }
+  ],
+  "validation_metrics": {
+    "n": 11996,
+    "macro_f1": 0.8391851612851524,
+    "weighted_f1": 0.8489788804272418,
+    "balanced_accuracy": 0.8368683530524856,
+    "accuracy": 0.8495331777259086,
+    "per_class": {
+      "below_90": {
+        "precision": 0.8705433495592685,
+        "recall": 0.8896208658241462,
+        "f1": 0.879978721989494,
+        "support": 7438
+      },
+      "at_least_90": {
+        "precision": 0.8131968145620023,
+        "recall": 0.7841158402808249,
+        "f1": 0.7983916005808109,
+        "support": 4558
+      }
+    },
+    "confusion_matrix": [
+      [
+        6617,
+        821
+      ],
+      [
+        984,
+        3574
+      ]
+    ],
+    "brier": 0.10587226832390847
+  },
+  "seeds": [
+    42
+  ],
+  "meta": {
+    "run_id": "E31_t3_logistic-20261013T011138Z-ff01f5",
+    "experiment": "E31_t3_logistic",
+    "started": "2026-10-13T01:11:38+00:00",
+    "git": {
+      "commit": "732ad5485020a65c7d574d4e2c4fd17d2b6ed417",
+      "dirty": true
+    },
+    "packages": {
+      "numpy": "2.5.4",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "tensorflow": "2.20.0",
+      "keras": "3.15.1",
+      "torch": "2.14.1+cpu",
+      "transformers": "5.19.0"
+    },
+    "hardware": {
+      "platform": "Windows-10-10.0.19045-SP0",
+      "python": "3.13.14",
+      "processor": "Intel64 Family 6 Model 158 Stepping 10, GenuineIntel",
+      "cpu_count": 6
+    },
+    "split": "grouped_v1",
+    "task": "T3",
+    "family": "linear",
+    "dataset_sha256": "52af2643c8ac29f010f0cc629dfbdda1c74aa0f332d11762af9ef3de4e567ac9",
+    "split_id_sha256": {
+      "train": "6a6a98f390a9d98ee0d50309cf18e320738aaf09ebb21229f00014ef21237332",
+      "validation": "4e01e2d247949916af8f5c9a9752d93b9db350fa3d7e11cb87deebccc486a46b"
+    },
+    "finished": "2026-10-13T01:11:59+00:00",
+    "seconds": 20.8,
+    "status": "ok"
+  }
+}

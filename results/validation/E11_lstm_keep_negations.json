@@ -1,0 +1,167 @@
+{
+  "experiment": "E11_lstm_keep_negations",
+  "description": "H5: N1* with negation words kept",
+  "hypothesis": "H5",
+  "task": "T1",
+  "target": "points_regression_v1",
+  "family": "lstm",
+  "split": "grouped_v1",
+  "base": "E10_lstm",
+  "selected_config": {
+    "preprocessing": "keep_negations",
+    "mask_numbers": "none",
+    "lstm": {
+      "bidirectional": true,
+      "learning_rate": 0.001,
+      "batch_size": 128,
+      "max_epochs": 12,
+      "patience": 2,
+      "vocab_size": 20000,
+      "dropout": 0.4,
+      "embed_dim": 128,
+      "units": 32
+    }
+  },
+  "config_hash": "c6d033518932",
+  "n_configs": 1,
+  "grid": [
+    {
+      "config_hash": "c6d033518932",
+      "config": {
+        "preprocessing": "keep_negations",
+        "mask_numbers": "none",
+        "lstm": {
+          "bidirectional": true,
+          "learning_rate": 0.001,
+          "batch_size": 128,
+          "max_epochs": 12,
+          "patience": 2,
+          "vocab_size": 20000,
+          "dropout": 0.4,
+          "embed_dim": 128,
+          "units": 32
+        }
+      },
+      "mae": 1.2879855024611881,
+      "best_epoch": 1,
+      "seq_len": 37,
+      "seconds": 61.8,
+      "epoch_seconds": [
+        22.2,
+        18.8,
+        18.7
+      ]
+    }
+  ],
+  "seed_runs": [
+    {
+      "seed": 42,
+      "mae": 1.2879855024611881,
+      "rmse": 1.6416846229438518,
+      "best_epoch": 1,
+      "seconds": 61.8
+    },
+    {
+      "seed": 43,
+      "mae": 1.3039558495867845,
+      "rmse": 1.653793644349523,
+      "best_epoch": 1,
+      "seconds": 62.5
+    },
+    {
+      "seed": 44,
+      "mae": 1.2799591917958248,
+      "rmse": 1.626273647878188,
+      "best_epoch": 1,
+      "seconds": 67.0
+    },
+    {
+      "seed": 45,
+      "mae": 1.285300094869066,
+      "rmse": 1.6363029008420449,
+      "best_epoch": 2,
+      "seconds": 81.4
+    },
+    {
+      "seed": 46,
+      "mae": 1.2858968062494627,
+      "rmse": 1.6377233707215728,
+      "best_epoch": 2,
+      "seconds": 81.4
+    }
+  ],
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "validation_metrics": {
+    "n": 11996,
+    "n_seeds": 5,
+    "mae": 1.2886194889924654,
+    "mae_seed_std": 0.009069702605384403,
+    "rmse": 1.6391556373470362,
+    "rmse_seed_std": 0.00995994682569379,
+    "median_ae": 1.0589515686035156,
+    "median_ae_seed_std": 0.012570589037930895,
+    "r2": 0.7205095345323402,
+    "r2_seed_std": 0.003399014395966778,
+    "bias": -0.09190967466959202,
+    "bias_seed_std": 0.08629753390780684,
+    "within_1": 0.47599199733244413,
+    "within_1_seed_std": 0.004770193983349825,
+    "within_2": 0.7854451483827942,
+    "within_2_seed_std": 0.001962441880742635,
+    "pred_std": 2.506593752048645,
+    "pred_std_seed_std": 0.09662169003523685,
+    "true_std": 3.1005811822302305,
+    "true_std_seed_std": 0.0,
+    "ensemble_mae": 1.25479833266464,
+    "ensemble_rmse": 1.5960332664195351,
+    "ensemble_median_ae": 1.0318008422851577,
+    "ensemble_r2": 0.7350294150254185,
+    "ensemble_bias": -0.09190967466959203,
+    "ensemble_within_1": 0.4874124708236079,
+    "ensemble_within_2": 0.797349116372124,
+    "ensemble_pred_std": 2.4813001176244276,
+    "ensemble_true_std": 3.1005811822302305
+  },
+  "meta": {
+    "run_id": "E11_lstm_keep_negations-20261013T014507Z-078d48",
+    "experiment": "E11_lstm_keep_negations",
+    "started": "2026-10-13T01:45:07+00:00",
+    "git": {
+      "commit": "732ad5485020a65c7d574d4e2c4fd17d2b6ed417",
+      "dirty": true
+    },
+    "packages": {
+      "numpy": "2.5.4",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "tensorflow": "2.20.0",
+      "keras": "3.15.1",
+      "torch": "2.14.1+cpu",
+      "transformers": "5.19.0"
+    },
+    "hardware": {
+      "platform": "Windows-10-10.0.19045-SP0",
+      "python": "3.13.14",
+      "processor": "Intel64 Family 6 Model 158 Stepping 10, GenuineIntel",
+      "cpu_count": 6
+    },
+    "split": "grouped_v1",
+    "task": "T1",
+    "family": "lstm",
+    "dataset_sha256": "52af2643c8ac29f010f0cc629dfbdda1c74aa0f332d11762af9ef3de4e567ac9",
+    "split_id_sha256": {
+      "train": "6a6a98f390a9d98ee0d50309cf18e320738aaf09ebb21229f00014ef21237332",
+      "validation": "4e01e2d247949916af8f5c9a9752d93b9db350fa3d7e11cb87deebccc486a46b"
+    },
+    "finished": "2026-10-13T01:51:11+00:00",
+    "seconds": 364.2,
+    "status": "ok"
+  }
+}

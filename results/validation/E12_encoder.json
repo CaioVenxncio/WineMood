@@ -1,0 +1,210 @@
+{
+  "experiment": "E12_encoder",
+  "description": "N2: frozen all-MiniLM-L6-v2 mean-pooled embeddings + Ridge",
+  "hypothesis": "H2",
+  "task": "T1",
+  "target": "points_regression_v1",
+  "family": "encoder",
+  "split": "grouped_v1",
+  "base": null,
+  "selected_config": {
+    "features": {
+      "kind": "encoder",
+      "word": false,
+      "encoder_model": "sentence-transformers/all-MiniLM-L6-v2"
+    },
+    "head": {
+      "kind": "ridge",
+      "alpha": 0.01
+    }
+  },
+  "config_hash": "62ff052d2310",
+  "n_configs": 7,
+  "grid": [
+    {
+      "config_hash": "62ff052d2310",
+      "config": {
+        "features": {
+          "kind": "encoder",
+          "word": false,
+          "encoder_model": "sentence-transformers/all-MiniLM-L6-v2"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 0.01
+        }
+      },
+      "mae": 1.6842945984658817,
+      "n_features": 384,
+      "feature_seconds": 971.92,
+      "fit_seconds": 0.43
+    },
+    {
+      "config_hash": "81e857f957b3",
+      "config": {
+        "features": {
+          "kind": "encoder",
+          "word": false,
+          "encoder_model": "sentence-transformers/all-MiniLM-L6-v2"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 0.1
+        }
+      },
+      "mae": 1.684368865729054,
+      "n_features": 384,
+      "feature_seconds": 971.92,
+      "fit_seconds": 0.15
+    },
+    {
+      "config_hash": "4c72284f4514",
+      "config": {
+        "features": {
+          "kind": "encoder",
+          "word": false,
+          "encoder_model": "sentence-transformers/all-MiniLM-L6-v2"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 0.3
+        }
+      },
+      "mae": 1.6848456712539652,
+      "n_features": 384,
+      "feature_seconds": 971.92,
+      "fit_seconds": 0.16
+    },
+    {
+      "config_hash": "aa729ab0b2e1",
+      "config": {
+        "features": {
+          "kind": "encoder",
+          "word": false,
+          "encoder_model": "sentence-transformers/all-MiniLM-L6-v2"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 1.0
+        }
+      },
+      "mae": 1.688031635643115,
+      "n_features": 384,
+      "feature_seconds": 971.92,
+      "fit_seconds": 0.16
+    },
+    {
+      "config_hash": "b38486beeb2e",
+      "config": {
+        "features": {
+          "kind": "encoder",
+          "word": false,
+          "encoder_model": "sentence-transformers/all-MiniLM-L6-v2"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 3.0
+        }
+      },
+      "mae": 1.6992893008196621,
+      "n_features": 384,
+      "feature_seconds": 971.92,
+      "fit_seconds": 0.16
+    },
+    {
+      "config_hash": "364489660604",
+      "config": {
+        "features": {
+          "kind": "encoder",
+          "word": false,
+          "encoder_model": "sentence-transformers/all-MiniLM-L6-v2"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 10.0
+        }
+      },
+      "mae": 1.72960693441473,
+      "n_features": 384,
+      "feature_seconds": 971.92,
+      "fit_seconds": 0.16
+    },
+    {
+      "config_hash": "2d432943eeda",
+      "config": {
+        "features": {
+          "kind": "encoder",
+          "word": false,
+          "encoder_model": "sentence-transformers/all-MiniLM-L6-v2"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 30.0
+        }
+      },
+      "mae": 1.7802700986610567,
+      "n_features": 384,
+      "feature_seconds": 971.92,
+      "fit_seconds": 0.17
+    }
+  ],
+  "validation_metrics": {
+    "n": 11996,
+    "mae": 1.6842945984658817,
+    "rmse": 2.1142809772855182,
+    "median_ae": 1.4337358474731445,
+    "r2": 0.5350147347995187,
+    "bias": -0.002365415137622626,
+    "within_1": 0.3638712904301434,
+    "within_2": 0.6561353784594864,
+    "pred_std": 2.2593998874494527,
+    "true_std": 3.1005811822302305
+  },
+  "seeds": [
+    42
+  ],
+  "encoder": {
+    "model": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "max_length": 128,
+    "pooling": "mean",
+    "normalised": true,
+    "fine_tuned": false
+  },
+  "meta": {
+    "run_id": "E12_encoder-20261013T011521Z-49aea5",
+    "experiment": "E12_encoder",
+    "started": "2026-10-13T01:15:21+00:00",
+    "git": {
+      "commit": "732ad5485020a65c7d574d4e2c4fd17d2b6ed417",
+      "dirty": true
+    },
+    "packages": {
+      "numpy": "2.5.4",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "tensorflow": "2.20.0",
+      "keras": "3.15.1",
+      "torch": "2.14.1+cpu",
+      "transformers": "5.19.0"
+    },
+    "hardware": {
+      "platform": "Windows-10-10.0.19045-SP0",
+      "python": "3.13.14",
+      "processor": "Intel64 Family 6 Model 158 Stepping 10, GenuineIntel",
+      "cpu_count": 6
+    },
+    "split": "grouped_v1",
+    "task": "T1",
+    "family": "encoder",
+    "dataset_sha256": "52af2643c8ac29f010f0cc629dfbdda1c74aa0f332d11762af9ef3de4e567ac9",
+    "split_id_sha256": {
+      "train": "6a6a98f390a9d98ee0d50309cf18e320738aaf09ebb21229f00014ef21237332",
+      "validation": "4e01e2d247949916af8f5c9a9752d93b9db350fa3d7e11cb87deebccc486a46b"
+    },
+    "finished": "2026-10-13T01:31:38+00:00",
+    "seconds": 973.4,
+    "status": "ok"
+  }
+}

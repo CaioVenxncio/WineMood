@@ -1,0 +1,108 @@
+{
+  "experiment": "E30_t3_majority",
+  "description": "Dummy (most frequent class)",
+  "hypothesis": null,
+  "task": "T3",
+  "target": "points_binary_90_v1",
+  "family": "linear",
+  "split": "grouped_v1",
+  "base": null,
+  "selected_config": {
+    "features": {
+      "kind": "none"
+    },
+    "head": {
+      "kind": "majority"
+    }
+  },
+  "config_hash": "58f8d09950f3",
+  "n_configs": 1,
+  "grid": [
+    {
+      "config_hash": "58f8d09950f3",
+      "config": {
+        "features": {
+          "kind": "none"
+        },
+        "head": {
+          "kind": "majority"
+        }
+      },
+      "macro_f1": 0.38273129566738706,
+      "n_features": 0,
+      "feature_seconds": 0.0,
+      "fit_seconds": 0.0
+    }
+  ],
+  "validation_metrics": {
+    "n": 11996,
+    "macro_f1": 0.38273129566738706,
+    "weighted_f1": 0.47461743534078443,
+    "balanced_accuracy": 0.5,
+    "accuracy": 0.6200400133377792,
+    "per_class": {
+      "below_90": {
+        "precision": 0.6200400133377792,
+        "recall": 1.0,
+        "f1": 0.7654625913347741,
+        "support": 7438
+      },
+      "at_least_90": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 4558
+      }
+    },
+    "confusion_matrix": [
+      [
+        7438,
+        0
+      ],
+      [
+        4558,
+        0
+      ]
+    ],
+    "brier": 0.23559039531270087
+  },
+  "seeds": [
+    42
+  ],
+  "meta": {
+    "run_id": "E30_t3_majority-20261013T011138Z-58faeb",
+    "experiment": "E30_t3_majority",
+    "started": "2026-10-13T01:11:38+00:00",
+    "git": {
+      "commit": "732ad5485020a65c7d574d4e2c4fd17d2b6ed417",
+      "dirty": true
+    },
+    "packages": {
+      "numpy": "2.5.4",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "tensorflow": "2.20.0",
+      "keras": "3.15.1",
+      "torch": "2.14.1+cpu",
+      "transformers": "5.19.0"
+    },
+    "hardware": {
+      "platform": "Windows-10-10.0.19045-SP0",
+      "python": "3.13.14",
+      "processor": "Intel64 Family 6 Model 158 Stepping 10, GenuineIntel",
+      "cpu_count": 6
+    },
+    "split": "grouped_v1",
+    "task": "T3",
+    "family": "linear",
+    "dataset_sha256": "52af2643c8ac29f010f0cc629dfbdda1c74aa0f332d11762af9ef3de4e567ac9",
+    "split_id_sha256": {
+      "train": "6a6a98f390a9d98ee0d50309cf18e320738aaf09ebb21229f00014ef21237332",
+      "validation": "4e01e2d247949916af8f5c9a9752d93b9db350fa3d7e11cb87deebccc486a46b"
+    },
+    "finished": "2026-10-13T01:11:38+00:00",
+    "seconds": 0.1,
+    "status": "ok"
+  }
+}
