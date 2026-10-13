@@ -206,6 +206,14 @@ Findings with tooling in place, awaiting application in later phases: A-01
   rule. Every remaining ignored path is intentional: data, manifests,
   experiment artifacts, packaged/installed models, generated reports, caches,
   virtual environments.
+- *Consequence for linting:* Ruff honours `.gitignore`, so the hidden files
+  had never been linted or formatted. They were formatted in the
+  pre-publication commit that follows `d7b1e29`. For `spec.py`, `data.py`,
+  `tracking.py` and `__init__.py`, the Python AST is identical to `a5f2313`.
+  For `runner.py`, the only AST difference is the order of three names in one
+  `from … import` statement, introduced by import sorting; the ASTs are
+  identical once those names are sorted. Behaviour is therefore unchanged,
+  and `a5f2313` remains the byte-exact record of the executed code.
 - *Frozen records intact:*
   - `results/selection.json`, `results/test/`, `results/validation/`,
     `results/test_access_log.jsonl`, `data/split_fingerprints.json` and

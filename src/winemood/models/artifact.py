@@ -52,10 +52,12 @@ def _sha256(path: Path) -> str:
 
 
 def _artifact_files(directory: Path) -> list[Path]:
-    files = [directory / "run.json"] + sorted((directory / "model").glob("*"))
+    files = [directory / "run.json", *sorted((directory / "model").glob("*"))]
     missing = [str(f) for f in files if not f.is_file()]
     if missing or not (directory / "model").is_dir():
-        raise ArtifactVerificationError(f"Artifact incomplete in {directory}: {missing or 'model/'}")
+        raise ArtifactVerificationError(
+            f"Artifact incomplete in {directory}: {missing or 'model/'}"
+        )
     return files
 
 

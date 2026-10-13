@@ -16,7 +16,12 @@ import pandas as pd
 from winemood.config import Config
 from winemood.data.acquire import verify_checksum
 from winemood.data.ingest import load_reviews
-from winemood.data.protocol import drop_exact_duplicates, fingerprint_ids, load_groups, load_split_ids
+from winemood.data.protocol import (
+    drop_exact_duplicates,
+    fingerprint_ids,
+    load_groups,
+    load_split_ids,
+)
 
 
 class SplitIntegrityError(RuntimeError):
@@ -58,7 +63,11 @@ def committed_fingerprints(cfg: Config) -> dict:
 
 
 def load_split(
-    cfg: Config, name: str, parts: tuple[str, ...] = ("train", "validation"), *, allow_test: bool = False
+    cfg: Config,
+    name: str,
+    parts: tuple[str, ...] = ("train", "validation"),
+    *,
+    allow_test: bool = False,
 ) -> SplitData:
     if "test" in parts and not allow_test:
         raise TestAccessError(

@@ -19,7 +19,7 @@ import pandas as pd
 
 from winemood.config import Config
 from winemood.data.labels import RegressionTarget, assign_labels, get_scheme
-from winemood.evaluation.bootstrap import paired_difference, regression_stats, REGRESSION_METRICS
+from winemood.evaluation.bootstrap import REGRESSION_METRICS, paired_difference, regression_stats
 from winemood.evaluation.metrics import (
     classification_metrics,
     clip_scores,
@@ -125,7 +125,9 @@ class Runner:
         if cached is None or (revision and cached.revision != revision):
             from winemood.models.encoder import FrozenEncoder
 
-            self._encoders[name] = FrozenEncoder(name, revision=revision, threads=self.cfg_threads())
+            self._encoders[name] = FrozenEncoder(
+                name, revision=revision, threads=self.cfg_threads()
+            )
         return self._encoders[name]
 
     @staticmethod
@@ -245,9 +247,18 @@ class Runner:
                     }
                 )
                 if best is None or self._better(task, value, best["value"]):
-                    best = {"config": c, "pipe": pipe, "head": head, "pred": pred,
-                            "proba": proba, "metrics": metrics, "value": value}
-            logger.info("feature block evaluated", extra={"experiment": spec.id, "configs": len(group)})
+                    best = {
+                        "config": c,
+                        "pipe": pipe,
+                        "head": head,
+                        "pred": pred,
+                        "proba": proba,
+                        "metrics": metrics,
+                        "value": value,
+                    }
+            logger.info(
+                "feature block evaluated", extra={"experiment": spec.id, "configs": len(group)}
+            )
 
         assert best is not None
         out_dir = self.artifact_dir(spec) / "model"
@@ -255,7 +266,11 @@ class Runner:
         best["head"].save(out_dir)
         write_json(out_dir / "config.json", best["config"])
         self._write_predictions(
-            self.artifact_dir(spec) / "validation_predictions.csv", val, y_va, best["pred"], best["proba"]
+            self.artifact_dir(spec) / "validation_predictions.csv",
+            val,
+            y_va,
+            best["pred"],
+            best["proba"],
         )
         pd.DataFrame(
             [{k: (json.dumps(v) if k == "config" else v) for k, v in r.items()} for r in rows]
@@ -296,11 +311,20 @@ class Runner:
         if pilot:
             c = configs[0]
             res = lstm.train_lstm(
-                self._sequence_texts(c, train), y_tr, self._sequence_texts(c, val), y_va,
-                c["lstm"], first_seed, max_epochs=1,
+                self._sequence_texts(c, train),
+                y_tr,
+                self._sequence_texts(c, val),
+                y_va,
+                c["lstm"],
+                first_seed,
+                max_epochs=1,
             )
-            return {"pilot_epoch_seconds": res.epoch_seconds, "seq_len": res.seq_len,
-                    "n_configs": len(configs), "n_seeds": len(spec.seeds)}
+            return {
+                "pilot_epoch_seconds": res.epoch_seconds,
+                "seq_len": res.seq_len,
+                "n_configs": len(configs),
+                "n_seeds": len(spec.seeds),
+            }
 
         rows, best = [], None
         text_cache: dict[str, tuple[list[str], list[str]]] = {}
@@ -312,12 +336,21 @@ class Runner:
             res = lstm.train_lstm(tr_texts, y_tr, va_texts, y_va, c["lstm"], first_seed)
             pred = clip_scores(lstm.predict(res.model, va_texts))
             metrics = regression_metrics(y_va, pred)
-            rows.append({"config_hash": config_hash(c), "config": c, "mae": metrics["mae"],
-                         "best_epoch": res.best_epoch, "seq_len": res.seq_len,
-                         "seconds": round(res.seconds, 1),
-                         "epoch_seconds": [round(s, 1) for s in res.epoch_seconds]})
-            logger.info("lstm config evaluated",
-                        extra={"experiment": spec.id, "mae": metrics["mae"], "seconds": round(res.seconds)})
+            rows.append(
+                {
+                    "config_hash": config_hash(c),
+                    "config": c,
+                    "mae": metrics["mae"],
+                    "best_epoch": res.best_epoch,
+                    "seq_len": res.seq_len,
+                    "seconds": round(res.seconds, 1),
+                    "epoch_seconds": [round(s, 1) for s in res.epoch_seconds],
+                }
+            )
+            logger.info(
+                "lstm config evaluated",
+                extra={"experiment": spec.id, "mae": metrics["mae"], "seconds": round(res.seconds)},
+            )
             if best is None or metrics["mae"] < best["mae"]:
                 best = {"config": c, "result": res, "pred": pred, "mae": metrics["mae"], "key": key}
 
@@ -334,14 +367,27 @@ class Runner:
             write_json(self.artifact_dir(spec) / f"model_seed{seed}" / "history.json", res.history)
             preds[seed] = pred
             m = regression_metrics(y_va, pred)
-            seed_runs.append({"seed": seed, "mae": m["mae"], "rmse": m["rmse"],
-                              "best_epoch": res.best_epoch, "seconds": round(res.seconds, 1)})
-            logger.info("lstm seed done", extra={"experiment": spec.id, "seed": seed, "mae": m["mae"]})
+            seed_runs.append(
+                {
+                    "seed": seed,
+                    "mae": m["mae"],
+                    "rmse": m["rmse"],
+                    "best_epoch": res.best_epoch,
+                    "seconds": round(res.seconds, 1),
+                }
+            )
+            logger.info(
+                "lstm seed done", extra={"experiment": spec.id, "seed": seed, "mae": m["mae"]}
+            )
         write_json(self.artifact_dir(spec) / "config.json", best["config"])
         pred_matrix = np.vstack([preds[s] for s in spec.seeds])
         self._write_predictions(
-            self.artifact_dir(spec) / "validation_predictions.csv", val, y_va,
-            pred_matrix.mean(axis=0), None, seed_preds={s: preds[s] for s in spec.seeds},
+            self.artifact_dir(spec) / "validation_predictions.csv",
+            val,
+            y_va,
+            pred_matrix.mean(axis=0),
+            None,
+            seed_preds={s: preds[s] for s in spec.seeds},
         )
         return {
             "selected_config": best["config"],
@@ -354,8 +400,15 @@ class Runner:
         }
 
     # -- predictions I/O ------------------------------------------------------------------
-    def _write_predictions(self, path: Path, frame: pd.DataFrame, y, pred, proba=None,
-                           seed_preds: dict[int, np.ndarray] | None = None) -> None:
+    def _write_predictions(
+        self,
+        path: Path,
+        frame: pd.DataFrame,
+        y,
+        pred,
+        proba=None,
+        seed_preds: dict[int, np.ndarray] | None = None,
+    ) -> None:
         idc = self.cfg.data.id_column
         table = pd.DataFrame({idc: frame[idc].to_numpy(), "y_true": y, "y_pred": pred})
         if proba is not None:
@@ -371,7 +424,9 @@ class Runner:
         return pd.read_csv(self.artifact_dir(spec) / f"{part}_predictions.csv")
 
     # -- selection -------------------------------------------------------------------------
-    def select(self, *, allow_missing: bool = False, n_resamples: int | None = None) -> dict[str, Any]:
+    def select(
+        self, *, allow_missing: bool = False, n_resamples: int | None = None
+    ) -> dict[str, Any]:
         n_resamples = n_resamples or self.cfg.experiments.bootstrap_resamples
         scope = []
         for exp_id in self.plan.test_scope:
@@ -382,15 +437,25 @@ class Runner:
                 scope.append({"experiment": exp_id, "status": "not run"})
                 continue
             res = read_json(path)
-            scope.append({"experiment": exp_id, "status": "frozen", "config_hash": res["config_hash"],
-                          "split": res["split"], "task": res["task"], "seeds": res.get("seeds")})
+            scope.append(
+                {
+                    "experiment": exp_id,
+                    "status": "frozen",
+                    "config_hash": res["config_hash"],
+                    "split": res["split"],
+                    "task": res["task"],
+                    "seeds": res.get("seeds"),
+                }
+            )
         final_model, comparisons = self._choose_final_model(n_resamples)
         selection = {
             "frozen": True,
             "frozen_at": now_iso(),
             "rule": (
                 "Primary criterion: validation MAE on grouped_v1 (T1). Candidates in order of "
-                "complexity: " + ", ".join(T1_CANDIDATES) + ". A more complex candidate replaces the "
+                "complexity: "
+                + ", ".join(T1_CANDIDATES)
+                + ". A more complex candidate replaces the "
                 "current choice only if it has lower validation MAE AND the 95% paired cluster-"
                 "bootstrap CI of the MAE difference excludes 0."
             ),
@@ -430,11 +495,23 @@ class Runner:
             if not np.array_equal(cur_ids, ids):
                 raise ExperimentError("validation predictions are not aligned by review_id")
             stats = regression_stats(y, preds)
-            diff = paired_difference(cur_stats, stats, groups, REGRESSION_METRICS["mae"],
-                                     n_resamples=n_resamples, seed=self.cfg.seed)
+            diff = paired_difference(
+                cur_stats,
+                stats,
+                groups,
+                REGRESSION_METRICS["mae"],
+                n_resamples=n_resamples,
+                seed=self.cfg.seed,
+            )
             switch = diff.estimate > 0 and diff.excludes_zero()
-            comparisons.append({"current": cur_id, "candidate": exp_id,
-                                "mae_current_minus_candidate": diff.as_dict(), "switch": switch})
+            comparisons.append(
+                {
+                    "current": cur_id,
+                    "candidate": exp_id,
+                    "mae_current_minus_candidate": diff.as_dict(),
+                    "switch": switch,
+                }
+            )
             if switch:
                 current = (exp_id, ids, stats)
         return (current[0] if current else None), comparisons
@@ -449,10 +526,15 @@ class Runner:
             config = read_json(directory / "config.json")
             texts = self._sequence_texts(config, frame)
             seeds = read_json(directory / "run.json")["seeds"]
-            seed_preds = {s: clip_scores(lstm.predict(lstm.load(directory / f"model_seed{s}"), texts))
-                          for s in seeds}
-            return {"pred": np.mean(list(seed_preds.values()), axis=0), "proba": None,
-                    "seed_preds": seed_preds}
+            seed_preds = {
+                s: clip_scores(lstm.predict(lstm.load(directory / f"model_seed{s}"), texts))
+                for s in seeds
+            }
+            return {
+                "pred": np.mean(list(seed_preds.values()), axis=0),
+                "proba": None,
+                "seed_preds": seed_preds,
+            }
         pipe = FeaturePipeline.load(directory / "model", stopwords=self.stopwords)
         head = Head.load(directory / "model")
         if pipe.spec.kind == "encoder":
@@ -467,7 +549,10 @@ class Runner:
         outputs = []
         for entry in selection["test_scope"]:
             if entry["status"] != "frozen":
-                logger.warning("skipping experiment that was not run", extra={"experiment": entry["experiment"]})
+                logger.warning(
+                    "skipping experiment that was not run",
+                    extra={"experiment": entry["experiment"]},
+                )
                 continue
             outputs.append(self._final_one(entry, allow_repeat=allow_repeat))
         if selection.get("final_model"):
@@ -489,17 +574,34 @@ class Runner:
         out = self.predict_saved(spec, test)
         seed_metrics = None
         if out["seed_preds"]:
-            seed_metrics = [{"seed": s, **regression_metrics(y, p)} for s, p in out["seed_preds"].items()]
+            seed_metrics = [
+                {"seed": s, **regression_metrics(y, p)} for s, p in out["seed_preds"].items()
+            ]
             metrics = seed_summary(y, out["seed_preds"])
         else:
             metrics = self._score(task, y, out["pred"], out["proba"])
-        self._write_predictions(self.artifact_dir(spec) / "test_predictions.csv", test, y,
-                                out["pred"], out["proba"], seed_preds=out["seed_preds"])
-        payload = {"experiment": spec.id, "task": spec.task, "split": spec.split,
-                   "config_hash": entry["config_hash"], "evaluated_at": now_iso(),
-                   "test_metrics": metrics, "seed_metrics": seed_metrics}
+        self._write_predictions(
+            self.artifact_dir(spec) / "test_predictions.csv",
+            test,
+            y,
+            out["pred"],
+            out["proba"],
+            seed_preds=out["seed_preds"],
+        )
+        payload = {
+            "experiment": spec.id,
+            "task": spec.task,
+            "split": spec.split,
+            "config_hash": entry["config_hash"],
+            "evaluated_at": now_iso(),
+            "test_metrics": metrics,
+            "seed_metrics": seed_metrics,
+        }
         write_json(self.test_path(spec.id), payload)
-        logger.info("test evaluation", extra={"experiment": spec.id, task.selection_metric: metrics[task.selection_metric]})
+        logger.info(
+            "test evaluation",
+            extra={"experiment": spec.id, task.selection_metric: metrics[task.selection_metric]},
+        )
         return payload
 
     def _final_derived(self, final_model: str, *, allow_repeat: bool) -> list[dict[str, Any]]:
@@ -513,14 +615,26 @@ class Runner:
             exp_id = f"E16_{final_model}_as_{task_name}"
             cfg_hash = config_hash({"derived_from": final_model, "task": task_name})
             guard_test_access(self.results, exp_id, cfg_hash, allow_repeat=allow_repeat)
-            log_test_access(self.results, exp_id, cfg_hash, "grouped_v1", repeat=allow_repeat,
-                            note=f"derived from {final_model} test predictions; no new model")
+            log_test_access(
+                self.results,
+                exp_id,
+                cfg_hash,
+                "grouped_v1",
+                repeat=allow_repeat,
+                note=f"derived from {final_model} test predictions; no new model",
+            )
             y = assign_labels(pd.Series(points), scheme).to_numpy()
             pred = scores_to_classes(table["y_pred"].to_numpy(), scheme)
             metrics = classification_metrics(y, pred, scheme)
-            payload = {"experiment": exp_id, "task": task_name, "split": "grouped_v1",
-                       "config_hash": cfg_hash, "derived_from": final_model,
-                       "evaluated_at": now_iso(), "test_metrics": metrics}
+            payload = {
+                "experiment": exp_id,
+                "task": task_name,
+                "split": "grouped_v1",
+                "config_hash": cfg_hash,
+                "derived_from": final_model,
+                "evaluated_at": now_iso(),
+                "test_metrics": metrics,
+            }
             write_json(self.test_path(exp_id), payload)
             outputs.append(payload)
         return outputs

@@ -52,7 +52,10 @@ def git_state() -> dict[str, Any]:
             return None
 
     status = run("status", "--porcelain")
-    return {"commit": run("rev-parse", "HEAD"), "dirty": bool(status) if status is not None else None}
+    return {
+        "commit": run("rev-parse", "HEAD"),
+        "dirty": bool(status) if status is not None else None,
+    }
 
 
 def package_versions() -> dict[str, str | None]:
@@ -129,7 +132,16 @@ def _json_default(obj: Any) -> Any:
 def append_registry(experiments_dir: Path, row: dict[str, Any]) -> None:
     path = experiments_dir / "registry.csv"
     path.parent.mkdir(parents=True, exist_ok=True)
-    fields = ["run_id", "experiment", "split", "status", "seconds", "selected_hash", "metric", "value"]
+    fields = [
+        "run_id",
+        "experiment",
+        "split",
+        "status",
+        "seconds",
+        "selected_hash",
+        "metric",
+        "value",
+    ]
     new = not path.is_file()
     with path.open("a", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(fh, fieldnames=fields, extrasaction="ignore")
@@ -162,11 +174,15 @@ def guard_test_access(
     """Refuse without a frozen selection; refuse repeats unless explicitly allowed."""
     selection = results_dir / "selection.json"
     if not selection.is_file():
-        raise TestGuardError("No frozen selection (results/selection.json); run 'winemood exp select'.")
+        raise TestGuardError(
+            "No frozen selection (results/selection.json); run 'winemood exp select'."
+        )
     if not read_json(selection).get("frozen"):
         raise TestGuardError("results/selection.json is not marked frozen")
     previous = [
-        a for a in logged_accesses(results_dir) if a["experiment"] == exp_id and a["config_hash"] == cfg_hash
+        a
+        for a in logged_accesses(results_dir)
+        if a["experiment"] == exp_id and a["config_hash"] == cfg_hash
     ]
     if previous and not allow_repeat:
         raise TestGuardError(
