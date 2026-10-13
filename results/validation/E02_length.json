@@ -1,0 +1,88 @@
+{
+  "experiment": "E02_length",
+  "description": "B1: OLS on word and character counts only",
+  "hypothesis": null,
+  "task": "T1",
+  "target": "points_regression_v1",
+  "family": "linear",
+  "split": "grouped_v1",
+  "base": null,
+  "selected_config": {
+    "features": {
+      "kind": "length"
+    },
+    "head": {
+      "kind": "ols"
+    }
+  },
+  "config_hash": "7e85448b2339",
+  "n_configs": 1,
+  "grid": [
+    {
+      "config_hash": "7e85448b2339",
+      "config": {
+        "features": {
+          "kind": "length"
+        },
+        "head": {
+          "kind": "ols"
+        }
+      },
+      "mae": 2.019652324517655,
+      "n_features": 2,
+      "feature_seconds": 2.31,
+      "fit_seconds": 0.04
+    }
+  ],
+  "validation_metrics": {
+    "n": 11996,
+    "mae": 2.019652324517655,
+    "rmse": 2.529800912823505,
+    "median_ae": 1.7052869724070803,
+    "r2": 0.33428786126355836,
+    "bias": -0.004359946911077479,
+    "within_1": 0.3056852284094698,
+    "within_2": 0.5700233411137046,
+    "pred_std": 1.7989416506779654,
+    "true_std": 3.1005811822302305
+  },
+  "seeds": [
+    42
+  ],
+  "meta": {
+    "run_id": "E02_length-20261013T005527Z-efc15f",
+    "experiment": "E02_length",
+    "started": "2026-10-13T00:55:27+00:00",
+    "git": {
+      "commit": "6b178be5495bb219cdd54556ed4ed24dfc7e53a6",
+      "dirty": true
+    },
+    "packages": {
+      "numpy": "2.5.4",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "tensorflow": "2.20.0",
+      "keras": "3.15.1",
+      "torch": null,
+      "transformers": null
+    },
+    "hardware": {
+      "platform": "Windows-10-10.0.19045-SP0",
+      "python": "3.13.14",
+      "processor": "Intel64 Family 6 Model 158 Stepping 10, GenuineIntel",
+      "cpu_count": 6
+    },
+    "split": "grouped_v1",
+    "task": "T1",
+    "family": "linear",
+    "dataset_sha256": "52af2643c8ac29f010f0cc629dfbdda1c74aa0f332d11762af9ef3de4e567ac9",
+    "split_id_sha256": {
+      "train": "6a6a98f390a9d98ee0d50309cf18e320738aaf09ebb21229f00014ef21237332",
+      "validation": "4e01e2d247949916af8f5c9a9752d93b9db350fa3d7e11cb87deebccc486a46b"
+    },
+    "finished": "2026-10-13T00:55:29+00:00",
+    "seconds": 2.4,
+    "status": "ok"
+  }
+}

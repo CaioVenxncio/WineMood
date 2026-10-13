@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+/build/
+.venv/
+venv/
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Data and model artifacts are never committed (see data/README.md, artifacts/README.md).
+# Root-anchored (leading "/") so they never match source packages such as
+# src/winemood/experiments/ or src/winemood/models/.
+/data/raw/
+/data/processed/
+# Generated validation/EDA outputs (regenerate with `winemood data ...`)
+/reports/
+# Experiment artifacts: models, predictions, caches (results/ is committed instead)
+/experiments/
+# Installed / packaged model artifacts (CC BY-NC-SA derived works; distributed
+# as release assets, never committed)
+/models/
+/dist/
+/artifacts/*
+!/artifacts/README.md
+*.h5
+*.keras
+*.pickle
+*.pkl
+kaggle.json
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

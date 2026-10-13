@@ -1,0 +1,86 @@
+{
+  "experiment": "E20_t2_majority",
+  "task": "T2",
+  "split": "grouped_v1",
+  "config_hash": "58f8d09950f3",
+  "evaluated_at": "2026-10-13T02:03:06+00:00",
+  "test_metrics": {
+    "n": 23991,
+    "macro_f1": 0.10319188420141037,
+    "weighted_f1": 0.17938466635904377,
+    "balanced_accuracy": 0.2,
+    "accuracy": 0.3476720436830478,
+    "per_class": {
+      "acceptable": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 580
+      },
+      "good": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 5954
+      },
+      "very_good": {
+        "precision": 0.3476720436830478,
+        "recall": 1.0,
+        "f1": 0.5159594210070518,
+        "support": 8341
+      },
+      "excellent": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 7913
+      },
+      "superb_or_classic": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1203
+      }
+    },
+    "confusion_matrix": [
+      [
+        0,
+        0,
+        580,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        5954,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        8341,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        7913,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1203,
+        0,
+        0
+      ]
+    ],
+    "qwk": 0.0,
+    "mae_class_index": 0.7266474928098037
+  },
+  "seed_metrics": null
+}

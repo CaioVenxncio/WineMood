@@ -1,0 +1,399 @@
+{
+  "experiment": "E21_t2_logistic",
+  "description": "TF-IDF (B3* vectoriser) + multinomial logistic regression",
+  "hypothesis": null,
+  "task": "T2",
+  "target": "we_category_merged_v1",
+  "family": "linear",
+  "split": "grouped_v1",
+  "base": "E04_tfidf_word",
+  "selected_config": {
+    "features": {
+      "kind": "tfidf",
+      "word": {
+        "ngram_range": [
+          1,
+          2
+        ],
+        "min_df": 5
+      },
+      "preprocessing": "norm_min_v1"
+    },
+    "head": {
+      "kind": "logistic",
+      "C": 3.0,
+      "class_weight": "balanced"
+    }
+  },
+  "config_hash": "55f1413abaa3",
+  "n_configs": 10,
+  "grid": [
+    {
+      "config_hash": "7fc6299536bb",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "logistic",
+          "C": 0.3,
+          "class_weight": "none"
+        }
+      },
+      "macro_f1": 0.41312051645095227,
+      "n_features": 81413,
+      "feature_seconds": 12.34,
+      "fit_seconds": 15.18
+    },
+    {
+      "config_hash": "7b862c2982b9",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "logistic",
+          "C": 0.3,
+          "class_weight": "balanced"
+        }
+      },
+      "macro_f1": 0.5351014636137019,
+      "n_features": 81413,
+      "feature_seconds": 12.34,
+      "fit_seconds": 11.54
+    },
+    {
+      "config_hash": "5cd4992396ba",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "logistic",
+          "C": 1.0,
+          "class_weight": "none"
+        }
+      },
+      "macro_f1": 0.48822202100786394,
+      "n_features": 81413,
+      "feature_seconds": 12.34,
+      "fit_seconds": 20.15
+    },
+    {
+      "config_hash": "483f2ed52c78",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "logistic",
+          "C": 1.0,
+          "class_weight": "balanced"
+        }
+      },
+      "macro_f1": 0.5715319014511951,
+      "n_features": 81413,
+      "feature_seconds": 12.34,
+      "fit_seconds": 18.36
+    },
+    {
+      "config_hash": "f5af5458c3cc",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "logistic",
+          "C": 3.0,
+          "class_weight": "none"
+        }
+      },
+      "macro_f1": 0.5300649319341003,
+      "n_features": 81413,
+      "feature_seconds": 12.34,
+      "fit_seconds": 33.57
+    },
+    {
+      "config_hash": "55f1413abaa3",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "logistic",
+          "C": 3.0,
+          "class_weight": "balanced"
+        }
+      },
+      "macro_f1": 0.5765040085768717,
+      "n_features": 81413,
+      "feature_seconds": 12.34,
+      "fit_seconds": 24.06
+    },
+    {
+      "config_hash": "4f950a0656b3",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "logistic",
+          "C": 10.0,
+          "class_weight": "none"
+        }
+      },
+      "macro_f1": 0.5397441525529955,
+      "n_features": 81413,
+      "feature_seconds": 12.34,
+      "fit_seconds": 43.16
+    },
+    {
+      "config_hash": "01f3467feda7",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "logistic",
+          "C": 10.0,
+          "class_weight": "balanced"
+        }
+      },
+      "macro_f1": 0.568073957850238,
+      "n_features": 81413,
+      "feature_seconds": 12.34,
+      "fit_seconds": 30.97
+    },
+    {
+      "config_hash": "10e110de30f1",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "logistic",
+          "C": 30.0,
+          "class_weight": "none"
+        }
+      },
+      "macro_f1": 0.5379977963126736,
+      "n_features": 81413,
+      "feature_seconds": 12.34,
+      "fit_seconds": 50.4
+    },
+    {
+      "config_hash": "6c434e52b461",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "logistic",
+          "C": 30.0,
+          "class_weight": "balanced"
+        }
+      },
+      "macro_f1": 0.5557000233765917,
+      "n_features": 81413,
+      "feature_seconds": 12.34,
+      "fit_seconds": 49.95
+    }
+  ],
+  "validation_metrics": {
+    "n": 11996,
+    "macro_f1": 0.5765040085768717,
+    "weighted_f1": 0.6203855538085302,
+    "balanced_accuracy": 0.59613777828461,
+    "accuracy": 0.6202900966988997,
+    "per_class": {
+      "acceptable": {
+        "precision": 0.4685714285714286,
+        "recall": 0.5655172413793104,
+        "f1": 0.5125,
+        "support": 290
+      },
+      "good": {
+        "precision": 0.6449136276391555,
+        "recall": 0.6769644056413701,
+        "f1": 0.6605504587155964,
+        "support": 2978
+      },
+      "very_good": {
+        "precision": 0.6029528078038492,
+        "recall": 0.548441247002398,
+        "f1": 0.5744066306668341,
+        "support": 4170
+      },
+      "excellent": {
+        "precision": 0.6672513154597846,
+        "recall": 0.673154701718908,
+        "f1": 0.6701900088083553,
+        "support": 3956
+      },
+      "superb_or_classic": {
+        "precision": 0.422554347826087,
+        "recall": 0.5166112956810631,
+        "f1": 0.4648729446935725,
+        "support": 602
+      }
+    },
+    "confusion_matrix": [
+      [
+        164,
+        120,
+        6,
+        0,
+        0
+      ],
+      [
+        163,
+        2016,
+        698,
+        98,
+        3
+      ],
+      [
+        22,
+        863,
+        2287,
+        954,
+        44
+      ],
+      [
+        1,
+        124,
+        790,
+        2663,
+        378
+      ],
+      [
+        0,
+        3,
+        12,
+        276,
+        311
+      ]
+    ],
+    "qwk": 0.7431451395536884,
+    "mae_class_index": 0.40638546182060686
+  },
+  "seeds": [
+    42
+  ],
+  "meta": {
+    "run_id": "E21_t2_logistic-20261013T010557Z-58fb9a",
+    "experiment": "E21_t2_logistic",
+    "started": "2026-10-13T01:05:57+00:00",
+    "git": {
+      "commit": "6b178be5495bb219cdd54556ed4ed24dfc7e53a6",
+      "dirty": true
+    },
+    "packages": {
+      "numpy": "2.5.4",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "tensorflow": "2.20.0",
+      "keras": "3.15.1",
+      "torch": "2.14.1+cpu",
+      "transformers": "5.19.0"
+    },
+    "hardware": {
+      "platform": "Windows-10-10.0.19045-SP0",
+      "python": "3.13.14",
+      "processor": "Intel64 Family 6 Model 158 Stepping 10, GenuineIntel",
+      "cpu_count": 6
+    },
+    "split": "grouped_v1",
+    "task": "T2",
+    "family": "linear",
+    "dataset_sha256": "52af2643c8ac29f010f0cc629dfbdda1c74aa0f332d11762af9ef3de4e567ac9",
+    "split_id_sha256": {
+      "train": "6a6a98f390a9d98ee0d50309cf18e320738aaf09ebb21229f00014ef21237332",
+      "validation": "4e01e2d247949916af8f5c9a9752d93b9db350fa3d7e11cb87deebccc486a46b"
+    },
+    "finished": "2026-10-13T01:11:07+00:00",
+    "seconds": 310.0,
+    "status": "ok"
+  }
+}

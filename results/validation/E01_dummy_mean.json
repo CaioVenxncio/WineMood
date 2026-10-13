@@ -1,0 +1,88 @@
+{
+  "experiment": "E01_dummy_mean",
+  "description": "B0: constant prediction = training mean",
+  "hypothesis": null,
+  "task": "T1",
+  "target": "points_regression_v1",
+  "family": "linear",
+  "split": "grouped_v1",
+  "base": null,
+  "selected_config": {
+    "features": {
+      "kind": "none"
+    },
+    "head": {
+      "kind": "constant"
+    }
+  },
+  "config_hash": "0b411a5590d0",
+  "n_configs": 1,
+  "grid": [
+    {
+      "config_hash": "0b411a5590d0",
+      "config": {
+        "features": {
+          "kind": "none"
+        },
+        "head": {
+          "kind": "constant"
+        }
+      },
+      "mae": 2.5397243938617926,
+      "n_features": 0,
+      "feature_seconds": 0.0,
+      "fit_seconds": 0.0
+    }
+  ],
+  "validation_metrics": {
+    "n": 11996,
+    "mae": 2.5397243938617926,
+    "rmse": 3.100590138186945,
+    "median_ae": 2.4423642621506048,
+    "r2": -5.776961880643583e-06,
+    "bias": -0.0074523433845736335,
+    "within_1": 0.22382460820273425,
+    "within_2": 0.46115371790596865,
+    "pred_std": 1.4210854715202004e-14,
+    "true_std": 3.1005811822302305
+  },
+  "seeds": [
+    42
+  ],
+  "meta": {
+    "run_id": "E01_dummy_mean-20261013T005522Z-4e2fad",
+    "experiment": "E01_dummy_mean",
+    "started": "2026-10-13T00:55:22+00:00",
+    "git": {
+      "commit": "6b178be5495bb219cdd54556ed4ed24dfc7e53a6",
+      "dirty": true
+    },
+    "packages": {
+      "numpy": "2.5.4",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "tensorflow": "2.20.0",
+      "keras": "3.15.1",
+      "torch": null,
+      "transformers": null
+    },
+    "hardware": {
+      "platform": "Windows-10-10.0.19045-SP0",
+      "python": "3.13.14",
+      "processor": "Intel64 Family 6 Model 158 Stepping 10, GenuineIntel",
+      "cpu_count": 6
+    },
+    "split": "grouped_v1",
+    "task": "T1",
+    "family": "linear",
+    "dataset_sha256": "52af2643c8ac29f010f0cc629dfbdda1c74aa0f332d11762af9ef3de4e567ac9",
+    "split_id_sha256": {
+      "train": "6a6a98f390a9d98ee0d50309cf18e320738aaf09ebb21229f00014ef21237332",
+      "validation": "4e01e2d247949916af8f5c9a9752d93b9db350fa3d7e11cb87deebccc486a46b"
+    },
+    "finished": "2026-10-13T00:55:27+00:00",
+    "seconds": 0.0,
+    "status": "ok"
+  }
+}

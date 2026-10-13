@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "winemood"
+version = "0.4.0"
+description = "NLP research on how the language of wine reviews relates to expert critic scores."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Caio Venancio" }]
+requires-python = ">=3.11,<3.14"
+# Core = everything the application and the classical research pipeline need.
+# Neural dependencies are optional extras (Phase 4 decision): the deployed app
+# serves the selected TF-IDF + Ridge model and never imports TensorFlow.
+dependencies = [
+    "streamlit>=1.50,<2",
+    "altair>=5,<7",
+    "pandas>=2.2,<4",
+    "numpy>=1.26,<3",
+    "scikit-learn>=1.5,<2",
+    "scipy>=1.11,<2",
+    "nltk>=3.9,<4",
+    "matplotlib>=3.8,<4",
+]
+
+[project.scripts]
+winemood = "winemood.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "ruff>=0.17,<0.18"]
+# BiLSTM experiments and the legacy LSTM loader. TensorFlow and tf-keras must
+# share a minor version; verified together: tensorflow 2.20.0, tf-keras 2.20.1.
+neural = ["tensorflow>=2.20,<2.21", "tf-keras>=2.20,<2.21"]
+# Frozen-encoder experiment (N2). Install the CPU build of torch first:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+# Verified together: torch 2.14.1+cpu, transformers 5.19.0 (Python 3.13).
+transformer = ["torch>=2.5,<3", "transformers>=4.45,<6"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+filterwarnings = [
+    # Third-party deprecation noise from TensorFlow/Keras internals.
+    "ignore::DeprecationWarning:tensorflow.*",
+    "ignore::DeprecationWarning:tf_keras.*",
+    "ignore::DeprecationWarning:keras.*",
+    "ignore::DeprecationWarning:gast.*",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["notebooks"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]

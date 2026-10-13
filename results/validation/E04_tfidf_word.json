@@ -1,0 +1,2098 @@
+{
+  "experiment": "E04_tfidf_word",
+  "description": "B3: word TF-IDF + Ridge (selected config = B3*)",
+  "hypothesis": "H1",
+  "task": "T1",
+  "target": "points_regression_v1",
+  "family": "linear",
+  "split": "grouped_v1",
+  "base": null,
+  "selected_config": {
+    "features": {
+      "kind": "tfidf",
+      "word": {
+        "ngram_range": [
+          1,
+          2
+        ],
+        "min_df": 5
+      },
+      "preprocessing": "norm_min_v1"
+    },
+    "head": {
+      "kind": "ridge",
+      "alpha": 1.0
+    }
+  },
+  "config_hash": "70969891f05d",
+  "n_configs": 84,
+  "grid": [
+    {
+      "config_hash": "a587026ba80e",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 0.3
+        }
+      },
+      "mae": 1.3182310459123898,
+      "n_features": 17164,
+      "feature_seconds": 5.98,
+      "fit_seconds": 0.71
+    },
+    {
+      "config_hash": "b633de937ae0",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 1.0
+        }
+      },
+      "mae": 1.32288208009182,
+      "n_features": 17164,
+      "feature_seconds": 5.98,
+      "fit_seconds": 0.44
+    },
+    {
+      "config_hash": "a29ca99397dc",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 3.0
+        }
+      },
+      "mae": 1.3544301161400927,
+      "n_features": 17164,
+      "feature_seconds": 5.98,
+      "fit_seconds": 0.29
+    },
+    {
+      "config_hash": "57be26ba4dfb",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 10.0
+        }
+      },
+      "mae": 1.4253677580008428,
+      "n_features": 17164,
+      "feature_seconds": 5.98,
+      "fit_seconds": 0.19
+    },
+    {
+      "config_hash": "590ea0c70c98",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 30.0
+        }
+      },
+      "mae": 1.5351455612120533,
+      "n_features": 17164,
+      "feature_seconds": 5.98,
+      "fit_seconds": 0.18
+    },
+    {
+      "config_hash": "fd2433df3831",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 100.0
+        }
+      },
+      "mae": 1.7335347067876046,
+      "n_features": 17164,
+      "feature_seconds": 5.98,
+      "fit_seconds": 0.1
+    },
+    {
+      "config_hash": "3e2d4bc61083",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 300.0
+        }
+      },
+      "mae": 1.9981841297576084,
+      "n_features": 17164,
+      "feature_seconds": 5.98,
+      "fit_seconds": 0.08
+    },
+    {
+      "config_hash": "8d3a9460fff0",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 0.3
+        }
+      },
+      "mae": 1.330250508985139,
+      "n_features": 198296,
+      "feature_seconds": 12.16,
+      "fit_seconds": 2.13
+    },
+    {
+      "config_hash": "b3ffe3921c0c",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 1.0
+        }
+      },
+      "mae": 1.2929109264577876,
+      "n_features": 198296,
+      "feature_seconds": 12.16,
+      "fit_seconds": 1.21
+    },
+    {
+      "config_hash": "b24fab65ff07",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 3.0
+        }
+      },
+      "mae": 1.3281342232377504,
+      "n_features": 198296,
+      "feature_seconds": 12.16,
+      "fit_seconds": 0.81
+    },
+    {
+      "config_hash": "47864d68de6d",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 10.0
+        }
+      },
+      "mae": 1.4438300479682322,
+      "n_features": 198296,
+      "feature_seconds": 12.16,
+      "fit_seconds": 0.5
+    },
+    {
+      "config_hash": "2f97cea96273",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 30.0
+        }
+      },
+      "mae": 1.6325478532004754,
+      "n_features": 198296,
+      "feature_seconds": 12.16,
+      "fit_seconds": 0.35
+    },
+    {
+      "config_hash": "b42fe5ecc72b",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 100.0
+        }
+      },
+      "mae": 1.9437583533848026,
+      "n_features": 198296,
+      "feature_seconds": 12.16,
+      "fit_seconds": 0.25
+    },
+    {
+      "config_hash": "18d4a09d207f",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 300.0
+        }
+      },
+      "mae": 2.22415578431369,
+      "n_features": 198296,
+      "feature_seconds": 12.16,
+      "fit_seconds": 0.22
+    },
+    {
+      "config_hash": "9995134fa383",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 0.3
+        }
+      },
+      "mae": 1.3118267037634648,
+      "n_features": 10372,
+      "feature_seconds": 6.1,
+      "fit_seconds": 0.65
+    },
+    {
+      "config_hash": "490ba5c8b5f6",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 1.0
+        }
+      },
+      "mae": 1.3176995669136016,
+      "n_features": 10372,
+      "feature_seconds": 6.1,
+      "fit_seconds": 0.41
+    },
+    {
+      "config_hash": "0d18d87fb932",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 3.0
+        }
+      },
+      "mae": 1.3484132773991768,
+      "n_features": 10372,
+      "feature_seconds": 6.1,
+      "fit_seconds": 0.29
+    },
+    {
+      "config_hash": "f26b33f4ccfb",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 10.0
+        }
+      },
+      "mae": 1.4189002247562643,
+      "n_features": 10372,
+      "feature_seconds": 6.1,
+      "fit_seconds": 0.19
+    },
+    {
+      "config_hash": "2c0258ecb5fd",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 30.0
+        }
+      },
+      "mae": 1.5282046786983734,
+      "n_features": 10372,
+      "feature_seconds": 6.1,
+      "fit_seconds": 0.13
+    },
+    {
+      "config_hash": "3e25e8586a79",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 100.0
+        }
+      },
+      "mae": 1.7259200587992132,
+      "n_features": 10372,
+      "feature_seconds": 6.1,
+      "fit_seconds": 0.1
+    },
+    {
+      "config_hash": "d0e79d835d18",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 300.0
+        }
+      },
+      "mae": 1.9907123438014431,
+      "n_features": 10372,
+      "feature_seconds": 6.1,
+      "fit_seconds": 0.08
+    },
+    {
+      "config_hash": "799a28438076",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 0.3
+        }
+      },
+      "mae": 1.349114138242348,
+      "n_features": 81413,
+      "feature_seconds": 12.77,
+      "fit_seconds": 1.37
+    },
+    {
+      "config_hash": "70969891f05d",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 1.0
+        }
+      },
+      "mae": 1.2906030285324797,
+      "n_features": 81413,
+      "feature_seconds": 12.77,
+      "fit_seconds": 0.84
+    },
+    {
+      "config_hash": "940f4d050a61",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 3.0
+        }
+      },
+      "mae": 1.3146334182993993,
+      "n_features": 81413,
+      "feature_seconds": 12.77,
+      "fit_seconds": 0.54
+    },
+    {
+      "config_hash": "68d451387302",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 10.0
+        }
+      },
+      "mae": 1.4223557987601925,
+      "n_features": 81413,
+      "feature_seconds": 12.77,
+      "fit_seconds": 0.37
+    },
+    {
+      "config_hash": "3d6a4a6d9bc0",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 30.0
+        }
+      },
+      "mae": 1.6020693427989605,
+      "n_features": 81413,
+      "feature_seconds": 12.77,
+      "fit_seconds": 0.27
+    },
+    {
+      "config_hash": "622b9553a7c3",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 100.0
+        }
+      },
+      "mae": 1.9053311271441158,
+      "n_features": 81413,
+      "feature_seconds": 12.77,
+      "fit_seconds": 0.2
+    },
+    {
+      "config_hash": "364a1e847082",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 300.0
+        }
+      },
+      "mae": 2.1939050814770917,
+      "n_features": 81413,
+      "feature_seconds": 12.77,
+      "fit_seconds": 0.18
+    },
+    {
+      "config_hash": "5865e8ce84d6",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 0.3
+        }
+      },
+      "mae": 1.3111571181536332,
+      "n_features": 7419,
+      "feature_seconds": 6.04,
+      "fit_seconds": 0.55
+    },
+    {
+      "config_hash": "2c44610f46f5",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 1.0
+        }
+      },
+      "mae": 1.3165727123247335,
+      "n_features": 7419,
+      "feature_seconds": 6.04,
+      "fit_seconds": 0.39
+    },
+    {
+      "config_hash": "e57e5c21fc20",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 3.0
+        }
+      },
+      "mae": 1.3442398899252843,
+      "n_features": 7419,
+      "feature_seconds": 6.04,
+      "fit_seconds": 0.27
+    },
+    {
+      "config_hash": "8c532f6aeebe",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 10.0
+        }
+      },
+      "mae": 1.412862350877434,
+      "n_features": 7419,
+      "feature_seconds": 6.04,
+      "fit_seconds": 0.18
+    },
+    {
+      "config_hash": "0b049000be2f",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 30.0
+        }
+      },
+      "mae": 1.521378927655332,
+      "n_features": 7419,
+      "feature_seconds": 6.04,
+      "fit_seconds": 0.14
+    },
+    {
+      "config_hash": "073d4c4102b9",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 100.0
+        }
+      },
+      "mae": 1.7177257013611842,
+      "n_features": 7419,
+      "feature_seconds": 6.04,
+      "fit_seconds": 0.11
+    },
+    {
+      "config_hash": "e1942e53ba16",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 300.0
+        }
+      },
+      "mae": 1.9822514212402884,
+      "n_features": 7419,
+      "feature_seconds": 6.04,
+      "fit_seconds": 0.08
+    },
+    {
+      "config_hash": "cbb6b2c281f4",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 0.3
+        }
+      },
+      "mae": 1.3443837438738915,
+      "n_features": 44862,
+      "feature_seconds": 12.38,
+      "fit_seconds": 1.2
+    },
+    {
+      "config_hash": "3c90eb42668d",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 1.0
+        }
+      },
+      "mae": 1.290854383676141,
+      "n_features": 44862,
+      "feature_seconds": 12.38,
+      "fit_seconds": 0.76
+    },
+    {
+      "config_hash": "b1b2e98c5d42",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 3.0
+        }
+      },
+      "mae": 1.3090782810438821,
+      "n_features": 44862,
+      "feature_seconds": 12.38,
+      "fit_seconds": 0.48
+    },
+    {
+      "config_hash": "7f8e8dcf504b",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 10.0
+        }
+      },
+      "mae": 1.4071880440535436,
+      "n_features": 44862,
+      "feature_seconds": 12.38,
+      "fit_seconds": 0.32
+    },
+    {
+      "config_hash": "a120e787ed9e",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 30.0
+        }
+      },
+      "mae": 1.5767240584887352,
+      "n_features": 44862,
+      "feature_seconds": 12.38,
+      "fit_seconds": 0.24
+    },
+    {
+      "config_hash": "6aaf2eb28ca7",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 100.0
+        }
+      },
+      "mae": 1.8714898994386513,
+      "n_features": 44862,
+      "feature_seconds": 12.38,
+      "fit_seconds": 0.18
+    },
+    {
+      "config_hash": "c1ac368b2eea",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_min_v1"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 300.0
+        }
+      },
+      "mae": 2.1658128624105006,
+      "n_features": 44862,
+      "feature_seconds": 12.38,
+      "fit_seconds": 0.15
+    },
+    {
+      "config_hash": "62ee281ead35",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 0.3
+        }
+      },
+      "mae": 1.3277652995368523,
+      "n_features": 20406,
+      "feature_seconds": 6.33,
+      "fit_seconds": 0.51
+    },
+    {
+      "config_hash": "c95d310a7bee",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 1.0
+        }
+      },
+      "mae": 1.3356257051729608,
+      "n_features": 20406,
+      "feature_seconds": 6.33,
+      "fit_seconds": 0.33
+    },
+    {
+      "config_hash": "d10aa7172b23",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 3.0
+        }
+      },
+      "mae": 1.3706062504476375,
+      "n_features": 20406,
+      "feature_seconds": 6.33,
+      "fit_seconds": 0.22
+    },
+    {
+      "config_hash": "7dd3378186c1",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 10.0
+        }
+      },
+      "mae": 1.4443209015993477,
+      "n_features": 20406,
+      "feature_seconds": 6.33,
+      "fit_seconds": 0.15
+    },
+    {
+      "config_hash": "88f805d266ff",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 30.0
+        }
+      },
+      "mae": 1.5573865299200202,
+      "n_features": 20406,
+      "feature_seconds": 6.33,
+      "fit_seconds": 0.1
+    },
+    {
+      "config_hash": "5f267fbb10a5",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 100.0
+        }
+      },
+      "mae": 1.7587703205696712,
+      "n_features": 20406,
+      "feature_seconds": 6.33,
+      "fit_seconds": 0.07
+    },
+    {
+      "config_hash": "82af88430d40",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 300.0
+        }
+      },
+      "mae": 2.0218648822151333,
+      "n_features": 20406,
+      "feature_seconds": 6.33,
+      "fit_seconds": 0.06
+    },
+    {
+      "config_hash": "2220fb42a751",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 0.3
+        }
+      },
+      "mae": 1.3644454111439828,
+      "n_features": 211392,
+      "feature_seconds": 10.3,
+      "fit_seconds": 1.26
+    },
+    {
+      "config_hash": "bcd0b539ef84",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 1.0
+        }
+      },
+      "mae": 1.3271890072487096,
+      "n_features": 211392,
+      "feature_seconds": 10.3,
+      "fit_seconds": 0.76
+    },
+    {
+      "config_hash": "cae8988b1139",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 3.0
+        }
+      },
+      "mae": 1.3524328309692637,
+      "n_features": 211392,
+      "feature_seconds": 10.3,
+      "fit_seconds": 0.5
+    },
+    {
+      "config_hash": "a8e166ff1ba8",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 10.0
+        }
+      },
+      "mae": 1.4602617145285866,
+      "n_features": 211392,
+      "feature_seconds": 10.3,
+      "fit_seconds": 0.31
+    },
+    {
+      "config_hash": "729f3325a106",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 30.0
+        }
+      },
+      "mae": 1.6489850573159406,
+      "n_features": 211392,
+      "feature_seconds": 10.3,
+      "fit_seconds": 0.22
+    },
+    {
+      "config_hash": "b79292caf8d2",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 100.0
+        }
+      },
+      "mae": 1.9633856221640313,
+      "n_features": 211392,
+      "feature_seconds": 10.3,
+      "fit_seconds": 0.19
+    },
+    {
+      "config_hash": "c22f7984d29c",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 2
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 300.0
+        }
+      },
+      "mae": 2.2411627394674696,
+      "n_features": 211392,
+      "feature_seconds": 10.3,
+      "fit_seconds": 0.15
+    },
+    {
+      "config_hash": "bc096f1fd580",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 0.3
+        }
+      },
+      "mae": 1.3194590406905375,
+      "n_features": 11341,
+      "feature_seconds": 6.34,
+      "fit_seconds": 0.42
+    },
+    {
+      "config_hash": "293e862007eb",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 1.0
+        }
+      },
+      "mae": 1.32787625621054,
+      "n_features": 11341,
+      "feature_seconds": 6.34,
+      "fit_seconds": 0.29
+    },
+    {
+      "config_hash": "702b5ae2f512",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 3.0
+        }
+      },
+      "mae": 1.3626320427194363,
+      "n_features": 11341,
+      "feature_seconds": 6.34,
+      "fit_seconds": 0.22
+    },
+    {
+      "config_hash": "47c165c80f3e",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 10.0
+        }
+      },
+      "mae": 1.4366728675759932,
+      "n_features": 11341,
+      "feature_seconds": 6.34,
+      "fit_seconds": 0.14
+    },
+    {
+      "config_hash": "16d772065354",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 30.0
+        }
+      },
+      "mae": 1.54880082038352,
+      "n_features": 11341,
+      "feature_seconds": 6.34,
+      "fit_seconds": 0.1
+    },
+    {
+      "config_hash": "df9f459fb032",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 100.0
+        }
+      },
+      "mae": 1.7489204932958826,
+      "n_features": 11341,
+      "feature_seconds": 6.34,
+      "fit_seconds": 0.07
+    },
+    {
+      "config_hash": "53bbc75ad566",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 300.0
+        }
+      },
+      "mae": 2.011870816288942,
+      "n_features": 11341,
+      "feature_seconds": 6.34,
+      "fit_seconds": 0.06
+    },
+    {
+      "config_hash": "24513d3187dd",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 0.3
+        }
+      },
+      "mae": 1.3904711219058852,
+      "n_features": 71713,
+      "feature_seconds": 10.42,
+      "fit_seconds": 0.84
+    },
+    {
+      "config_hash": "788b4f2217b8",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 1.0
+        }
+      },
+      "mae": 1.3273643877128374,
+      "n_features": 71713,
+      "feature_seconds": 10.42,
+      "fit_seconds": 0.5
+    },
+    {
+      "config_hash": "10ff73db78c3",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 3.0
+        }
+      },
+      "mae": 1.3417663814618912,
+      "n_features": 71713,
+      "feature_seconds": 10.42,
+      "fit_seconds": 0.36
+    },
+    {
+      "config_hash": "dbc07e1a7c74",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 10.0
+        }
+      },
+      "mae": 1.4367744835660672,
+      "n_features": 71713,
+      "feature_seconds": 10.42,
+      "fit_seconds": 0.23
+    },
+    {
+      "config_hash": "d6b475bea1cc",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 30.0
+        }
+      },
+      "mae": 1.6079892919453345,
+      "n_features": 71713,
+      "feature_seconds": 10.42,
+      "fit_seconds": 0.16
+    },
+    {
+      "config_hash": "6319a9dfafb7",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 100.0
+        }
+      },
+      "mae": 1.9047751959622363,
+      "n_features": 71713,
+      "feature_seconds": 10.42,
+      "fit_seconds": 0.12
+    },
+    {
+      "config_hash": "2b69705b8ff1",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 300.0
+        }
+      },
+      "mae": 2.1934462433028203,
+      "n_features": 71713,
+      "feature_seconds": 10.42,
+      "fit_seconds": 0.1
+    },
+    {
+      "config_hash": "f4dfa93bd5ac",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 0.3
+        }
+      },
+      "mae": 1.3176642982904072,
+      "n_features": 7769,
+      "feature_seconds": 5.94,
+      "fit_seconds": 0.4
+    },
+    {
+      "config_hash": "4d5f30025d7c",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 1.0
+        }
+      },
+      "mae": 1.3253410679844704,
+      "n_features": 7769,
+      "feature_seconds": 5.94,
+      "fit_seconds": 0.29
+    },
+    {
+      "config_hash": "8b4dd0484744",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 3.0
+        }
+      },
+      "mae": 1.3571239827395172,
+      "n_features": 7769,
+      "feature_seconds": 5.94,
+      "fit_seconds": 0.22
+    },
+    {
+      "config_hash": "bc47e73b1a66",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 10.0
+        }
+      },
+      "mae": 1.4290484666261325,
+      "n_features": 7769,
+      "feature_seconds": 5.94,
+      "fit_seconds": 0.15
+    },
+    {
+      "config_hash": "08565e17ab96",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 30.0
+        }
+      },
+      "mae": 1.5397266509318361,
+      "n_features": 7769,
+      "feature_seconds": 5.94,
+      "fit_seconds": 0.11
+    },
+    {
+      "config_hash": "dbca9288bf26",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 100.0
+        }
+      },
+      "mae": 1.738257887352273,
+      "n_features": 7769,
+      "feature_seconds": 5.94,
+      "fit_seconds": 0.07
+    },
+    {
+      "config_hash": "1a9132fd1529",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              1
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 300.0
+        }
+      },
+      "mae": 2.0013541228841447,
+      "n_features": 7769,
+      "feature_seconds": 5.94,
+      "fit_seconds": 0.06
+    },
+    {
+      "config_hash": "c81f85db9768",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 0.3
+        }
+      },
+      "mae": 1.381987848315542,
+      "n_features": 34981,
+      "feature_seconds": 10.55,
+      "fit_seconds": 0.56
+    },
+    {
+      "config_hash": "e5aee654d6c8",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 1.0
+        }
+      },
+      "mae": 1.3307465762887478,
+      "n_features": 34981,
+      "feature_seconds": 10.55,
+      "fit_seconds": 0.39
+    },
+    {
+      "config_hash": "5c7a48755c5c",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 3.0
+        }
+      },
+      "mae": 1.3387199167490424,
+      "n_features": 34981,
+      "feature_seconds": 10.55,
+      "fit_seconds": 0.27
+    },
+    {
+      "config_hash": "a6771a9184db",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 10.0
+        }
+      },
+      "mae": 1.4214047754472838,
+      "n_features": 34981,
+      "feature_seconds": 10.55,
+      "fit_seconds": 0.18
+    },
+    {
+      "config_hash": "a8e7ac88f471",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 30.0
+        }
+      },
+      "mae": 1.5777388571864959,
+      "n_features": 34981,
+      "feature_seconds": 10.55,
+      "fit_seconds": 0.13
+    },
+    {
+      "config_hash": "c337d68173dd",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 100.0
+        }
+      },
+      "mae": 1.8586965009884586,
+      "n_features": 34981,
+      "feature_seconds": 10.55,
+      "fit_seconds": 0.11
+    },
+    {
+      "config_hash": "19423aafb85d",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 10
+          },
+          "preprocessing": "norm_legacy_v0"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 300.0
+        }
+      },
+      "mae": 2.1525567689919693,
+      "n_features": 34981,
+      "feature_seconds": 10.55,
+      "fit_seconds": 0.1
+    }
+  ],
+  "validation_metrics": {
+    "n": 11996,
+    "mae": 1.2906030285324797,
+    "rmse": 1.6389368958576214,
+    "median_ae": 1.067790150642395,
+    "r2": 0.7205923770649957,
+    "bias": 0.04288855232660158,
+    "within_1": 0.4735745248416139,
+    "within_2": 0.7893464488162721,
+    "pred_std": 2.6014779989439187,
+    "true_std": 3.1005811822302305
+  },
+  "seeds": [
+    42
+  ],
+  "meta": {
+    "run_id": "E04_tfidf_word-20261013T005552Z-cf025f",
+    "experiment": "E04_tfidf_word",
+    "started": "2026-10-13T00:55:52+00:00",
+    "git": {
+      "commit": "6b178be5495bb219cdd54556ed4ed24dfc7e53a6",
+      "dirty": true
+    },
+    "packages": {
+      "numpy": "2.5.4",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "tensorflow": "2.20.0",
+      "keras": "3.15.1",
+      "torch": null,
+      "transformers": null
+    },
+    "hardware": {
+      "platform": "Windows-10-10.0.19045-SP0",
+      "python": "3.13.14",
+      "processor": "Intel64 Family 6 Model 158 Stepping 10, GenuineIntel",
+      "cpu_count": 6
+    },
+    "split": "grouped_v1",
+    "task": "T1",
+    "family": "linear",
+    "dataset_sha256": "52af2643c8ac29f010f0cc629dfbdda1c74aa0f332d11762af9ef3de4e567ac9",
+    "split_id_sha256": {
+      "train": "6a6a98f390a9d98ee0d50309cf18e320738aaf09ebb21229f00014ef21237332",
+      "validation": "4e01e2d247949916af8f5c9a9752d93b9db350fa3d7e11cb87deebccc486a46b"
+    },
+    "finished": "2026-10-13T00:58:07+00:00",
+    "seconds": 135.1,
+    "status": "ok"
+  }
+}

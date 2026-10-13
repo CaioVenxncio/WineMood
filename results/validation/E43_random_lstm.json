@@ -1,0 +1,151 @@
+{
+  "experiment": "E43_random_lstm",
+  "description": "H3 comparison: N1* architecture retrained on the size-matched random split",
+  "hypothesis": "H3",
+  "task": "T1",
+  "target": "points_regression_v1",
+  "family": "lstm",
+  "split": "taster_random_v1",
+  "base": "E10_lstm",
+  "selected_config": {
+    "preprocessing": "norm_legacy_v0",
+    "mask_numbers": "none",
+    "lstm": {
+      "bidirectional": true,
+      "learning_rate": 0.001,
+      "batch_size": 128,
+      "max_epochs": 12,
+      "patience": 2,
+      "vocab_size": 20000,
+      "dropout": 0.4,
+      "embed_dim": 128,
+      "units": 32
+    }
+  },
+  "config_hash": "3b4451552826",
+  "n_configs": 1,
+  "grid": [
+    {
+      "config_hash": "3b4451552826",
+      "config": {
+        "preprocessing": "norm_legacy_v0",
+        "mask_numbers": "none",
+        "lstm": {
+          "bidirectional": true,
+          "learning_rate": 0.001,
+          "batch_size": 128,
+          "max_epochs": 12,
+          "patience": 2,
+          "vocab_size": 20000,
+          "dropout": 0.4,
+          "embed_dim": 128,
+          "units": 32
+        }
+      },
+      "mae": 1.303973216747896,
+      "best_epoch": 1,
+      "seq_len": 37,
+      "seconds": 61.4,
+      "epoch_seconds": [
+        21.1,
+        17.0,
+        21.7
+      ]
+    }
+  ],
+  "seed_runs": [
+    {
+      "seed": 42,
+      "mae": 1.303973216747896,
+      "rmse": 1.6596140849159084,
+      "best_epoch": 1,
+      "seconds": 61.4
+    },
+    {
+      "seed": 43,
+      "mae": 1.2886330531935706,
+      "rmse": 1.642452737187926,
+      "best_epoch": 1,
+      "seconds": 54.6
+    },
+    {
+      "seed": 44,
+      "mae": 1.286237765872502,
+      "rmse": 1.6372675023775667,
+      "best_epoch": 1,
+      "seconds": 50.5
+    }
+  ],
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "validation_metrics": {
+    "n": 17795,
+    "n_seeds": 3,
+    "mae": 1.2929480119379895,
+    "mae_seed_std": 0.009622926070738877,
+    "rmse": 1.6464447748271338,
+    "rmse_seed_std": 0.011695927118889221,
+    "median_ae": 1.069842020670573,
+    "median_ae_seed_std": 0.010102961465170535,
+    "r2": 0.7043350446329885,
+    "r2_seed_std": 0.004207268845643864,
+    "bias": -0.12362626538335177,
+    "bias_seed_std": 0.13605461695120716,
+    "within_1": 0.47178046267678186,
+    "within_1_seed_std": 0.0028423697490856073,
+    "within_2": 0.7854078861103306,
+    "within_2_seed_std": 0.0034377416954795375,
+    "pred_std": 2.62339645490663,
+    "pred_std_seed_std": 0.0768693889629259,
+    "true_std": 3.0279907742575154,
+    "true_std_seed_std": 0.0,
+    "ensemble_mae": 1.263945877805479,
+    "ensemble_rmse": 1.6097566516141006,
+    "ensemble_median_ae": 1.043914794921875,
+    "ensemble_r2": 0.7173744884829865,
+    "ensemble_bias": -0.12362626538335177,
+    "ensemble_within_1": 0.48221410508569823,
+    "ensemble_within_2": 0.796628266366957,
+    "ensemble_pred_std": 2.6036385473355703,
+    "ensemble_true_std": 3.0279907742575154
+  },
+  "meta": {
+    "run_id": "E43_random_lstm-20261013T015355Z-81a414",
+    "experiment": "E43_random_lstm",
+    "started": "2026-10-13T01:53:55+00:00",
+    "git": {
+      "commit": "732ad5485020a65c7d574d4e2c4fd17d2b6ed417",
+      "dirty": true
+    },
+    "packages": {
+      "numpy": "2.5.4",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "tensorflow": "2.20.0",
+      "keras": "3.15.1",
+      "torch": "2.14.1+cpu",
+      "transformers": "5.19.0"
+    },
+    "hardware": {
+      "platform": "Windows-10-10.0.19045-SP0",
+      "python": "3.13.14",
+      "processor": "Intel64 Family 6 Model 158 Stepping 10, GenuineIntel",
+      "cpu_count": 6
+    },
+    "split": "taster_random_v1",
+    "task": "T1",
+    "family": "lstm",
+    "dataset_sha256": "52af2643c8ac29f010f0cc629dfbdda1c74aa0f332d11762af9ef3de4e567ac9",
+    "split_id_sha256": {
+      "train": "cb3af363d9ccbf0f0ce6c30b74586c7e087010c48c46bb933240bf87eb4b70ca",
+      "validation": "30e58b66204941fd397cee86ef74d6bd1fcf9f9db72361c2047467a9dc3674bf"
+    },
+    "finished": "2026-10-13T01:56:49+00:00",
+    "seconds": 174.0,
+    "status": "ok"
+  }
+}

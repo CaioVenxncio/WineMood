@@ -1,0 +1,40 @@
+{
+  "experiment": "E30_t3_majority",
+  "task": "T3",
+  "split": "grouped_v1",
+  "config_hash": "58f8d09950f3",
+  "evaluated_at": "2026-10-13T02:03:10+00:00",
+  "test_metrics": {
+    "n": 23991,
+    "macro_f1": 0.3827252611537076,
+    "weighted_f1": 0.4745978291577175,
+    "balanced_accuracy": 0.5,
+    "accuracy": 0.6200241757325664,
+    "per_class": {
+      "below_90": {
+        "precision": 0.6200241757325664,
+        "recall": 1.0,
+        "f1": 0.7654505223074152,
+        "support": 14875
+      },
+      "at_least_90": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 9116
+      }
+    },
+    "confusion_matrix": [
+      [
+        14875,
+        0
+      ],
+      [
+        9116,
+        0
+      ]
+    ],
+    "brier": 0.23559419726594766
+  },
+  "seed_metrics": null
+}

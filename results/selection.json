@@ -1,0 +1,212 @@
+{
+  "frozen": true,
+  "frozen_at": "2026-10-13T01:57:30+00:00",
+  "rule": "Primary criterion: validation MAE on grouped_v1 (T1). Candidates in order of complexity: E04_tfidf_word, E12_encoder, E10_lstm. A more complex candidate replaces the current choice only if it has lower validation MAE AND the 95% paired cluster-bootstrap CI of the MAE difference excludes 0.",
+  "final_model": "E04_tfidf_word",
+  "comparisons_on_validation": [
+    {
+      "current": "E04_tfidf_word",
+      "candidate": "E12_encoder",
+      "mae_current_minus_candidate": {
+        "estimate": -0.39369156993340204,
+        "ci95_low": -0.4154660172956306,
+        "ci95_high": -0.3709930468736399
+      },
+      "switch": false
+    },
+    {
+      "current": "E04_tfidf_word",
+      "candidate": "E10_lstm",
+      "mae_current_minus_candidate": {
+        "estimate": 0.00437096508893009,
+        "ci95_low": -0.009115874490226678,
+        "ci95_high": 0.017970099367772326
+      },
+      "switch": false
+    }
+  ],
+  "test_scope": [
+    {
+      "experiment": "E01_dummy_mean",
+      "status": "frozen",
+      "config_hash": "0b411a5590d0",
+      "split": "grouped_v1",
+      "task": "T1",
+      "seeds": [
+        42
+      ]
+    },
+    {
+      "experiment": "E02_length",
+      "status": "frozen",
+      "config_hash": "7e85448b2339",
+      "split": "grouped_v1",
+      "task": "T1",
+      "seeds": [
+        42
+      ]
+    },
+    {
+      "experiment": "E03_metadata",
+      "status": "frozen",
+      "config_hash": "11e784728477",
+      "split": "grouped_v1",
+      "task": "T1",
+      "seeds": [
+        42
+      ]
+    },
+    {
+      "experiment": "E04_tfidf_word",
+      "status": "frozen",
+      "config_hash": "70969891f05d",
+      "split": "grouped_v1",
+      "task": "T1",
+      "seeds": [
+        42
+      ]
+    },
+    {
+      "experiment": "E08_tfidf_mask_years",
+      "status": "frozen",
+      "config_hash": "db8323dd74dd",
+      "split": "grouped_v1",
+      "task": "T1",
+      "seeds": [
+        42
+      ]
+    },
+    {
+      "experiment": "E10_lstm",
+      "status": "frozen",
+      "config_hash": "3b4451552826",
+      "split": "grouped_v1",
+      "task": "T1",
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ]
+    },
+    {
+      "experiment": "E11_lstm_keep_negations",
+      "status": "frozen",
+      "config_hash": "c6d033518932",
+      "split": "grouped_v1",
+      "task": "T1",
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ]
+    },
+    {
+      "experiment": "E12_encoder",
+      "status": "frozen",
+      "config_hash": "62ff052d2310",
+      "split": "grouped_v1",
+      "task": "T1",
+      "seeds": [
+        42
+      ]
+    },
+    {
+      "experiment": "E20_t2_majority",
+      "status": "frozen",
+      "config_hash": "58f8d09950f3",
+      "split": "grouped_v1",
+      "task": "T2",
+      "seeds": [
+        42
+      ]
+    },
+    {
+      "experiment": "E21_t2_logistic",
+      "status": "frozen",
+      "config_hash": "55f1413abaa3",
+      "split": "grouped_v1",
+      "task": "T2",
+      "seeds": [
+        42
+      ]
+    },
+    {
+      "experiment": "E22_t2_ordinal",
+      "status": "frozen",
+      "config_hash": "13f172e36e9b",
+      "split": "grouped_v1",
+      "task": "T2",
+      "seeds": [
+        42
+      ]
+    },
+    {
+      "experiment": "E30_t3_majority",
+      "status": "frozen",
+      "config_hash": "58f8d09950f3",
+      "split": "grouped_v1",
+      "task": "T3",
+      "seeds": [
+        42
+      ]
+    },
+    {
+      "experiment": "E31_t3_logistic",
+      "status": "frozen",
+      "config_hash": "f5af5458c3cc",
+      "split": "grouped_v1",
+      "task": "T3",
+      "seeds": [
+        42
+      ]
+    },
+    {
+      "experiment": "E40_holdout_tfidf",
+      "status": "frozen",
+      "config_hash": "f4dfa93bd5ac",
+      "split": "taster_holdout_v1",
+      "task": "T1",
+      "seeds": [
+        42
+      ]
+    },
+    {
+      "experiment": "E42_random_tfidf",
+      "status": "frozen",
+      "config_hash": "70969891f05d",
+      "split": "taster_random_v1",
+      "task": "T1",
+      "seeds": [
+        42
+      ]
+    },
+    {
+      "experiment": "E41_holdout_lstm",
+      "status": "frozen",
+      "config_hash": "3b4451552826",
+      "split": "taster_holdout_v1",
+      "task": "T1",
+      "seeds": [
+        42,
+        43,
+        44
+      ]
+    },
+    {
+      "experiment": "E43_random_lstm",
+      "status": "frozen",
+      "config_hash": "3b4451552826",
+      "split": "taster_random_v1",
+      "task": "T1",
+      "seeds": [
+        42,
+        43,
+        44
+      ]
+    }
+  ]
+}

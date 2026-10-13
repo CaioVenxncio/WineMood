@@ -1,0 +1,39 @@
+{
+  "experiment": "E16_E04_tfidf_word_as_T3",
+  "task": "T3",
+  "split": "grouped_v1",
+  "config_hash": "d1e384cde71a",
+  "derived_from": "E04_tfidf_word",
+  "evaluated_at": "2026-10-13T02:03:29+00:00",
+  "test_metrics": {
+    "n": 23991,
+    "macro_f1": 0.8374193393898601,
+    "weighted_f1": 0.8480696335191814,
+    "balanced_accuracy": 0.831959317996615,
+    "accuracy": 0.8495269059230545,
+    "per_class": {
+      "below_90": {
+        "precision": 0.8596054395709635,
+        "recall": 0.9051428571428571,
+        "f1": 0.8817866264981334,
+        "support": 14875
+      },
+      "at_least_90": {
+        "precision": 0.8305715658021133,
+        "recall": 0.758775778850373,
+        "f1": 0.7930520522815868,
+        "support": 9116
+      }
+    },
+    "confusion_matrix": [
+      [
+        13464,
+        1411
+      ],
+      [
+        2199,
+        6917
+      ]
+    ]
+  }
+}

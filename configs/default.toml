@@ -1,0 +1,66 @@
+# WineMood default configuration.
+# Paths are resolved relative to the repository root unless absolute.
+
+[project]
+seed = 42
+
+[data]
+raw_csv = "data/raw/winemag-data-130k-v2.csv"
+text_column = "description"
+target_column = "points"
+# Stable row identifier: the CSV's own (unnamed) index column, renamed on load.
+id_column = "review_id"
+# Public Kaggle endpoint (dataset version 4, CC BY-NC-SA 4.0). See data/README.md.
+url = "https://www.kaggle.com/api/v1/datasets/download/zynicide/wine-reviews/winemag-data-130k-v2.csv"
+# SHA-256 of the extracted CSV, pinned after the first verified download.
+sha256 = "52af2643c8ac29f010f0cc629dfbdda1c74aa0f332d11762af9ef3de4e567ac9"
+processed_dir = "data/processed"   # git-ignored: split manifests (review ids)
+reports_dir = "reports"            # git-ignored: generated validation/EDA outputs
+fingerprints = "data/split_fingerprints.json"  # committed: counts + hashes only
+
+[labels]
+# Scheme served by the LEGACY model in the Streamlit UI. It encodes critic score
+# bands, NOT sentiment, and is not a research target (docs/audit.md A-01, A-02).
+scheme = "points_band_v0"
+
+[targets]
+# Research targets (docs/problem-formulation.md). Primary: regression on points.
+primary = "points_regression_v1"
+secondary = ["we_category_v1", "points_binary_90_v1"]
+# Pre-declared merge rule for we_category_merged_v1, applied on the training split.
+min_class_fraction = 0.01
+
+[neardup]
+enabled = true
+shingle_size = 3     # word n-grams
+num_perm = 128       # MinHash permutations
+bands = 16           # LSH bands (num_perm / bands rows per band)
+threshold = 0.8      # verified Jaccard similarity on shingle sets
+
+[split]
+# Legacy simple split (split_dataset), kept for compatibility.
+test_size = 0.2
+validation_size = 0.1
+deduplicate = true
+# Research split protocol (docs/experimental-protocol.md).
+name = "grouped_v1"
+n_folds = 10
+test_folds = 2         # ~20 %
+validation_folds = 1   # ~10 %
+stratify_on = "we_category_v1"
+group_by_title = true
+
+[preprocessing]
+lowercase = true
+strip_punctuation = true
+remove_stopwords = true
+# Legacy behaviour removes negations with the NLTK stopword list. Changing this
+# alters the model input, so it stays false until a Phase 3 experiment justifies it.
+keep_negations = false
+max_sequence_length = 100
+
+[artifacts]
+dir = "artifacts/legacy_lstm"
+model_file = "model.h5"
+tokenizer_json = "tokenizer.json"
+tokenizer_pickle = "tokenizer.pickle"

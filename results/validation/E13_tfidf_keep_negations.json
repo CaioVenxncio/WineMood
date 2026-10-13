@@ -1,0 +1,106 @@
+{
+  "experiment": "E13_tfidf_keep_negations",
+  "description": "Ablation D: B3* with the legacy pipeline minus negation removal",
+  "hypothesis": null,
+  "task": "T1",
+  "target": "points_regression_v1",
+  "family": "linear",
+  "split": "grouped_v1",
+  "base": "E04_tfidf_word",
+  "selected_config": {
+    "features": {
+      "kind": "tfidf",
+      "word": {
+        "ngram_range": [
+          1,
+          2
+        ],
+        "min_df": 5
+      },
+      "preprocessing": "keep_negations"
+    },
+    "head": {
+      "kind": "ridge",
+      "alpha": 1.0
+    }
+  },
+  "config_hash": "c73e3b1cd5b8",
+  "n_configs": 1,
+  "grid": [
+    {
+      "config_hash": "c73e3b1cd5b8",
+      "config": {
+        "features": {
+          "kind": "tfidf",
+          "word": {
+            "ngram_range": [
+              1,
+              2
+            ],
+            "min_df": 5
+          },
+          "preprocessing": "keep_negations"
+        },
+        "head": {
+          "kind": "ridge",
+          "alpha": 1.0
+        }
+      },
+      "mae": 1.3243973321040237,
+      "n_features": 72006,
+      "feature_seconds": 11.17,
+      "fit_seconds": 0.47
+    }
+  ],
+  "validation_metrics": {
+    "n": 11996,
+    "mae": 1.3243973321040237,
+    "rmse": 1.6785341533330898,
+    "median_ae": 1.1052885055541992,
+    "r2": 0.7069281196393504,
+    "bias": 0.06222205354475608,
+    "within_1": 0.460486828942981,
+    "within_2": 0.7790096698899633,
+    "pred_std": 2.5984304487983008,
+    "true_std": 3.1005811822302305
+  },
+  "seeds": [
+    42
+  ],
+  "meta": {
+    "run_id": "E13_tfidf_keep_negations-20261013T010544Z-eecf03",
+    "experiment": "E13_tfidf_keep_negations",
+    "started": "2026-10-13T01:05:44+00:00",
+    "git": {
+      "commit": "6b178be5495bb219cdd54556ed4ed24dfc7e53a6",
+      "dirty": true
+    },
+    "packages": {
+      "numpy": "2.5.4",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "tensorflow": "2.20.0",
+      "keras": "3.15.1",
+      "torch": "2.14.1+cpu",
+      "transformers": "5.19.0"
+    },
+    "hardware": {
+      "platform": "Windows-10-10.0.19045-SP0",
+      "python": "3.13.14",
+      "processor": "Intel64 Family 6 Model 158 Stepping 10, GenuineIntel",
+      "cpu_count": 6
+    },
+    "split": "grouped_v1",
+    "task": "T1",
+    "family": "linear",
+    "dataset_sha256": "52af2643c8ac29f010f0cc629dfbdda1c74aa0f332d11762af9ef3de4e567ac9",
+    "split_id_sha256": {
+      "train": "6a6a98f390a9d98ee0d50309cf18e320738aaf09ebb21229f00014ef21237332",
+      "validation": "4e01e2d247949916af8f5c9a9752d93b9db350fa3d7e11cb87deebccc486a46b"
+    },
+    "finished": "2026-10-13T01:05:56+00:00",
+    "seconds": 11.7,
+    "status": "ok"
+  }
+}

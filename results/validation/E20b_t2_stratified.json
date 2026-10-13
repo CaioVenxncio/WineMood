@@ -1,0 +1,154 @@
+{
+  "experiment": "E20b_t2_stratified",
+  "description": "Dummy (stratified random); validation only",
+  "hypothesis": null,
+  "task": "T2",
+  "target": "we_category_merged_v1",
+  "family": "linear",
+  "split": "grouped_v1",
+  "base": null,
+  "selected_config": {
+    "features": {
+      "kind": "none"
+    },
+    "head": {
+      "kind": "stratified"
+    }
+  },
+  "config_hash": "dcdbe7432308",
+  "n_configs": 1,
+  "grid": [
+    {
+      "config_hash": "dcdbe7432308",
+      "config": {
+        "features": {
+          "kind": "none"
+        },
+        "head": {
+          "kind": "stratified"
+        }
+      },
+      "macro_f1": 0.19743606888872947,
+      "n_features": 0,
+      "feature_seconds": 0.0,
+      "fit_seconds": 0.0
+    }
+  ],
+  "validation_metrics": {
+    "n": 11996,
+    "macro_f1": 0.19743606888872947,
+    "weighted_f1": 0.28786668584412123,
+    "balanced_accuracy": 0.19733879491379178,
+    "accuracy": 0.2877625875291764,
+    "per_class": {
+      "acceptable": {
+        "precision": 0.04659498207885305,
+        "recall": 0.04482758620689655,
+        "f1": 0.04569420035149385,
+        "support": 290
+      },
+      "good": {
+        "precision": 0.2345760475090729,
+        "recall": 0.23875083948959033,
+        "f1": 0.236645032451323,
+        "support": 2978
+      },
+      "very_good": {
+        "precision": 0.34884836852207296,
+        "recall": 0.3486810551558753,
+        "f1": 0.3487646917726073,
+        "support": 4170
+      },
+      "excellent": {
+        "precision": 0.3197852760736196,
+        "recall": 0.31622851365015164,
+        "f1": 0.31799694966954756,
+        "support": 3956
+      },
+      "superb_or_classic": {
+        "precision": 0.037953795379537955,
+        "recall": 0.03820598006644518,
+        "f1": 0.0380794701986755,
+        "support": 602
+      }
+    },
+    "confusion_matrix": [
+      [
+        13,
+        78,
+        106,
+        82,
+        11
+      ],
+      [
+        64,
+        711,
+        1059,
+        990,
+        154
+      ],
+      [
+        90,
+        1012,
+        1454,
+        1407,
+        207
+      ],
+      [
+        95,
+        1072,
+        1327,
+        1251,
+        211
+      ],
+      [
+        17,
+        158,
+        222,
+        182,
+        23
+      ]
+    ],
+    "qwk": -0.017593260651414422,
+    "mae_class_index": 1.024758252750917
+  },
+  "seeds": [
+    42
+  ],
+  "meta": {
+    "run_id": "E20b_t2_stratified-20261013T010557Z-44d8fe",
+    "experiment": "E20b_t2_stratified",
+    "started": "2026-10-13T01:05:57+00:00",
+    "git": {
+      "commit": "6b178be5495bb219cdd54556ed4ed24dfc7e53a6",
+      "dirty": true
+    },
+    "packages": {
+      "numpy": "2.5.4",
+      "pandas": "3.0.6",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "tensorflow": "2.20.0",
+      "keras": "3.15.1",
+      "torch": "2.14.1+cpu",
+      "transformers": "5.19.0"
+    },
+    "hardware": {
+      "platform": "Windows-10-10.0.19045-SP0",
+      "python": "3.13.14",
+      "processor": "Intel64 Family 6 Model 158 Stepping 10, GenuineIntel",
+      "cpu_count": 6
+    },
+    "split": "grouped_v1",
+    "task": "T2",
+    "family": "linear",
+    "dataset_sha256": "52af2643c8ac29f010f0cc629dfbdda1c74aa0f332d11762af9ef3de4e567ac9",
+    "split_id_sha256": {
+      "train": "6a6a98f390a9d98ee0d50309cf18e320738aaf09ebb21229f00014ef21237332",
+      "validation": "4e01e2d247949916af8f5c9a9752d93b9db350fa3d7e11cb87deebccc486a46b"
+    },
+    "finished": "2026-10-13T01:05:57+00:00",
+    "seconds": 0.1,
+    "status": "ok"
+  }
+}
