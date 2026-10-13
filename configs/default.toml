@@ -1,0 +1,36 @@
+# WineMood default configuration.
+# Paths are resolved relative to the repository root unless absolute.
+
+[project]
+seed = 42
+
+[data]
+raw_csv = "data/raw/winemag-data-130k-v2.csv"
+text_column = "description"
+target_column = "points"
+
+[labels]
+# The only scheme implemented in Phase 1 is the legacy one, reproduced verbatim
+# from the original notebook. It encodes critic score bands, NOT sentiment.
+# See docs/audit.md (A-01, A-02) and docs/research-proposal.md.
+scheme = "points_band_v0"
+
+[split]
+test_size = 0.2
+validation_size = 0.1
+deduplicate = true
+
+[preprocessing]
+lowercase = true
+strip_punctuation = true
+remove_stopwords = true
+# Legacy behaviour removes negations with the NLTK stopword list. Changing this
+# alters the model input, so it stays false until a Phase 3 experiment justifies it.
+keep_negations = false
+max_sequence_length = 100
+
+[artifacts]
+dir = "artifacts/legacy_lstm"
+model_file = "model.h5"
+tokenizer_json = "tokenizer.json"
+tokenizer_pickle = "tokenizer.pickle"

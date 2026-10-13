@@ -1,132 +1,99 @@
-# WineMood - Wine Review Sentiment Classifier
+# WineMood
 
+**WineMood** is an NLP research project on the language of professional wine
+tasting notes. It asks how much of a critic's numeric score can be recovered
+from the text they wrote, and which language carries that signal.
 
-**WineMood** is an intelligent system that analyzes textual wine reviews and automatically classifies the expressed sentiment as **positive**, **neutral**, or **negative**. Using Natural Language Processing (NLP) techniques combined with Deep Learning, the project transforms human language into useful insights for consumers and businesses.
+The project started in 2025 as a coursework "wine review sentiment classifier".
+A 2026 audit found that its labels were critic-score thresholds rather than
+sentiment, that one of its three classes cannot occur in the data, and that no
+results had ever been recorded. The project is being rebuilt as a reproducible
+research codebase in five phases (see [`docs/roadmap.md`](docs/roadmap.md)).
 
-## 📋 Overview
+> **Current status (Phase 1 complete, pending review):** the engineering
+> foundations, audit and research design are in place. **No trained model is
+> distributed and no performance results exist yet.** Model training and
+> evaluation are scheduled for Phase 3.
 
-This classifier can be integrated into wine e-commerce platforms, such as Vinheria Agnello, providing customers with automatic sentiment analysis of reviews before purchasing.
+## What is implemented
 
-### 🎯 Objectives
+| Component | Status |
+|---|---|
+| Technical & scientific audit | [`docs/audit.md`](docs/audit.md) |
+| Research proposal (questions, hypotheses, evaluation plan) | [`docs/research-proposal.md`](docs/research-proposal.md) |
+| Architecture & decisions | [`docs/architecture.md`](docs/architecture.md) |
+| `winemood` package | Config, structured logging, seeding, data validation, versioned label schemes, deduplicating split-before-fit utilities, shared preprocessing, inference interface |
+| Streamlit app | English UI that serves a legacy LSTM *if* you supply artifacts. Without them, it explains what is missing |
+| Tests | pytest suite on synthetic data, including headless UI tests |
+| CI | GitHub Actions workflow (Ruff + pytest). Not yet run on GitHub |
 
-- Apply NLP and Deep Learning techniques to real-world data
-- Build a model capable of understanding and classifying emotions in text
-- Develop a user-friendly web interface for real-time testing
-- Present a practical and applicable proof of concept for businesses
+**Not yet implemented:**
+- the training pipeline;
+- the evaluation pipeline;
+- baselines;
+- reproducible model artifacts;
+- a data report on the real dataset.
 
-## 🧰 Technologies and Tools
+## Important caveat about labels
 
-| Category                 | Technology            |
-|--------------------------|-----------------------|
-| Programming Language     | Python                |
-| Deep Learning Framework  | TensorFlow + Keras    |
-| Data Manipulation        | Pandas, NumPy         |
-| NLP & Preprocessing      | NLTK, Regex, Tokenizer|
-| Web Interface            | Streamlit             |
-| Dataset                  | Wine Reviews (Kaggle) |
-| Training Platform        | Google Colab (Free GPU)|
-| Visualization            | Matplotlib / Streamlit|
-| Version Control          | GitHub                |
+The legacy model predicts three **score bands** derived from WineEnthusiast
+`points`, preserved as the label scheme `points_band_v0`:
 
-## 📦 Dataset
+| Legacy name | Rule |
+|---|---|
+| Positive | points ≥ 90 |
+| Neutral | 80 ≤ points ≤ 89 |
+| Negative | points < 80 (**does not occur in the dataset**) |
 
-- **Name**: Wine Reviews Dataset
-- **Source**: Kaggle (https://www.kaggle.com/datasets/zynicide/wine-reviews)
-- **Records**: ~130,000 wine reviews
-- **Used Columns**:
-  - `description`: text of the wine review
-  - `points`: wine score (from 80 to 100)
-- **Derived Label**: Sentiment (positive, neutral, negative) based on score
+These are not human-annotated sentiment labels. The replacement target
+definition is a Phase 2 decision (see the research proposal, §5).
 
-## 🔧 Development Steps
+## Quick start
 
-### 1. Data Collection and Exploration
-- Load dataset using pandas
-- Check for null values, class distribution, and descriptive statistics
+Requires Python 3.11–3.13.
 
-### 2. Label Creation
-- Convert numerical scores into sentiment categories:
-  - ≥ 90: Positive
-  - 80–89: Neutral
-  - < 80: Negative
+```bash
+git clone https://github.com/CaioVenxncio/WineMood.git
+cd WineMood
+python -m venv .venv
+# Windows: .venv\Scripts\activate    macOS/Linux: source .venv/bin/activate
+pip install -e ".[dev]"
 
-### 3. Text Preprocessing
-- Clean text (lowercase, punctuation and stopwords removal)
-- Tokenize and standardize sequences to fixed length
+pytest                 # run the test suite
+ruff check . && ruff format --check .
+streamlit run app.py   # launch the demo UI
+```
 
-### 4. Deep Learning Model Training
-- **Model architecture**:
-  - Embedding for text vectorization
-  - LSTM for sequence understanding
-  - Dense with softmax for classification
-- Train/test split (80/20)
-- Metrics: accuracy, loss
+The app starts without a model and shows how to supply one. See
+[`artifacts/README.md`](artifacts/README.md) for the artifact layout and
+[`data/README.md`](data/README.md) for dataset acquisition.
 
-### 5. Evaluation
-- Evaluate model on test set using `.evaluate()`
-- Print accuracy and analyze incorrect predictions
+## Dataset
 
-### 6. Web Interface (Streamlit)
-- Web interface where users input text reviews
-- The model predicts and displays detected sentiment
-- Extra features:
-  - Bar chart showing sentiment percentages
-  - Process multiple reviews at once
-  - “About the Project” tab with explanations
+[*Wine Reviews*](https://www.kaggle.com/datasets/zynicide/wine-reviews)
+(Kaggle, zynicide): about 130k WineEnthusiast reviews with `description`,
+`points`, `taster_name`, price, variety and origin. The data is not included in
+this repository. Its licence and terms will be confirmed and recorded in
+Phase 2.
 
-## 🖼 Example Usage
+## Repository layout
 
-**User Input**:
-"Great complexity with floral aromas and a long finish."
+```
+app.py                  Streamlit entry point
+configs/default.toml    Run configuration
+src/winemood/           Package (data, preprocessing, inference, ui)
+tests/                  pytest suite (synthetic fixtures)
+docs/                   Audit, research proposal, architecture, roadmap
+notebooks/legacy/       Original 2025 Colab notebook (unmodified, superseded)
+data/, artifacts/       Instructions only; contents are git-ignored
+```
 
-**Predicted Output**:
-Sentiment: Positive
+## Technology
 
-## 🌍 Real-World Applications
+Python, TensorFlow 2.20 + tf-keras (legacy LSTM), scikit-learn, pandas, NLTK,
+Streamlit, pytest, Ruff, GitHub Actions. The rationale for each is in
+[`docs/architecture.md`](docs/architecture.md).
 
-- Automatically recommend wines based on customer sentiment
-- Help wine sellers and producers understand public perception
-- Highlight top-rated wines on e-commerce platforms
+## License
 
-## 📈 Expected Results
-
-- Accuracy above 80% with balanced training data
-- Lightweight, responsive web interface
-- Modular, reusable code for similar sentiment analysis tasks
-
-## 🚀 Project Highlights
-
-- Fully functional project with real-time interface
-- Uses real-world data with practical applications
-- Combines NLP, LSTM, and Web Deployment
-- Ready for commercial platform integration
-
-## 📝 Usage Instructions
-
-### Local Execution
-
-1. Clone the repository
-2. Install dependencies: `pip install -r requirements.txt`
-3. Run the Streamlit app: `streamlit run app.py`
-
-### Google Colab
-
-1. Open the notebook `colab_notebook.ipynb` in Google Colab
-2. Run all cells to train the model and generate necessary files
-3. Download generated files (model.h5, tokenizer.pickle) for local use
-
-### Online Deployment
-
-The app can be deployed on Streamlit Cloud for public access:
-
-1. Create a Streamlit Cloud account
-2. Connect your GitHub repository with the project files
-3. Set the main file as app.py for deployment
-
-## 👥 Contributions
-
-Contributions are welcome! Feel free to open issues or submit pull requests with improvements.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+MIT. See [`LICENSE`](LICENSE). The dataset is subject to its own terms.
