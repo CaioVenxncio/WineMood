@@ -5,6 +5,9 @@ __pycache__/
 /build/
 .venv/
 venv/
+/env/
+.tox/
+.nox/
 
 # Tooling caches
 .pytest_cache/
@@ -16,26 +19,71 @@ htmlcov/
 # Notebooks
 .ipynb_checkpoints/
 
+# Secrets and credentials: never committed. Hosted deployments use the
+# platform's secret store (docs/deployment.md).
+.env
+.env.*
+.streamlit/secrets.toml
+secrets.json
+secrets.toml
+credentials.json
+service-account*.json
+.netrc
+.pypirc
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ecdsa*
+id_ed25519*
+kaggle.json
+
 # Data and model artifacts are never committed (see data/README.md, artifacts/README.md).
 # Root-anchored (leading "/") so they never match source packages such as
 # src/winemood/experiments/ or src/winemood/models/.
-/data/raw/
-/data/processed/
+/data/*
+!/data/README.md
+!/data/split_fingerprints.json
 # Generated validation/EDA outputs (regenerate with `winemood data ...`)
 /reports/
 # Experiment artifacts: models, predictions, caches (results/ is committed instead)
 /experiments/
+/mlruns/
+/wandb/
 # Installed / packaged model artifacts (CC BY-NC-SA derived works; distributed
 # as release assets, never committed)
 /models/
 /dist/
 /artifacts/*
 !/artifacts/README.md
+
+# Dataset and model file formats, wherever they appear. No file of these types
+# is tracked; tests build synthetic data in code.
+*.csv
+*.tsv
+*.parquet
+*.feather
+*.zip
+*.npy
+*.npz
 *.h5
 *.keras
 *.pickle
 *.pkl
-kaggle.json
+*.joblib
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+
+# Logs and local scratch / assistant tooling
+*.log
+nohup.out
+/logs/
+/scratch/
+.claude/
 
 # Editors / OS
 .vscode/
