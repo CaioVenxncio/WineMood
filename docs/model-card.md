@@ -96,8 +96,10 @@ never saw, MAE rises to 1.412, against 1.321 on a size-matched random split.
 - **Target noise.** Repeat reviews of the same wine differ by about 1.7
   points on average, so precision beyond about ±1 point should not be
   expected.
-- **Data artifacts.** 0.5 % of descriptions begin with the critic's score
-  range (barrel samples; audit A-31). The measured effect on the reported
+- **Data artifacts.** 669 unique descriptions (about 0.6 %) begin with the
+  critic's score range (barrel samples; audit A-31; count corrected in
+  Phase 4). The model learned these tokens (e.g. "92" and "94" have
+  coefficients of about +5.7). The measured effect on the reported
   metrics is negligible (Δ MAE 0.0002), but it is a leakage source that a
   future data version will remove.
 - **Era and scope.** The data covers a single publication, English only,

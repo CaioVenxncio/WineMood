@@ -2,7 +2,7 @@
 
 # WineMood: Results Tables (generated)
 
-Generated 2026-10-13T02:06:29+00:00. Bootstrap: 2000 cluster resamples over split groups; intervals are 95 % percentile intervals. MAE, RMSE and bias are in points.
+Generated 2026-10-13T02:30:06+00:00. Bootstrap: 2000 cluster resamples over split groups; intervals are 95 % percentile intervals. MAE, RMSE and bias are in points.
 
 ## Validation results (development set; used for selection)
 

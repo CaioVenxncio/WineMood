@@ -62,32 +62,59 @@ class ScorePredictor:
                 raise ArtifactNotFoundError(f"No LSTM model for seed {chosen} in {self.directory}")
             self._model = lstm.load(model_dir)
             cfg = run["selected_config"]
+            self._prep_version = cfg["preprocessing"]
+            self._mask = cfg.get("mask_numbers", "none")
             self._prep = TextPreprocessor(
-                preprocessing_config(cfg["preprocessing"], cfg.get("mask_numbers", "none")),
-                stopwords=stopwords,
+                preprocessing_config(self._prep_version, self._mask), stopwords=stopwords
             )
         elif self.family == "linear":
             model_dir = self.directory / "model"
-            self._pipe = FeaturePipeline.load(model_dir, stopwords=stopwords)
+            try:
+                self._pipe = FeaturePipeline.load(model_dir, stopwords=stopwords)
+                self._head = Head.load(model_dir)
+            except FileNotFoundError as exc:
+                raise ArtifactNotFoundError(f"Incomplete model artifact: {exc}") from exc
+            except (ValueError, KeyError, TypeError, OSError) as exc:
+                raise ArtifactIncompatibleError(f"Unreadable model artifact: {exc}") from exc
             if self._pipe.spec.kind in ("metadata", "encoder"):
                 raise ArtifactIncompatibleError(
                     "Only text-only linear models can be served from text"
                 )
-            self._head = Head.load(model_dir)
         else:
             raise ArtifactIncompatibleError(f"Unsupported model family '{self.family}'")
 
-    def predict_scores(self, texts: Sequence[str]) -> np.ndarray:
+    @property
+    def preprocessing_version(self) -> str:
+        if self.family == "lstm":
+            return self._prep_version
+        return self._pipe.spec.preprocessing
+
+    @property
+    def mask_numbers(self) -> str:
+        if self.family == "lstm":
+            return self._mask
+        return self._pipe.spec.mask_numbers
+
+    def linear_components(self) -> tuple[FeaturePipeline, Head]:
+        """The fitted feature pipeline and linear head (for exact explanations)."""
+        if self.family != "linear":
+            raise ArtifactIncompatibleError("Linear components exist only for linear models")
+        return self._pipe, self._head
+
+    def predict_raw(self, texts: Sequence[str]) -> np.ndarray:
+        """Unclipped model output (may fall outside 80-100)."""
         if not texts:
             return np.zeros(0)
         if self.family == "lstm":
             from winemood.models import lstm
 
-            return clip_scores(
-                lstm.predict(self._model, [sequence_text(self._prep(t)) for t in texts])
-            )
+            return lstm.predict(self._model, [sequence_text(self._prep(t)) for t in texts])
         frame = pd.DataFrame({self._pipe.text_column: list(texts)})
-        return clip_scores(self._head.predict(self._pipe.transform(frame)))
+        return np.asarray(self._head.predict(self._pipe.transform(frame)), dtype=float)
+
+    def predict_scores(self, texts: Sequence[str]) -> np.ndarray:
+        """Model output clipped to the published 80-100 scale (documented policy)."""
+        return clip_scores(self.predict_raw(texts)) if texts else np.zeros(0)
 
     def predict(self, texts: Sequence[str]) -> list[ScorePrediction]:
         scores = self.predict_scores(texts)

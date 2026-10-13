@@ -2,8 +2,7 @@
 __pycache__/
 *.py[cod]
 *.egg-info/
-build/
-dist/
+/build/
 .venv/
 venv/
 
@@ -17,15 +16,21 @@ htmlcov/
 # Notebooks
 .ipynb_checkpoints/
 
-# Data and model artifacts are never committed (see data/README.md, artifacts/README.md)
-data/raw/
-data/processed/
+# Data and model artifacts are never committed (see data/README.md, artifacts/README.md).
+# Root-anchored (leading "/") so they never match source packages such as
+# src/winemood/experiments/ or src/winemood/models/.
+/data/raw/
+/data/processed/
 # Generated validation/EDA outputs (regenerate with `winemood data ...`)
-reports/
+/reports/
 # Experiment artifacts: models, predictions, caches (results/ is committed instead)
-experiments/
-artifacts/*
-!artifacts/README.md
+/experiments/
+# Installed / packaged model artifacts (CC BY-NC-SA derived works; distributed
+# as release assets, never committed)
+/models/
+/dist/
+/artifacts/*
+!/artifacts/README.md
 *.h5
 *.keras
 *.pickle

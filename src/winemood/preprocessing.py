@@ -24,8 +24,31 @@ _DIGITS = re.compile(r"\d+")
 YEAR_TOKEN = " __year__ "
 NUMBER_TOKEN = " __num__ "
 
-PREPROCESSING_VERSIONS = ("norm_min_v1", "norm_legacy_v0", "keep_negations")
+PREPROCESSING_VERSIONS = ("norm_min_v1", "norm_min_v2", "norm_legacy_v0", "keep_negations")
 MASK_MODES = ("none", "years", "all")
+
+# Audit A-31: 628 unique descriptions begin with the critic's own score range
+# ("86-88 Barrel sample. ..."). Only a range of two 80-100 scores at the very
+# start of the text is removed; every other number (vintages, drinking windows,
+# percentages, ages) is untouched, and so is the phrase "barrel sample".
+_DASHES = "-" + chr(0x2013) + chr(0x2014)  # hyphen, en dash, em dash
+_SCORE = r"(?:8\d|9\d|100)"
+_SCORE_PREFIX = re.compile(
+    # (?!\d|\s*%) keeps percentage ranges such as "85-90% Cabernet" intact.
+    rf"^\s*{_SCORE}\s*[{re.escape(_DASHES)}]\s*{_SCORE}(?!\d|\s*%)(?:\s*[.:;,)]+)?\s*"
+)
+
+
+def strip_score_prefix(text: str) -> tuple[str, bool]:
+    """Remove a leading critic score range (A-31). Returns (text, was_stripped)."""
+    match = _SCORE_PREFIX.match(text)
+    if match is None:
+        return text, False
+    return text[match.end() :], True
+
+
+def has_score_prefix(text: str) -> bool:
+    return _SCORE_PREFIX.match(text) is not None
 
 
 def preprocessing_config(
@@ -37,6 +60,12 @@ def preprocessing_config(
     legacy = PreprocessingConfig(max_sequence_length=max_sequence_length)
     if version == "norm_min_v1":
         cfg = replace(legacy, strip_punctuation=False, remove_stopwords=False)
+    elif version == "norm_min_v2":
+        # norm_min_v1 + A-31 score-prefix removal. Not compatible with models
+        # trained on v1 (e.g. E04); see docs/a31-remediation.md.
+        cfg = replace(
+            legacy, strip_punctuation=False, remove_stopwords=False, strip_score_prefix=True
+        )
     elif version == "norm_legacy_v0":
         cfg = legacy
     elif version == "keep_negations":
@@ -102,6 +131,8 @@ class TextPreprocessor:
         return words
 
     def __call__(self, text: str) -> str:
+        if self.config.strip_score_prefix:
+            text, _ = strip_score_prefix(text)
         text = mask_numbers(text, self.config.mask_numbers)
         if self.config.lowercase:
             text = text.lower()

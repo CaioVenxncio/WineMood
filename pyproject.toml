@@ -4,19 +4,18 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "winemood"
-version = "0.2.0"
-description = "Research on the language of wine tasting notes and critic score bands."
+version = "0.4.0"
+description = "NLP research on how the language of wine reviews relates to expert critic scores."
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [{ name = "Caio Venancio" }]
 requires-python = ">=3.11,<3.14"
-# TensorFlow and tf-keras must share the same minor version. tf-keras provides
-# the Keras 2 APIs (Tokenizer, HDF5 loading) used by the legacy artifacts.
-# Versions verified together: tensorflow 2.20.0, tf-keras 2.20.1 (Python 3.13).
+# Core = everything the application and the classical research pipeline need.
+# Neural dependencies are optional extras (Phase 4 decision): the deployed app
+# serves the selected TF-IDF + Ridge model and never imports TensorFlow.
 dependencies = [
-    "tensorflow>=2.20,<2.21",
-    "tf-keras>=2.20,<2.21",
     "streamlit>=1.50,<2",
+    "altair>=5,<7",
     "pandas>=2.2,<4",
     "numpy>=1.26,<3",
     "scikit-learn>=1.5,<2",
@@ -29,7 +28,10 @@ dependencies = [
 winemood = "winemood.cli:main"
 
 [project.optional-dependencies]
-dev = ["pytest>=8,<10", "ruff>=0.14,<0.18"]
+dev = ["pytest>=8,<10", "ruff>=0.17,<0.18"]
+# BiLSTM experiments and the legacy LSTM loader. TensorFlow and tf-keras must
+# share a minor version; verified together: tensorflow 2.20.0, tf-keras 2.20.1.
+neural = ["tensorflow>=2.20,<2.21", "tf-keras>=2.20,<2.21"]
 # Frozen-encoder experiment (N2). Install the CPU build of torch first:
 #   pip install torch --index-url https://download.pytorch.org/whl/cpu
 # Verified together: torch 2.14.1+cpu, transformers 5.19.0 (Python 3.13).

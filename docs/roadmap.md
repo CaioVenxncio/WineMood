@@ -147,9 +147,34 @@ Details are in `docs/experimental-results.md`.
 
 ---
 
-## Phase 4: Professional research dashboard and user experience
+## Phase 4: Professional research dashboard and user experience ✅ (implemented, awaiting review)
 
-**Deliverables**
+**Outcome**
+
+- A Predict / Research / Explore application serving the selected E04 model.
+  It uses exact linear attributions, reads every metric from the committed
+  records, and runs without TensorFlow.
+- **A-31 isolated.** The new `norm_min_v2` preprocessing removes leading score
+  ranges, and the affected count was corrected to 669. The application flags
+  such input. Retraining under `norm_min_v2` is drafted as a separate
+  protocol that needs approval.
+- **H5 correction documented** in protocol §10.
+
+See [`application.md`](application.md) and [`deployment.md`](deployment.md).
+
+**Changes from the plan (with reasons)**
+
+- *"Model selection across trained artifacts"* became a single-model
+  application. Only E04 was selected under the frozen protocol, and serving
+  rejected models side by side would invite post-hoc comparison.
+- *"Per-prediction probabilities and calibration context"* was replaced by
+  aggregate performance only. No per-prediction uncertainty has been
+  calibrated, so none is shown.
+- *"Data version 2 … re-run the pipeline"* became an isolated `norm_min_v2`
+  plus a draft protocol. The Phase 3 test set is spent, and a corrected model
+  needs a new, approved evaluation design (`a31-remediation.md` §5).
+
+**Deliverables (as planned)**
 
 - A Streamlit app with:
   - model selection across trained artifacts;
@@ -173,9 +198,14 @@ Details are in `docs/experimental-results.md`.
 
 **Acceptance criteria**
 
-- Every number shown in the UI traces back to a stored run file.
-- `AppTest` coverage for each page, including missing-artifact states.
-- The UI makes no claims beyond those in the evaluation report.
+- [x] Every number shown in the UI traces back to a stored run file. A test
+      compares the displayed values with `results/report.json`.
+- [x] `AppTest` coverage for each page, including missing-model and
+      missing-results states.
+- [x] The UI makes no claims beyond those in the evaluation report (forbidden-
+      terms test; limitations shown on every page).
+- [ ] Merged after review, and CI green on GitHub (the branch has not been
+      pushed yet).
 
 ---
 

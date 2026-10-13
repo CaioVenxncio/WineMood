@@ -1,0 +1,72 @@
+# WineMood application theme (see docs/application.md, "Design system").
+# Contrast (WCAG): text 15.6:1, muted text 6.6:1, burgundy accent 9.5:1 on the
+# off-white background. Fonts are self-hosted OFL files in static/fonts/.
+# Source Serif 4 is registered as 'WineMood Serif': Streamlit drops font-face
+# family names that contain a digit.
+
+[server]
+enableStaticServing = true
+maxUploadSize = 1          # MB; the batch page also enforces its own limits
+headless = true
+
+[browser]
+gatherUsageStats = false
+
+[client]
+toolbarMode = "viewer"     # hide developer options (e.g. "Deploy") from visitors
+
+[theme]
+base = "light"
+primaryColor = "#7A1F3D"
+backgroundColor = "#FAF8F5"
+secondaryBackgroundColor = "#F2EDE7"
+textColor = "#1F1F1F"
+linkColor = "#7A1F3D"
+borderColor = "#D9D1C7"
+baseRadius = "small"
+font = "Inter, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+headingFont = "'WineMood Serif', Georgia, 'Times New Roman', serif"
+codeFont = "'JetBrains Mono', Consolas, 'Courier New', monospace"
+chartCategoricalColors = ["#7A1F3D", "#2E5E6E", "#8A6A1F", "#5E5852", "#9C3A4E", "#6B8E7F"]
+
+[[theme.fontFaces]]
+family = "Inter"
+url = "app/static/fonts/inter-latin-400-normal.woff2"
+weight = 400
+style = "normal"
+
+[[theme.fontFaces]]
+family = "Inter"
+url = "app/static/fonts/inter-latin-500-normal.woff2"
+weight = 500
+style = "normal"
+
+[[theme.fontFaces]]
+family = "Inter"
+url = "app/static/fonts/inter-latin-600-normal.woff2"
+weight = 600
+style = "normal"
+
+[[theme.fontFaces]]
+family = "WineMood Serif"
+url = "app/static/fonts/source-serif-4-latin-500-normal.woff2"
+weight = 500
+style = "normal"
+
+[[theme.fontFaces]]
+family = "WineMood Serif"
+url = "app/static/fonts/source-serif-4-latin-600-normal.woff2"
+weight = 600
+style = "normal"
+
+[[theme.fontFaces]]
+family = "JetBrains Mono"
+url = "app/static/fonts/jetbrains-mono-latin-400-normal.woff2"
+weight = 400
+style = "normal"
+
+[[theme.fontFaces]]
+family = "JetBrains Mono"
+url = "app/static/fonts/jetbrains-mono-latin-500-normal.woff2"
+weight = 500
+style = "normal"

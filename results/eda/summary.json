@@ -1,0 +1,769 @@
+{
+  "descriptive": {
+    "n_rows_raw": 630,
+    "n_rows_dedup": 610,
+    "validation": {
+      "n_rows": 630,
+      "columns": {
+        "review_id": "int64",
+        "description": "str",
+        "points": "int64",
+        "title": "str",
+        "taster_name": "str",
+        "country": "str",
+        "price": "float64",
+        "variety": "str"
+      },
+      "missing_by_column": {
+        "review_id": 0,
+        "description": 0,
+        "points": 0,
+        "title": 0,
+        "taster_name": 105,
+        "country": 0,
+        "price": 91,
+        "variety": 0
+      },
+      "n_missing_text": 0,
+      "n_empty_text": 0,
+      "n_short_text": 0,
+      "n_missing_target": 0,
+      "n_non_integer_target": 0,
+      "n_out_of_range_target": 0,
+      "n_duplicate_text": 0,
+      "n_duplicate_text_normalized": 20,
+      "n_duplicate_rows": 0,
+      "n_duplicate_title": 30,
+      "n_texts_with_control_chars": 0,
+      "n_texts_with_replacement_char": 0,
+      "n_texts_with_suspected_mojibake": 0,
+      "n_texts_non_ascii": 0,
+      "points_min": 80.0,
+      "points_max": 98.0,
+      "errors": [],
+      "warnings": [
+        "0 exact / 20 normalised duplicate text value(s); deduplicate before splitting to avoid train/test leakage"
+      ],
+      "ok": true
+    },
+    "points": {
+      "n": 610,
+      "mean": 88.29508196721312,
+      "std": 2.9857035504442995,
+      "min": 80.0,
+      "p1": 81.09,
+      "p5": 84.0,
+      "p25": 86.0,
+      "p50": 88.0,
+      "p75": 90.0,
+      "p95": 93.0,
+      "p99": 95.90999999999997,
+      "max": 98.0
+    },
+    "points_counts": {
+      "80": 2,
+      "81": 5,
+      "82": 10,
+      "83": 11,
+      "84": 33,
+      "85": 55,
+      "86": 47,
+      "87": 78,
+      "88": 74,
+      "89": 90,
+      "90": 67,
+      "91": 55,
+      "92": 36,
+      "93": 20,
+      "94": 16,
+      "95": 4,
+      "96": 6,
+      "98": 1
+    },
+    "targets": {
+      "points_regression_v1": {
+        "scheme": "points_regression_v1",
+        "task": "regression",
+        "n": 610,
+        "support": {
+          "80": 2,
+          "81": 5,
+          "82": 10,
+          "83": 11,
+          "84": 33,
+          "85": 55,
+          "86": 47,
+          "87": 78,
+          "88": 74,
+          "89": 90,
+          "90": 67,
+          "91": 55,
+          "92": 36,
+          "93": 20,
+          "94": 16,
+          "95": 4,
+          "96": 6,
+          "98": 1
+        },
+        "proportions": {
+          "80": 0.003278688524590164,
+          "81": 0.00819672131147541,
+          "82": 0.01639344262295082,
+          "83": 0.018032786885245903,
+          "84": 0.054098360655737705,
+          "85": 0.09016393442622951,
+          "86": 0.07704918032786885,
+          "87": 0.12786885245901639,
+          "88": 0.12131147540983607,
+          "89": 0.14754098360655737,
+          "90": 0.10983606557377049,
+          "91": 0.09016393442622951,
+          "92": 0.05901639344262295,
+          "93": 0.03278688524590164,
+          "94": 0.02622950819672131,
+          "95": 0.006557377049180328,
+          "96": 0.009836065573770493,
+          "98": 0.001639344262295082
+        },
+        "empty_classes": [],
+        "imbalance_ratio": null,
+        "extra": {
+          "mean": 88.29508196721312,
+          "std": 2.9857035504442995,
+          "median": 88.0,
+          "min": 80.0,
+          "max": 98.0
+        }
+      },
+      "we_category_v1": {
+        "scheme": "we_category_v1",
+        "task": "ordinal",
+        "n": 610,
+        "support": {
+          "acceptable": 17,
+          "good": 146,
+          "very_good": 242,
+          "excellent": 178,
+          "superb": 26,
+          "classic": 1
+        },
+        "proportions": {
+          "acceptable": 0.027868852459016394,
+          "good": 0.23934426229508196,
+          "very_good": 0.39672131147540984,
+          "excellent": 0.29180327868852457,
+          "superb": 0.04262295081967213,
+          "classic": 0.001639344262295082
+        },
+        "empty_classes": [],
+        "imbalance_ratio": 242.0,
+        "extra": {}
+      },
+      "we_category_merged_v1": {
+        "scheme": "we_category_merged_v1",
+        "task": "ordinal",
+        "n": 610,
+        "support": {
+          "acceptable": 17,
+          "good": 146,
+          "very_good": 242,
+          "excellent": 178,
+          "superb_or_classic": 27
+        },
+        "proportions": {
+          "acceptable": 0.027868852459016394,
+          "good": 0.23934426229508196,
+          "very_good": 0.39672131147540984,
+          "excellent": 0.29180327868852457,
+          "superb_or_classic": 0.04426229508196721
+        },
+        "empty_classes": [],
+        "imbalance_ratio": 14.235294117647058,
+        "extra": {}
+      },
+      "points_binary_90_v1": {
+        "scheme": "points_binary_90_v1",
+        "task": "classification",
+        "n": 610,
+        "support": {
+          "below_90": 405,
+          "at_least_90": 205
+        },
+        "proportions": {
+          "below_90": 0.6639344262295082,
+          "at_least_90": 0.3360655737704918
+        },
+        "empty_classes": [],
+        "imbalance_ratio": 1.975609756097561,
+        "extra": {}
+      },
+      "points_band_v0": {
+        "scheme": "points_band_v0",
+        "task": "classification",
+        "n": 610,
+        "support": {
+          "negative": 0,
+          "neutral": 405,
+          "positive": 205
+        },
+        "proportions": {
+          "negative": 0.0,
+          "neutral": 0.6639344262295082,
+          "positive": 0.3360655737704918
+        },
+        "empty_classes": [
+          "negative"
+        ],
+        "imbalance_ratio": 1.975609756097561,
+        "extra": {}
+      }
+    },
+    "length_words": {
+      "n": 610,
+      "mean": 40.38032786885246,
+      "std": 6.401939865906028,
+      "min": 22.0,
+      "p1": 27.0,
+      "p5": 29.450000000000003,
+      "p25": 36.0,
+      "p50": 41.0,
+      "p75": 45.0,
+      "p95": 50.549999999999955,
+      "p99": 53.0,
+      "max": 59.0
+    },
+    "length_chars": {
+      "n": 610,
+      "mean": 274.14098360655737,
+      "std": 44.876291834525105,
+      "min": 138.0,
+      "p1": 179.0,
+      "p5": 199.45,
+      "p25": 243.0,
+      "p50": 275.0,
+      "p75": 303.75,
+      "p95": 349.0,
+      "p99": 371.7299999999999,
+      "max": 393.0
+    },
+    "median_words_by_we_category": {
+      "acceptable": 28.0,
+      "good": 36.0,
+      "very_good": 40.0,
+      "excellent": 45.0,
+      "superb": 49.0,
+      "classic": 59.0
+    },
+    "spearman_words_points_all": 0.7006287157891071,
+    "missing_fraction": {
+      "review_id": 0.0,
+      "description": 0.0,
+      "points": 0.0,
+      "title": 0.0,
+      "taster_name": 0.16666666666666666,
+      "country": 0.0,
+      "price": 0.14444444444444443,
+      "variety": 0.0
+    },
+    "metadata": {
+      "top_countries": {
+        "Italy": 204,
+        "US": 203,
+        "France": 203
+      },
+      "n_countries": 3,
+      "top_varieties": {
+        "Pinot Noir": 305,
+        "Chardonnay": 305
+      },
+      "n_varieties": 2,
+      "price": {
+        "n": 522,
+        "mean": 104.36973180076629,
+        "std": 55.66298441942253,
+        "min": 10.0,
+        "p1": 11.21,
+        "p5": 18.0,
+        "p25": 57.25,
+        "p50": 105.0,
+        "p75": 153.0,
+        "p95": 191.0,
+        "p99": 199.0,
+        "max": 199.0,
+        "missing": 88
+      },
+      "spearman_price_points": -0.004662319482226797,
+      "tasters": {
+        "n_tasters": 5,
+        "rows_missing_taster": 102,
+        "rows_per_taster_sorted": [
+          102,
+          102,
+          102,
+          101,
+          101
+        ],
+        "largest_taster_share": 0.16721311475409836,
+        "mean_points_per_taster_min": 88.29411764705883,
+        "mean_points_per_taster_max": 88.44554455445545
+      },
+      "vintage": {
+        "n": 600,
+        "mean": 2014.5,
+        "std": 2.874677887159686,
+        "min": 2010.0,
+        "p1": 2010.0,
+        "p5": 2010.0,
+        "p25": 2012.0,
+        "p50": 2014.5,
+        "p75": 2017.0,
+        "p95": 2019.0,
+        "p99": 2019.0,
+        "max": 2019.0,
+        "missing": 10
+      }
+    }
+  },
+  "modelling": {
+    "n_train": 427,
+    "n_validation": 62,
+    "vocabulary_size": 457,
+    "terms_with_count_ge_5": 36,
+    "token_coverage_by_top_k": {
+      "1000": 1.0,
+      "2000": 1.0,
+      "5000": 1.0,
+      "10000": 1.0,
+      "20000": 1.0,
+      "50000": 1.0
+    },
+    "validation_oov_rate_by_vocab_size": {
+      "1000": 0.024409448818897637,
+      "2000": 0.024409448818897637,
+      "5000": 0.024409448818897637,
+      "10000": 0.024409448818897637,
+      "20000": 0.024409448818897637,
+      "50000": 0.024409448818897637
+    },
+    "length_words_train": {
+      "n": 427,
+      "mean": 40.27166276346604,
+      "std": 6.278080041920867,
+      "min": 22.0,
+      "p1": 27.0,
+      "p5": 30.0,
+      "p25": 36.0,
+      "p50": 41.0,
+      "p75": 45.0,
+      "p95": 50.0,
+      "p99": 53.0,
+      "max": 56.0
+    },
+    "spearman_words_points_train": {
+      "rho": 0.6967014296631787,
+      "ci95_low": 0.6418554624391264,
+      "ci95_high": 0.7404743432023339,
+      "n": 427
+    },
+    "mean_points_by_length_decile": [
+      {
+        "bin": "(21.999, 32.0]",
+        "mean_points": 84.58823529411765,
+        "n": 51
+      },
+      {
+        "bin": "(32.0, 34.0]",
+        "mean_points": 86.30555555555556,
+        "n": 36
+      },
+      {
+        "bin": "(34.0, 37.0]",
+        "mean_points": 86.70175438596492,
+        "n": 57
+      },
+      {
+        "bin": "(37.0, 39.0]",
+        "mean_points": 88.175,
+        "n": 40
+      },
+      {
+        "bin": "(39.0, 41.0]",
+        "mean_points": 88.43103448275862,
+        "n": 58
+      },
+      {
+        "bin": "(41.0, 42.0]",
+        "mean_points": 88.81481481481481,
+        "n": 27
+      },
+      {
+        "bin": "(42.0, 44.0]",
+        "mean_points": 88.95833333333333,
+        "n": 48
+      },
+      {
+        "bin": "(44.0, 46.0]",
+        "mean_points": 89.66666666666667,
+        "n": 36
+      },
+      {
+        "bin": "(46.0, 49.0]",
+        "mean_points": 90.65116279069767,
+        "n": 43
+      },
+      {
+        "bin": "(49.0, 56.0]",
+        "mean_points": 92.25806451612904,
+        "n": 31
+      }
+    ],
+    "top_unigrams": [
+      [
+        "light",
+        531
+      ],
+      [
+        "plum",
+        527
+      ],
+      [
+        "toast",
+        516
+      ],
+      [
+        "berry",
+        508
+      ],
+      [
+        "herbal",
+        500
+      ],
+      [
+        "mineral",
+        500
+      ],
+      [
+        "simple",
+        498
+      ],
+      [
+        "acidity",
+        497
+      ],
+      [
+        "aromas",
+        496
+      ],
+      [
+        "finish",
+        495
+      ],
+      [
+        "cedar",
+        491
+      ],
+      [
+        "fresh",
+        490
+      ],
+      [
+        "long",
+        488
+      ],
+      [
+        "cherry",
+        485
+      ],
+      [
+        "citrus",
+        485
+      ],
+      [
+        "honey",
+        484
+      ],
+      [
+        "tannins",
+        484
+      ],
+      [
+        "tobacco",
+        483
+      ],
+      [
+        "crisp",
+        481
+      ],
+      [
+        "dense",
+        476
+      ]
+    ],
+    "top_bigrams": [
+      [
+        "cherry aromas",
+        26
+      ],
+      [
+        "honey berry",
+        26
+      ],
+      [
+        "honey ripe",
+        24
+      ],
+      [
+        "pepper fresh",
+        24
+      ],
+      [
+        "tannins crisp",
+        24
+      ],
+      [
+        "tobacco vanilla",
+        24
+      ],
+      [
+        "acidity simple",
+        23
+      ],
+      [
+        "fresh oak",
+        23
+      ],
+      [
+        "leather mineral",
+        23
+      ],
+      [
+        "rich leather",
+        23
+      ],
+      [
+        "toast palate",
+        23
+      ],
+      [
+        "acidity finish",
+        22
+      ],
+      [
+        "balance smoke",
+        22
+      ],
+      [
+        "berry light",
+        22
+      ],
+      [
+        "berry mineral",
+        22
+      ],
+      [
+        "cedar spice",
+        22
+      ],
+      [
+        "crisp smoke",
+        22
+      ],
+      [
+        "finish plum",
+        22
+      ],
+      [
+        "light crisp",
+        22
+      ],
+      [
+        "light light",
+        22
+      ]
+    ],
+    "top_trigrams": [
+      [
+        "berry tannins tobacco",
+        5
+      ]
+    ],
+    "log_odds_ge90_vs_lt90": {
+      "favours_a": [
+        [
+          "crisp",
+          1.4838078064881266
+        ],
+        [
+          "aromas",
+          0.6229491603823548
+        ],
+        [
+          "concentrated",
+          0.5267725830935422
+        ],
+        [
+          "plum",
+          0.5163468741913949
+        ],
+        [
+          "palate",
+          0.4566069692182483
+        ],
+        [
+          "dense",
+          0.39222452426138726
+        ],
+        [
+          "leather",
+          0.37559966339649664
+        ],
+        [
+          "vanilla",
+          0.2936410197721616
+        ],
+        [
+          "finish",
+          0.268216733974877
+        ],
+        [
+          "oak",
+          0.23131838675215713
+        ],
+        [
+          "light",
+          0.1764598211535128
+        ],
+        [
+          "acidity",
+          0.12013244337531508
+        ],
+        [
+          "ripe",
+          0.1065009933289097
+        ],
+        [
+          "simple",
+          0.09980582055360686
+        ],
+        [
+          "tobacco",
+          0.08315927683216409
+        ],
+        [
+          "honey",
+          0.06259252339201084
+        ],
+        [
+          "cherry",
+          0.042065806844280566
+        ],
+        [
+          "structure",
+          -0.00985263058612266
+        ],
+        [
+          "cedar",
+          -0.02640250181593614
+        ],
+        [
+          "pepper",
+          -0.05051722106692426
+        ]
+      ],
+      "favours_b": [
+        [
+          "spice",
+          -0.949792809713477
+        ],
+        [
+          "long",
+          -0.8834233181530883
+        ],
+        [
+          "toast",
+          -0.733190043575303
+        ],
+        [
+          "citrus",
+          -0.4996445653370536
+        ],
+        [
+          "tannins",
+          -0.47964688359482993
+        ],
+        [
+          "floral",
+          -0.46596078136584723
+        ],
+        [
+          "herbal",
+          -0.4213526786786805
+        ],
+        [
+          "pear",
+          -0.3055097165203341
+        ],
+        [
+          "berry",
+          -0.26039477063246985
+        ],
+        [
+          "smoke",
+          -0.243936171922185
+        ],
+        [
+          "apple",
+          -0.15438534971360449
+        ],
+        [
+          "balance",
+          -0.14739609296664988
+        ],
+        [
+          "mineral",
+          -0.10094500847073416
+        ],
+        [
+          "fresh",
+          -0.05997361286527063
+        ],
+        [
+          "rich",
+          -0.057724395042015895
+        ],
+        [
+          "pepper",
+          -0.05051722106692426
+        ],
+        [
+          "cedar",
+          -0.02640250181593614
+        ],
+        [
+          "structure",
+          -0.00985263058612266
+        ],
+        [
+          "cherry",
+          0.042065806844280566
+        ],
+        [
+          "honey",
+          0.06259252339201084
+        ]
+      ]
+    },
+    "merge_rule": {
+      "min_class_fraction": 0.01,
+      "derived_scheme": "we_category_merged_v1",
+      "classes": [
+        "acceptable",
+        "good",
+        "very_good",
+        "excellent",
+        "superb_or_classic"
+      ],
+      "matches_frozen_scheme": true
+    }
+  }
+}

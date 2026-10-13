@@ -168,6 +168,19 @@ Findings with tooling in place, awaiting application in later phases: A-01
 |---|---|---|---|---|---|---|
 | A-31 | Medium | **Score ranges inside the review text.** 628 unique descriptions (0.5 %) begin with the critic's own score range, e.g. "86-88 Barrel sample". The true score lies inside the stated range in 99.8 % of them. | Found during the Phase 3 qualitative error review (`docs/error-analysis.md` §6). | Direct target leakage in the input. Measured post hoc, the effect on the reported test MAE is 0.0002 (1.3023 with these rows, 1.3025 without), so the models barely exploit it. | Strip the leading score range in a new, versioned data or preprocessing step, and report future results under it. Phase 3 results are not altered retroactively. | 4/5 |
 
+**Phase 4 (2026-10-13)**
+
+- **A-31 count corrected.** The affected set is **669** unique descriptions
+  (680 raw rows), not 628. The Phase 3 count missed 41 em-dash ranges.
+  Recomputed on stored test predictions, the effect is still negligible:
+  E04 test MAE is 1.3023 with the affected rows and 1.3024 without them.
+- **A-31 mitigated.** The isolated `norm_min_v2` preprocessing removes the
+  ranges. The selected model is unchanged and is still served with
+  `norm_min_v1`; the application detects and flags score-range input. A
+  corrected model needs the separately approved protocol in
+  `docs/a31-remediation.md` §5.
+- **H5 reporting correction recorded.** See protocol §10, 2026-10-13.
+
 ## 6. Phase 2 verification log
 
 | Check | Result |

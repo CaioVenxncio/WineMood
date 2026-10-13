@@ -110,6 +110,44 @@ def corpus_csv(tmp_path: Path, corpus: pd.DataFrame) -> Path:
     return path
 
 
+def make_model_dir(
+    target: Path,
+    corpus: pd.DataFrame,
+    *,
+    experiment: str = "E04_tfidf_word",
+    preprocessing: str = "norm_min_v1",
+) -> Path:
+    """Train a small TF-IDF + Ridge model on synthetic data, laid out exactly like
+    an experiment artifact (run.json + model/), for application tests."""
+    import json
+
+    from winemood.features.pipeline import FeaturePipeline, FeatureSpec
+    from winemood.models.linear import Head
+
+    spec = FeatureSpec(preprocessing=preprocessing, word={"ngram_range": [1, 2], "min_df": 1})
+    pipe = FeaturePipeline(spec).fit(corpus)
+    head = Head("ridge", {"alpha": 1.0}).fit(pipe.transform(corpus), corpus["points"].to_numpy())
+    pipe.save(target / "model")
+    head.save(target / "model")
+    run = {
+        "experiment": experiment,
+        "task": "T1",
+        "family": "linear",
+        "split": "grouped_v1",
+        "config_hash": "synthetic0001",
+        "selected_config": {"features": spec.to_dict(), "head": {"kind": "ridge", "alpha": 1.0}},
+        "seeds": [42],
+        "meta": {"dataset_sha256": "synthetic", "git": {"commit": None}},
+    }
+    (target / "run.json").write_text(json.dumps(run), encoding="utf-8")
+    return target
+
+
+@pytest.fixture
+def model_dir(tmp_path: Path, corpus: pd.DataFrame) -> Path:
+    return make_model_dir(tmp_path / "e04", corpus)
+
+
 # A tiny, fixed stopword list keeps preprocessing tests independent of NLTK data.
 SMALL_STOPWORDS = frozenset({"a", "an", "and", "the", "with", "is", "of", "no", "not", "nor"})
 

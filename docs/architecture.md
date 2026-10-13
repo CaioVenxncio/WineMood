@@ -49,7 +49,8 @@ src/winemood/
   inference/
     predictor.py            Predictor protocol, PredictionResult, artifact errors
     legacy_lstm.py          LegacyLSTMPredictor + restricted tokenizer unpickler
-  ui/streamlit_app.py       Streamlit UI
+  app/                      Phase 4 research application (see docs/application.md):
+                            services/ (model, results, explain, batch) + ui/ (pages)
   experiments/              Phase 3: spec.py (TOML matrix), data.py (fingerprint-checked
                             split access, test refused by default), tracking.py (run
                             metadata, registry, test-access guard/log), runner.py
@@ -91,7 +92,7 @@ Kaggle endpoint ──acquire.download_dataset──► raw CSV (SHA-256 verifie
   preprocessing / vectoriser fit ─► training ─► evaluation        (planned, Phase 3)
           │
           ▼
-  inference.Predictor ─► ui.streamlit_app
+  inference.ScorePredictor ─► app (Predict / Research / Explore; reads results/)
 ```
 
 The data pipeline runs end-to-end on the real dataset in about three minutes
@@ -140,6 +141,9 @@ architectures. They can plug in without UI changes, and tests can use fakes.
 *Tradeoff:* A small amount of indirection.
 
 ### 4.5 TensorFlow kept as a core dependency, legacy artifacts through `tf-keras`
+
+> **Superseded in Phase 4.** TensorFlow is now an optional `[neural]` extra
+> (see §6). The rest of this section records the Phase 1 rationale.
 
 *Decision:* `tensorflow` and `tf-keras` are core dependencies, pinned to the same
 minor version (2.20, verified together on Python 3.13). Legacy artifacts are
@@ -262,8 +266,19 @@ file, and none is typed by hand.
   - **No new infrastructure.** There is no MLflow and no database; JSON/CSV
     is sufficient for 23 experiments.
 - PyTorch is an *optional* extra, used only by the frozen-encoder
-  experiment. TensorFlow remains the deep-learning core, but native Windows
-  runs it on CPU only.
+  experiment.
+- **Phase 4: TensorFlow moved to the optional `[neural]` extra**, which
+  supersedes the Phase 1 decision 4.5. The core install covers the
+  application and the classical pipeline. The selected model never imports
+  TensorFlow, and a subprocess test asserts this. The BiLSTM experiments and
+  the legacy loader need `pip install -e ".[neural]"`. CI runs a light job
+  without TensorFlow and a neural job with it.
+- **Phase 4: the application** (`src/winemood/app`) separates UI-free
+  services from the Streamlit pages. It reads only committed result records
+  and an installed model artifact, which is verified against a SHA-256
+  manifest and gated on preprocessing compatibility. The legacy LSTM UI was
+  removed; its loader remains in `winemood.inference.legacy_lstm`. See
+  [`application.md`](application.md) and [`deployment.md`](deployment.md).
 - The real-data pipeline is verified by running it, not in CI. CI uses
   synthetic data, because the dataset is not redistributed.
 - No artifact metadata (config, commit hash, data checksum) is written yet,

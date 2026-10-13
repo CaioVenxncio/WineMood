@@ -23,6 +23,7 @@ from winemood.data.protocol import (
 )
 from winemood.data.schema import validate_reviews
 from winemood.logging_utils import configure_logging, get_logger
+from winemood.models.artifact import ArtifactVerificationError
 from winemood.seeding import set_global_seed
 
 logger = get_logger(__name__)
@@ -217,7 +218,12 @@ def cmd_eda(cfg: Config, args: argparse.Namespace) -> int:
         for f in figures:
             shutil.copy2(f, docs / "figures" / f.name)
         (docs / "data-report.md").write_text(report_md, encoding="utf-8")
-        print(f"published to {docs / 'data-report.md'}")
+        # Aggregates only (counts, n-grams, statistics) for the application.
+        _write_json(
+            cfg.experiments.results_dir / "eda" / "summary.json",
+            {"descriptive": summary, "modelling": model},
+        )
+        print(f"published to {docs / 'data-report.md'} and results/eda/summary.json")
     if not model["merge_rule"]["matches_frozen_scheme"]:
         print("WARNING: merge rule no longer matches we_category_merged_v1; review labels.py")
         return 1
@@ -292,6 +298,33 @@ def cmd_exp_report(cfg: Config, args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_model_package(cfg: Config, args: argparse.Namespace) -> int:
+    from winemood.models.artifact import package
+
+    runner = _runner(cfg)
+    spec = runner.plan.get(args.experiment)
+    out = Path(args.out) if args.out else REPO_ROOT / "dist" / "models" / f"{args.experiment}.zip"
+    manifest = package(runner.artifact_dir(spec), out, cfg.experiments.results_dir)
+    print(f"packaged {manifest['experiment']} ({len(manifest['files'])} files) -> {out}")
+    return 0
+
+
+def cmd_model_install(cfg: Config, args: argparse.Namespace) -> int:
+    from winemood.models.artifact import install
+
+    manifest = install(Path(args.archive), Path(args.target))
+    print(f"installed and verified {manifest['experiment']} -> {args.target}")
+    return 0
+
+
+def cmd_model_verify(cfg: Config, args: argparse.Namespace) -> int:
+    from winemood.models.artifact import verify
+
+    manifest = verify(Path(args.directory))
+    print(f"OK {manifest['experiment']}: {len(manifest['files'])} files verified")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="winemood", description=__doc__)
     parser.add_argument("--config", default=None, help="path to a TOML config")
@@ -334,6 +367,20 @@ def build_parser() -> argparse.ArgumentParser:
     p = esub.add_parser("report", help="statistics, error analysis, figures and docs")
     p.add_argument("--docs-dir", default=str(REPO_ROOT / "docs"))
     p.set_defaults(func=cmd_exp_report)
+
+    model = top.add_parser("model", help="package, install and verify model artifacts")
+    msub = model.add_subparsers(dest="command", required=True)
+    p = msub.add_parser("package", help="zip an experiment's model with a checksum manifest")
+    p.add_argument("experiment", nargs="?", default="E04_tfidf_word")
+    p.add_argument("--out", default=None)
+    p.set_defaults(func=cmd_model_package)
+    p = msub.add_parser("install", help="verify and extract a packaged model")
+    p.add_argument("archive")
+    p.add_argument("--target", default=str(REPO_ROOT / "models" / "e04"))
+    p.set_defaults(func=cmd_model_install)
+    p = msub.add_parser("verify", help="check an installed model against its manifest")
+    p.add_argument("directory", nargs="?", default=str(REPO_ROOT / "models" / "e04"))
+    p.set_defaults(func=cmd_model_verify)
     return parser
 
 
@@ -346,6 +393,9 @@ def main(argv: list[str] | None = None) -> int:
     except (AcquisitionError, FileNotFoundError, PermissionError) as exc:
         logger.error(str(exc))
         return 2
+    except ArtifactVerificationError as exc:
+        logger.error(str(exc))
+        return 3
 
 
 if __name__ == "__main__":

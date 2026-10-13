@@ -136,6 +136,14 @@ critic's own score range ("92-94. Barrel sample.").
   results under that version. It is not applied retroactively, because that
   would change the frozen Phase 3 protocol after test access.
 
+> **Phase 4 correction.** The counts above recognised hyphen and en-dash
+> ranges only. Including em-dash ranges, **669 unique descriptions (680 raw
+> rows)** are affected, 135 of them in the test set. Recomputed on the same
+> stored predictions, E04 test MAE is 1.3023 with them and 1.3024 without, so
+> the conclusion is unchanged. See
+> [`a31-remediation.md`](a31-remediation.md), which also describes the
+> isolated `norm_min_v2` correction.
+
 ## 7. Limitations of this analysis
 
 - Subgroup tables are descriptive. They do not adjust for confounding (for

@@ -14,7 +14,8 @@ start work belonging to a later phase without explicit approval.
 ## Commands
 
 ```bash
-pip install -e ".[dev]"     # install (Python 3.11-3.13)
+pip install -e ".[dev]"     # light install: app + classical pipeline (Python 3.11-3.13)
+pip install -e ".[neural]"  # TensorFlow, for BiLSTM experiments / the legacy loader only
 pytest                      # tests: synthetic fixtures, no dataset/network needed
 ruff check . && ruff format --check .
 
@@ -30,7 +31,10 @@ winemood exp select         # freeze results/selection.json
 winemood exp final          # single, logged test evaluation of the frozen scope
 winemood exp report         # regenerates results/report.json + docs/results-tables.md
 
-streamlit run app.py
+winemood model package      # zip E04 + SHA-256 manifest + licence -> dist/models/
+winemood model install X.zip  # verify + extract -> models/e04 (git-ignored)
+
+streamlit run app.py        # Predict / Research / Explore (docs/application.md)
 ```
 
 On Windows, set `TF_CPP_MIN_LOG_LEVEL=2` to silence TensorFlow logging.
@@ -53,6 +57,22 @@ On Windows, set `TF_CPP_MIN_LOG_LEVEL=2` to silence TensorFlow logging.
   deviation in its §10.
 - `notebooks/legacy/`: the original notebook. **Do not edit it**, because the
   audit cites its cells.
+- `src/winemood/app/`: the application. `services/` must stay Streamlit-free
+  and unit-tested. The UI reads **only** committed `results/` aggregates and
+  the installed model, never test predictions, raw data or `load_split`. A
+  guard test enforces this.
+
+## Application rules
+
+- The served model is E04 with `norm_min_v1`. Never apply `norm_min_v2` (the
+  A-31 fix) to it; the model service refuses mismatched preprocessing.
+- Every number in the UI comes from `results/`. Never hard-code metrics in
+  UI code.
+- Never show per-prediction confidence, probabilities, intervals or
+  "sentiment" wording. Show aggregate performance only, labelled as such.
+- Explanations must reconstruct the model output exactly
+  (`app/services/explain.py`).
+- Keep the app TensorFlow-free. The light CI job runs without it.
 
 ## Non-negotiable rules
 

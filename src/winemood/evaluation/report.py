@@ -404,6 +404,66 @@ def _error_analysis(ctx: _Ctx, final_model: str | None) -> dict[str, Any]:
     return out
 
 
+AGGREGATE_MODELS = (
+    "E01_dummy_mean",
+    "E02_length",
+    "E03_metadata",
+    "E04_tfidf_word",
+    "E10_lstm",
+    "E12_encoder",
+)
+
+
+def _prediction_aggregates(ctx: _Ctx) -> dict[str, Any]:
+    """Binned summaries of the *stored* Phase 3 test predictions (grouped_v1).
+
+    No model is scored here and the test log is untouched: these are histograms
+    of predictions produced once by `exp final`, so the application can show
+    predicted-vs-true and residual plots without shipping any review-level data.
+    For multi-seed models the seed-averaged prediction is summarised (labelled).
+    """
+    out: dict[str, Any] = {
+        "source": "stored grouped_v1 test predictions from the single Phase 3 evaluation",
+        "pred_bin_edges": np.arange(80.0, 100.5, 0.5).tolist(),
+        "residual_bin_edges": np.arange(-10.0, 10.25, 0.25).tolist(),
+        "models": {},
+    }
+    pred_edges = np.asarray(out["pred_bin_edges"])
+    res_edges = np.asarray(out["residual_bin_edges"])
+    for exp_id in AGGREGATE_MODELS:
+        table = ctx.preds(exp_id, "test")
+        if table is None:
+            continue
+        y = table["y_true"].to_numpy(dtype=float)
+        p = table["y_pred"].to_numpy(dtype=float)
+        scores = np.arange(80, 101)
+        joint = np.zeros((scores.size, pred_edges.size - 1), dtype=int)
+        quantiles = []
+        for i, s in enumerate(scores):
+            sel = p[y == s]
+            joint[i] = np.histogram(sel, bins=pred_edges)[0]
+            quantiles.append(
+                {"true": int(s), "n": int(sel.size)}
+                | (
+                    {f"p{q}": float(np.percentile(sel, q)) for q in (10, 25, 50, 75, 90)}
+                    if sel.size
+                    else {}
+                )
+            )
+        residual = p - y
+        out["models"][exp_id] = {
+            "prediction": "seed-averaged"
+            if any(c.startswith("pred_seed") for c in table)
+            else "single",
+            "n": int(y.size),
+            "true_scores": scores.tolist(),
+            "pred_vs_true_counts": joint.tolist(),
+            "pred_quantiles_by_true": quantiles,
+            "residual_counts": np.histogram(np.clip(residual, -10, 10), bins=res_edges)[0].tolist(),
+        }
+    return out
+
+
 def _interpretation(ctx: _Ctx) -> dict[str, Any]:
     from winemood.evaluation.interpret import lstm_occlusion, top_coefficients
 
@@ -966,6 +1026,7 @@ def build_report(runner, docs_dir: Path) -> Path:
         "hypotheses": _hypotheses(ctx) if ctx.test else {},
         "error_analysis": _error_analysis(ctx, selection.get("final_model")) if ctx.test else {},
         "interpretation": _interpretation(ctx),
+        "test_prediction_aggregates": _prediction_aggregates(ctx) if ctx.test else {},
         "test_access_log": logged_accesses(ctx.results),
     }
     write_json(ctx.results / "report.json", report)

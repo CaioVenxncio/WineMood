@@ -90,6 +90,7 @@ class PreprocessingConfig:
     keep_negations: bool = False
     max_sequence_length: int = 100
     mask_numbers: str = "none"  # "none" | "years" | "all" (Phase 3, H4)
+    strip_score_prefix: bool = False  # audit A-31; only in norm_min_v2
 
 
 @dataclass(frozen=True)
