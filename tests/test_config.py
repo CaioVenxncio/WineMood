@@ -5,6 +5,16 @@ import pytest
 from winemood.config import DEFAULT_CONFIG_PATH, ConfigError, load_config
 
 
+def test_package_version_matches_pyproject():
+    import tomllib
+
+    import winemood
+    from winemood.config import REPO_ROOT
+
+    pyproject = tomllib.loads((REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    assert winemood.__version__ == pyproject["project"]["version"]
+
+
 def test_default_config_loads():
     config = load_config()
     assert config.seed == 42

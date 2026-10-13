@@ -40,6 +40,30 @@ jobs:
       - run: python -c "import importlib.util as u, sys; sys.exit(u.find_spec('tensorflow') is not None)"
       - run: pytest
 
+  deploy-check:
+    # Mirrors Streamlit Community Cloud: a non-editable install from requirements.txt
+    # (the pinned deployment set) on the recommended Python version, then the app
+    # tests and a live server health check against that exact environment.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -r requirements.txt
+      - name: No neural frameworks in the deployment environment
+        run: python -c "import importlib.util as u, sys; sys.exit(any(u.find_spec(m) for m in ('tensorflow', 'torch', 'transformers')))"
+      - run: pip install "pytest>=8,<10"
+      - run: pytest tests/test_app_services.py tests/test_app_ui.py
+      - name: Server starts and reports healthy
+        run: |
+          streamlit run app.py --server.port 8501 &
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:8501/_stcore/health; then exit 0; fi
+            sleep 2
+          done
+          exit 1
+
   test-neural:
     runs-on: ubuntu-latest
     env:

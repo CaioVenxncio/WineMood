@@ -2,7 +2,8 @@
 
 Paths come from the project configuration and can be overridden with
 ``WINEMOOD_MODEL_DIR`` / ``WINEMOOD_RESULTS_DIR`` (used by deployments and tests).
-Resources are cached per path, so the model is loaded once per process.
+Resources are cached per path, so the model is loaded once per process. A failed
+model load is not cached.
 """
 
 from __future__ import annotations
@@ -38,7 +39,12 @@ def _model_state(root: str, env_items: tuple[tuple[str, str], ...]) -> ModelStat
 def model_state() -> ModelState:
     keys = ("WINEMOOD_MODEL_DIR", "WINEMOOD_MODEL_URL", "WINEMOOD_MODEL_SHA256")
     env_items = tuple((k, os.environ[k]) for k in keys if os.environ.get(k))
-    return _model_state(str(_root()), env_items)
+    state = _model_state(str(_root()), env_items)
+    if not state.ok:
+        # Keep only successes: a transient download error, or a model installed after
+        # start-up, is retried on the next interaction instead of persisting until restart.
+        _model_state.clear()
+    return state
 
 
 @st.cache_resource(show_spinner=False)

@@ -1,7 +1,10 @@
 """Locate, verify and load the selected score model for the application.
 
-Resolution order: ``$WINEMOOD_MODEL_DIR`` -> ``models/e04`` (installed release
-archive) -> ``experiments/grouped_v1/E04_tfidf_word`` (local Phase 3 build).
+Resolution order: ``$WINEMOOD_MODEL_DIR`` (exclusive) -> ``$WINEMOOD_MODEL_URL``
+(exclusive; the release archive is downloaded once into a directory named after
+its SHA-256, so changing the configured checksum always installs that exact
+release) -> ``models/e04`` (installed release archive) ->
+``experiments/grouped_v1/E04_tfidf_word`` (local Phase 3 build).
 A directory with a ``manifest.json`` must pass checksum verification; a local
 build without a manifest is accepted but reported as unverified.
 
@@ -13,6 +16,7 @@ correction (``norm_min_v2``) can never be applied silently to E04.
 from __future__ import annotations
 
 import os
+import shutil
 import time
 from collections.abc import Mapping
 from dataclasses import dataclass, field
@@ -48,12 +52,20 @@ class ModelState:
     tried: list[str] = field(default_factory=list)
 
 
+def release_dir(root: Path, archive_sha256: str) -> Path:
+    """Install location of a downloaded release archive, keyed by its checksum."""
+    return root / "models" / f"release-{archive_sha256.strip().lower()[:16]}"
+
+
 def candidate_dirs(root: Path, env: Mapping[str, str] | None = None) -> list[tuple[str, Path]]:
-    """An explicit WINEMOOD_MODEL_DIR is used exclusively (never silently replaced
-    by another model); otherwise the installed release, then the local build."""
+    """An explicit WINEMOOD_MODEL_DIR or WINEMOOD_MODEL_URL is used exclusively (never
+    silently replaced by another model); otherwise the installed release, then the
+    local build."""
     env = os.environ if env is None else env
     if env.get("WINEMOOD_MODEL_DIR"):
         return [("WINEMOOD_MODEL_DIR", Path(env["WINEMOOD_MODEL_DIR"]))]
+    if env.get("WINEMOOD_MODEL_URL"):
+        return [("downloaded release", release_dir(root, env.get("WINEMOOD_MODEL_SHA256", "")))]
     return [
         ("installed release", root / "models" / "e04"),
         ("local Phase 3 build", root / "experiments" / "grouped_v1" / SELECTED_EXPERIMENT),
@@ -67,15 +79,28 @@ def load_model_state(root: Path, env: Mapping[str, str] | None = None) -> ModelS
         tried.append(f"{source}: {directory}")
         if not (directory / "run.json").is_file():
             continue
-        return _load(directory, source, tried)
+        state = _load(directory, source, tried)
+        if state.ok or source != "downloaded release":
+            return state
+        tried.append(f"reinstalling damaged download: {state.error}")
     # Hosted deployments: fetch the release archive once, verified by checksum.
     if env.get("WINEMOOD_MODEL_URL") and not env.get("WINEMOOD_MODEL_DIR"):
-        target = root / "models" / "e04"
-        tried.append(f"download: {env['WINEMOOD_MODEL_URL']}")
-        try:
-            fetch_and_install(
-                env["WINEMOOD_MODEL_URL"], env.get("WINEMOOD_MODEL_SHA256", ""), target
+        digest = env.get("WINEMOOD_MODEL_SHA256", "").strip().lower()
+        if len(digest) != 64 or any(ch not in "0123456789abcdef" for ch in digest):
+            return ModelState(
+                ok=False,
+                error="WINEMOOD_MODEL_SHA256 must be the 64-character hex SHA-256 of the "
+                "release archive.",
+                tried=tried,
             )
+        target = release_dir(root, digest)
+        tried.append(f"download: {env['WINEMOOD_MODEL_URL']}")
+        if target.exists():
+            # Left over from an interrupted or damaged install; the directory is
+            # app-managed and named after the checksum, so it is safe to replace.
+            shutil.rmtree(target)
+        try:
+            fetch_and_install(env["WINEMOOD_MODEL_URL"], digest, target)
         except ArtifactVerificationError as exc:
             return ModelState(ok=False, error=f"Model download was refused: {exc}", tried=tried)
         return _load(target, "downloaded release", tried)

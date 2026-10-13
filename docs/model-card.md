@@ -110,7 +110,9 @@ never saw, MAE rises to 1.412, against 1.321 on a size-matched random split.
 - **Licence.** The training data is CC BY-NC-SA 4.0. The model is a derived
   work, so it is for non-commercial use, it must attribute the source, and
   it must be shared under the same licence. Trained weights are not
-  committed; they are regenerated from the data.
+  committed to git. They are regenerated from the data, or distributed as a
+  checksummed release archive that carries this licence
+  ([`deployment.md`](deployment.md), §5).
 - **Named critics.** Critics are real, named people. Evaluation reports
   critics anonymously and in aggregate, and the model must not be used to
   characterise individuals.

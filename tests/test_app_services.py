@@ -14,7 +14,7 @@ from conftest import make_model_dir
 
 from winemood.app.services import batch
 from winemood.app.services.explain import ExplanationError, coefficient_table, explain, feature_kind
-from winemood.app.services.model_service import load_model_state
+from winemood.app.services.model_service import load_model_state, release_dir
 from winemood.app.services.results import Interval, load_results
 from winemood.config import REPO_ROOT
 from winemood.models.artifact import ArtifactVerificationError, install, package, verify
@@ -90,10 +90,54 @@ def test_hosted_download_verifies_archive_checksum(tmp_path, model_dir, monkeypa
     env = {"WINEMOOD_MODEL_URL": "https://example.invalid/e04.zip", "WINEMOOD_MODEL_SHA256": digest}
     state = load_model_state(root, env)
     assert state.ok and state.verified and state.source == "downloaded release"
-    assert (root / "models" / "e04" / "manifest.json").is_file()
+    assert (release_dir(root, digest) / "manifest.json").is_file()
     bad = load_model_state(tmp_path / "deploy2", {**env, "WINEMOOD_MODEL_SHA256": "0" * 64})
     assert not bad.ok and "does not match" in bad.error
-    assert not (tmp_path / "deploy2" / "models" / "e04").exists()
+    assert not (release_dir(tmp_path / "deploy2", "0" * 64) / "run.json").exists()
+    malformed = load_model_state(tmp_path / "deploy3", {**env, "WINEMOOD_MODEL_SHA256": "abc"})
+    assert not malformed.ok and "64-character" in malformed.error
+
+
+def test_hosted_download_is_installed_once_and_keyed_by_checksum(tmp_path, model_dir, monkeypatch):
+    import hashlib
+    import urllib.request
+
+    archive = tmp_path / "e04.zip"
+    package(model_dir, archive)
+    payload = archive.read_bytes()
+    digest = hashlib.sha256(payload).hexdigest()
+    calls = []
+
+    def fake_urlopen(*a, **k):
+        calls.append(1)
+        return _Response(payload)
+
+    monkeypatch.setattr(urllib.request, "urlopen", fake_urlopen)
+    root = tmp_path / "deploy"
+    # A manually installed model must not shadow the configured release.
+    install(archive, root / "models" / "e04")
+    env = {"WINEMOOD_MODEL_URL": "https://example.invalid/e04.zip", "WINEMOOD_MODEL_SHA256": digest}
+    assert load_model_state(root, env).source == "downloaded release" and len(calls) == 1
+    # Restart: the verified download is reused, not fetched again.
+    assert load_model_state(root, env).ok and len(calls) == 1
+    # A damaged install (e.g. interrupted extraction) is replaced by a fresh download.
+    (release_dir(root, digest) / "model" / "head_coef.npy").write_bytes(b"broken")
+    repaired = load_model_state(root, env)
+    assert repaired.ok and repaired.verified and len(calls) == 2
+
+
+def test_failed_model_load_is_not_cached(tmp_path, model_dir, monkeypatch):
+    import shutil
+
+    from winemood.app.ui import state
+
+    target = tmp_path / "model"
+    monkeypatch.setenv("WINEMOOD_MODEL_DIR", str(target))
+    state._model_state.clear()
+    assert not state.model_state().ok
+    shutil.copytree(model_dir, target)  # e.g. the download succeeds on a later attempt
+    assert state.model_state().ok
+    state._model_state.clear()
 
 
 def test_install_refuses_unsafe_or_incomplete_archives(tmp_path):
