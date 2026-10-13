@@ -1,0 +1,20 @@
+{
+  "experiment": "E40_holdout_tfidf",
+  "task": "T1",
+  "split": "taster_holdout_v1",
+  "config_hash": "f4dfa93bd5ac",
+  "evaluated_at": "2026-10-13T02:03:13+00:00",
+  "test_metrics": {
+    "n": 19554,
+    "mae": 1.4124263378942874,
+    "rmse": 1.787552368422001,
+    "median_ae": 1.1801906824111938,
+    "r2": 0.5710928314041195,
+    "bias": 0.14330225544681124,
+    "within_1": 0.42937506392553954,
+    "within_2": 0.7465991612969214,
+    "pred_std": 2.4088182893657275,
+    "true_std": 2.7294624335526114
+  },
+  "seed_metrics": null
+}

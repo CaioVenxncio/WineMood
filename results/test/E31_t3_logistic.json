@@ -1,0 +1,40 @@
+{
+  "experiment": "E31_t3_logistic",
+  "task": "T3",
+  "split": "grouped_v1",
+  "config_hash": "f5af5458c3cc",
+  "evaluated_at": "2026-10-13T02:03:12+00:00",
+  "test_metrics": {
+    "n": 23991,
+    "macro_f1": 0.8416960087463732,
+    "weighted_f1": 0.8514626618412178,
+    "balanced_accuracy": 0.8387911733363815,
+    "accuracy": 0.8521528906673336,
+    "per_class": {
+      "below_90": {
+        "precision": 0.8706321162151551,
+        "recall": 0.894453781512605,
+        "f1": 0.8823821998209371,
+        "support": 14875
+      },
+      "at_least_90": {
+        "precision": 0.8197267194855896,
+        "recall": 0.7831285651601579,
+        "f1": 0.8010098176718092,
+        "support": 9116
+      }
+    },
+    "confusion_matrix": [
+      [
+        13305,
+        1570
+      ],
+      [
+        1977,
+        7139
+      ]
+    ],
+    "brier": 0.10575412706848038
+  },
+  "seed_metrics": null
+}

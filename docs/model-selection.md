@@ -25,8 +25,18 @@ The rule was recorded in protocol §10 (commit `732ad54`) and is implemented in
    every test-scope experiment. `winemood exp final` evaluates exactly those
    hashes once and logs every access.
 
-## 2. Outcome
+## 2. Outcome (frozen 2026-10-13, commit `15bc2a6`, before any test access)
 
-See §3 of [`experimental-results.md`](experimental-results.md) and
-`results/selection.json` for the comparisons that were actually computed and
-the model that was selected.
+| Comparison on validation | MAE(current) − MAE(candidate) [95% CI] | Switch? |
+|---|---|---|
+| B3\* (1.2906) vs N2\* frozen encoder (1.6843) | −0.394 [−0.416, −0.371] | No (candidate worse) |
+| B3\* vs N1\* BiLSTM (1.2862 ± 0.0082 over 5 seeds) | +0.004 [−0.009, +0.018] | No (CI includes 0) |
+
+**Selected: B3\* (E04, word 1–2-gram TF-IDF + Ridge).** It is also the
+cheapest model (about 1 s to fit the selected configuration), the most
+interpretable, and the smallest.
+
+**After the test evaluation.** On test, the BiLSTM's advantage was 0.016
+[0.007, 0.026] MAE, which passes the H2 rule but is practically negligible.
+The selection is **not** revised: changing the choice after seeing test
+results would be test-set tuning. The model card describes B3\*.

@@ -24,6 +24,12 @@ winemood data split         # manifests (git-ignored) + data/split_fingerprints.
 winemood data split --check # must print OK before any modelling
 winemood data eda --publish # regenerates docs/data-report.md and docs/figures/
 
+winemood exp list           # experiment matrix (configs/experiments.toml) and status
+winemood exp run <ID ...>   # train + validate; never touches test
+winemood exp select         # freeze results/selection.json
+winemood exp final          # single, logged test evaluation of the frozen scope
+winemood exp report         # regenerates results/report.json + docs/results-tables.md
+
 streamlit run app.py
 ```
 
@@ -36,7 +42,13 @@ On Windows, set `TF_CPP_MIN_LOG_LEVEL=2` to silence TensorFlow logging.
   the Phase 1 `split.split_dataset`, for any experiment.
 - `configs/default.toml`: the single source for paths, checksum, seed,
   targets, near-duplicate and split parameters.
-- `docs/data-report.md`: **auto-generated, never edit by hand**.
+- `docs/data-report.md` and `docs/results-tables.md`: **auto-generated, never
+  edit by hand**.
+- `results/`: committed, small results (validation/test JSON, selection, test
+  access log). `experiments/`: git-ignored models and predictions.
+- **The Phase 3 test set has been used.** `results/test_access_log.jsonl` is the
+  record. Do not re-run `exp final` or tune anything against test results. Any
+  new model work needs a new, pre-registered evaluation plan.
 - `docs/experimental-protocol.md`: pre-registered Phase 3 protocol. Record any
   deviation in its §10.
 - `notebooks/legacy/`: the original notebook. **Do not edit it**, because the

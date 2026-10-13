@@ -275,15 +275,53 @@ def _hypotheses(ctx: _Ctx) -> dict[str, Any]:
 
     c5 = _paired(ctx, "E11_lstm_keep_negations", "E10_lstm")
     if c5:
-        hurts = c5["mae_a_minus_b"]["estimate"] > 0 and c5["excludes_zero"]
+        # Protocol §6: a neural model is "better" only if the CI excludes 0 AND the
+        # difference exceeds the seed-to-seed SD (here: of either model).
+        est = c5["mae_a_minus_b"]["estimate"]
+        sd = max(
+            _seed_std(ctx, "E11_lstm_keep_negations") or 0.0,
+            _seed_std(ctx, "E10_lstm") or 0.0,
+        )
+        c5["seed_std"] = sd
+        hurts = est > 0 and c5["excludes_zero"] and est > sd
+        c5["verdict"] = (
+            "keeping negations worse"
+            if hurts
+            else "no detectable difference under the §6 rule"
+            + (" (CI excludes 0 but |effect| < seed SD)" if c5["excludes_zero"] else "")
+        )
         h["H5"] = {
             "comparisons": [c5],
-            "verdict": "not supported (keeping negations hurt)"
-            if hurts
-            else "supported (no detectable harm)",
+            "verdict": (
+                "not supported (keeping negations hurt)"
+                if hurts
+                else "supported (no detectable harm)"
+            ),
         }
     else:
         h["H5"] = {"verdict": "not evaluated", "comparisons": []}
+
+    # H3 context: the two test sets differ in composition, so report their targets.
+    if h["H3"].get("comparisons"):
+        dist = {}
+        for exp_id in ("E40_holdout_tfidf", "E42_random_tfidf"):
+            y = ctx.preds(exp_id, "test")["y_true"]
+            dist[exp_id] = {"n": int(y.size), "mean": float(y.mean()), "std": float(y.std())}
+        h["H3"]["test_target_distribution"] = dist
+
+    # Exploratory, NOT pre-registered: model families compared on identical rows.
+    h["exploratory"] = {
+        "note": "Not pre-registered; reported for completeness, no confirmatory claim.",
+        "comparisons": [
+            c
+            for c in (
+                _paired(ctx, "E41_holdout_lstm", "E40_holdout_tfidf"),
+                _paired(ctx, "E43_random_lstm", "E42_random_tfidf"),
+                _paired(ctx, "E03_metadata", "E02_length"),
+            )
+            if c
+        ],
+    }
     return h
 
 
@@ -573,6 +611,8 @@ def _render(report: dict[str, Any], fig_rel: str) -> str:
         parts.append("## Pre-registered hypotheses (test set)")
         rows = []
         for name, h in hyp.items():
+            if name == "exploratory":
+                continue
             for c in h.get("comparisons", []) or [{}]:
                 if not c or "mae_a_minus_b" not in c:
                     continue
@@ -598,6 +638,35 @@ def _render(report: dict[str, Any], fig_rel: str) -> str:
                 rows,
             )
         )
+        parts.append(
+            "Rules (protocol §6/§9): differences are MAE(a) - MAE(b), negative = a better. A "
+            "neural model counts as better/worse only if the CI excludes 0 and the difference "
+            "exceeds the seed-to-seed SD."
+        )
+        dist = hyp.get("H3", {}).get("test_target_distribution")
+        if dist:
+            parts.append(
+                "H3 test-set composition differs: "
+                + "; ".join(
+                    f"`{k}` n={v['n']:,}, mean score {v['mean']:.2f}, SD {v['std']:.2f}"
+                    for k, v in dist.items()
+                )
+                + ". The H3 difference therefore mixes unseen-reviewer effects with "
+                "differences in score distribution and review style; it is not a pure "
+                "causal estimate of reviewer-specific learning."
+            )
+        exp = hyp.get("exploratory", {})
+        if exp.get("comparisons"):
+            parts.append("### Exploratory comparisons (not pre-registered)")
+            parts.append(
+                _table(
+                    ["Comparison (MAE difference)", "Estimate [95% CI]", "Test set"],
+                    [
+                        [f"{c['a']} - {c['b']}", _ci(c["mae_a_minus_b"], "{:+.4f}"), c["part"]]
+                        for c in exp["comparisons"]
+                    ],
+                )
+            )
     ea = report.get("error_analysis") or {}
     if ea.get("models"):
         fm = ea["final_model"]

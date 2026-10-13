@@ -1,0 +1,20 @@
+{
+  "experiment": "E08_tfidf_mask_years",
+  "task": "T1",
+  "split": "grouped_v1",
+  "config_hash": "db8323dd74dd",
+  "evaluated_at": "2026-10-13T01:58:42+00:00",
+  "test_metrics": {
+    "n": 23991,
+    "mae": 1.310412981418107,
+    "rmse": 1.664469650750461,
+    "median_ae": 1.0882067680358887,
+    "r2": 0.711500094916564,
+    "bias": 0.04716666440551002,
+    "within_1": 0.4641740652744779,
+    "within_2": 0.7770413905214455,
+    "pred_std": 2.5909330426364865,
+    "true_std": 3.0988677586531437
+  },
+  "seed_metrics": null
+}

@@ -50,8 +50,15 @@ src/winemood/
     predictor.py            Predictor protocol, PredictionResult, artifact errors
     legacy_lstm.py          LegacyLSTMPredictor + restricted tokenizer unpickler
   ui/streamlit_app.py       Streamlit UI
-  training/                 (planned, Phase 3)
-  evaluation/               (planned, Phase 3)
+  experiments/              Phase 3: spec.py (TOML matrix), data.py (fingerprint-checked
+                            split access, test refused by default), tracking.py (run
+                            metadata, registry, test-access guard/log), runner.py
+  features/                 text.py (SafeTfidf, length), metadata.py, pipeline.py
+  models/                   linear.py (heads, JSON/.npy), lstm.py (Keras 3, .keras),
+                            encoder.py (frozen MiniLM; optional [transformer] extra)
+  evaluation/               metrics.py, bootstrap.py (cluster), errors.py,
+                            interpret.py, report.py (generates docs/results-tables.md)
+  inference/regression.py   ScorePredictor for the Phase 3 score models
 data/split_fingerprints.json  Committed: split counts and id hashes (no review text)
 data/raw/, data/processed/    Git-ignored: raw CSV; split manifests (review ids)
 reports/                      Git-ignored: validation.json, EDA summary and figures
@@ -246,7 +253,17 @@ file, and none is typed by hand.
 
 ## 6. Known architectural gaps
 
-- No training or evaluation modules yet (Phase 3).
+- Phase 3 added the experiment framework. Its decisions:
+  - **Pickle-free persistence.** Linear models are stored as JSON + `.npy`,
+    and the LSTM as `.keras` loaded with `safe_mode=True`.
+  - **A TOML experiment matrix** with `base` inheritance for controlled
+    variants.
+  - **A test-access guard** backed by a committed access log.
+  - **No new infrastructure.** There is no MLflow and no database; JSON/CSV
+    is sufficient for 23 experiments.
+- PyTorch is an *optional* extra, used only by the frozen-encoder
+  experiment. TensorFlow remains the deep-learning core, but native Windows
+  runs it on CPU only.
 - The real-data pipeline is verified by running it, not in CI. CI uses
   synthetic data, because the dataset is not redistributed.
 - No artifact metadata (config, commit hash, data checksum) is written yet,

@@ -149,6 +149,25 @@ Findings with tooling in place, awaiting application in later phases: A-01
   `docs/experimental-protocol.md`.
 - **Open:** A-23 (LSTM design, Phase 3).
 
+**Phase 3 (2026-10-13)**
+
+- **Resolved:**
+  - A-03: all error analysis is keyed by `review_id`.
+  - A-04 and A-13: a single training entry point and a single selection
+    criterion per experiment, and the test set is never used for validation.
+  - A-07: vocabularies, vectorisers and encoders are fitted on train only.
+  - A-10: baselines and the full metric set are reported.
+  - A-11: the negation factor was tested (H5).
+  - A-12: runs are seeded, and determinism is tested.
+  - A-15: hand-written probes were replaced by a qualitative review of
+    validation errors.
+  - A-23: the LSTM was redesigned on CPU (no recurrent dropout).
+- **New finding:**
+
+| ID | Severity | Finding | Evidence | Impact | Recommendation | Phase |
+|---|---|---|---|---|---|---|
+| A-31 | Medium | **Score ranges inside the review text.** 628 unique descriptions (0.5 %) begin with the critic's own score range, e.g. "86-88 Barrel sample". The true score lies inside the stated range in 99.8 % of them. | Found during the Phase 3 qualitative error review (`docs/error-analysis.md` §6). | Direct target leakage in the input. Measured post hoc, the effect on the reported test MAE is 0.0002 (1.3023 with these rows, 1.3025 without), so the models barely exploit it. | Strip the leading score range in a new, versioned data or preprocessing step, and report future results under it. Phase 3 results are not altered retroactively. | 4/5 |
+
 ## 6. Phase 2 verification log
 
 | Check | Result |
