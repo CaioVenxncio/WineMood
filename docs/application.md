@@ -81,15 +81,22 @@ src/winemood/app/
 **Model resolution.**
 1. If `WINEMOOD_MODEL_DIR` is set, it is used **exclusively**: a broken
    explicit path is never silently replaced by another model.
-2. Otherwise, the application tries `models/e04` (an installed release
+2. Otherwise, if `WINEMOOD_MODEL_URL` is set (hosted deployments), it is also
+   used exclusively. The release archive is downloaded once, accepted only if
+   it matches `WINEMOOD_MODEL_SHA256`, and installed in
+   `models/release-<first 16 hex digits of the checksum>/`. A later start
+   reuses the verified install. A damaged install is downloaded again.
+3. Otherwise, the application tries `models/e04` (an installed release
    archive).
-3. Then it tries `experiments/grouped_v1/E04_tfidf_word` (a local Phase 3
+4. Then it tries `experiments/grouped_v1/E04_tfidf_word` (a local Phase 3
    build).
 
 A directory with a `manifest.json` must pass SHA-256 verification. The model
 must be E04, linear, with `norm_min_v1` and no masking. When a check fails,
 the pages show the reason and the setup commands; they do not show a
-traceback.
+traceback. A failed load is not cached: the next interaction tries again, so a
+temporary network error during the first download does not need an app
+restart.
 
 ## Design system
 

@@ -167,8 +167,10 @@ streamlit run app.py
 ```
 
 The application starts even without a model. In that case it explains how to
-obtain one, while the Research page and the dataset view keep working. See
-the [application guide](docs/application.md) and the
+obtain one, while the Research page and the dataset view keep working. A
+hosted deployment can instead download a release archive, set by
+`WINEMOOD_MODEL_URL` and verified against `WINEMOOD_MODEL_SHA256` before use.
+See the [application guide](docs/application.md) and the
 [deployment guide](docs/deployment.md).
 
 ## Repository structure
